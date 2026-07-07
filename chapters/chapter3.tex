@@ -7,23 +7,23 @@ O estágio curricular realizado na 20 Recolher --- Gestão de Resíduos, Lda. te
 
 \subsection{Estado Inicial e Problema Identificado}
 No início do período de estágio, constatou-se que os processos operacionais dependiam de métodos inteiramente manuais e descentralizados. Os pedidos de recolha de resíduos por parte dos clientes eram comunicados por canais informais, como telefonemas ou trocas de e-mail manuais, sem qualquer validação automática de dados ou agendamento estruturado.
-O registo físico das pesagens dependia de os operadores anotarem os valores medidos na balança industrial e, posteriormente, digitarem essa informação em folhas de cálculo locais. Este procedimento gerava frequentes erros de introdução, redundância de dados e lacunas de rastreabilidade. A empresa não possuía presença digital estruturada, impedindo os seus clientes de consultar faturas, históricos de pesagem ou códigos legais de resíduos (LER) de forma autónoma.
+O registo físico das pesagens dependia de os operadores anotarem os valores medidos na balança industrial e, posteriormente, digitarem essa informação em folhas de cálculo locais. Este procedimento gerava frequentes erros de introdução, redundância de dados e lacunas de rastreabilidade. A empresa não possuía presença digital estruturada, o que impedia os seus clientes de consultar faturas, históricos de pesagem ou códigos legais de resíduos (LER) de forma autónoma.
 Esta dependência de tarefas manuais provocava atrasos nas operações logísticas, sobrecarga nos canais de comunicação interna e uma considerável exposição a perdas de dados.
 
-O objetivo central do estágio consistiu, assim, em conceber, desenvolver e implementar uma solução tecnológica integrada que automatizasse e digitalizasse estes processos, aumentando a eficiência operacional da empresa e melhorando a experiência dos seus clientes.
+O objetivo central do estágio consistiu, assim, em conceber, desenvolver e implementar uma solução tecnológica integrada que automatizasse e digitalizasse estes processos, de forma a aumentar a eficiência operacional da empresa e a melhorar a experiência dos seus clientes.
 
 \subsection{Objetivo Geral}
 
-Desenvolver um ecossistema de software integrado para a 20 Recolher que automatize o ciclo completo de gestão de recolhas de resíduos --- desde a solicitação online por parte do cliente até ao registo físico das pesagens no armazém ---, substituindo processos manuais por fluxos digitais seguros, rastreáveis e escaláveis.
+Desenvolver um ecossistema de software integrado para a 20 Recolher que automatize o ciclo completo de gestão de recolhas de resíduos --- desde a solicitação online por parte do cliente até ao registo físico das pesagens no armazém ---, para substituir processos manuais por fluxos digitais seguros, rastreáveis e escaláveis.
 
 \subsection{Objetivos Específicos}
 
 Para concretizar o objetivo geral, definiram-se os seguintes objetivos específicos:
 
 \begin{itemize}
-    \item \textbf{Desenvolvimento do Website Institucional:} Criar um novo website institucional moderno para a empresa, com duas vertentes distintas: uma área pública para apresentação dos serviços e captação de novos clientes, e uma área reservada para clientes registados. Esta área reservada permite que os clientes efetuem pedidos de recolha de forma autónoma, acompanhem o estado das suas recolhas e comuniquem diretamente com os operadores através de um sistema de mensagens diretas. A presença digital estruturada é fundamental para reduzir o volume de contactos telefónicos e e-mails manuais, centralizando a gestão de clientes numa plataforma digital segura.
+    \item \textbf{Desenvolvimento do Website Institucional:} Criar um novo website institucional moderno para a empresa, com duas vertentes distintas: uma área pública para apresentação dos serviços e captação de novos clientes, e uma área reservada para clientes registados. Esta área reservada permite que os clientes efetuem pedidos de recolha de forma autónoma, acompanhem o estado das suas recolhas e comuniquem diretamente com os operadores através de um sistema de mensagens diretas. A presença digital estruturada é fundamental para reduzir o volume de contactos telefónicos e e-mails manuais, de forma a centralizar a gestão de clientes numa plataforma digital segura.
     \item \textbf{Desenvolvimento da Aplicação de \textit{Backoffice}:} Construir uma aplicação de gestão interna para os operadores da empresa, que centralize o controlo de clientes, a triagem e agendamento de pedidos de recolha, a visualização de pesagens e a administração de utilizadores e permissões. O objetivo é substituir o uso de folhas de cálculo e comunicações manuais.
-    \item \textbf{Desenvolvimento do Terminal de Pesagem (\textit{Kiosk}):} Desenvolver uma aplicação dedicada à zona física de pesagens, concebida para operar em ecrãs táteis. O terminal simplifica a introdução de valores de peso, automatizando a recolha de dados de pesagem e associando-as à recolha em curso e ao material pesado.
+    \item \textbf{Desenvolvimento do Terminal de Pesagem (\textit{Kiosk}):} Desenvolver uma aplicação dedicada à zona física de pesagens, concebida para operar em ecrãs táteis. O terminal simplifica a introdução de valores de peso, para automatizar a recolha de dados de pesagem e associando-as à recolha em curso e ao material pesado.
 
     \item \textbf{Modelação e Implementação da Base de Dados Centralizada:} Conceber e implementar o modelo de dados relacional que suporte de forma unificada todas as aplicações do ecossistema. O modelo deve garantir a integridade referencial dos dados, manter um histórico completo de operações (através de exclusão lógica) e ser alojado numa infraestrutura de nuvem fiável e escalável.
 
@@ -45,7 +45,7 @@ A escolha das tecnologias foi um processo deliberado, realizado em conjunto pelo
 
 \subsection{Aplicações Empresariais Internas}
 \begin{itemize}
-    \item \textbf{\textit{Blazor Server} com .NET 10 (Backoffice e Kiosk):} Escolhido por permitir a criação de interfaces de utilizador ricas e em tempo real usando C\# em vez de JavaScript tradicional. Isto permitiu aos estagiários partilhar lógica de negócio, modelos e validações diretamente com a API centralizada, acelerando o desenvolvimento e reduzindo o índice de bugs.
+    \item \textbf{\textit{Blazor Server} com .NET 10 (Backoffice e Kiosk):} Escolhido por permitir a criação de interfaces de utilizador ricas e em tempo real usando C\# em vez de JavaScript tradicional. Isto permitiu aos estagiários partilhar lógica de negócio, modelos e validações diretamente com a API centralizada, o que acelerou o desenvolvimento e reduziu o índice de bugs.
 \end{itemize}
 
 \subsection{Persistência e Infraestrutura de Dados}
@@ -82,7 +82,7 @@ Paralelamente, foi desenhado o modelo de dados relacional, identificando as enti
 
 \subsection{Fase 3: Desenvolvimento e Implementação}
 
-Esta foi a fase mais longa e correspondeu à implementação prática das soluções. Ao longo deste período, os dois estagiários colaboraram de forma contínua e transversal em todas as componentes do ecossistema, desde a modelação da base de dados à definição da arquitetura global, passando pelo desenvolvimento das interfaces de utilizador e pela configuração da infraestrutura de nuvem.
+Esta foi a fase mais longa e correspondeu à implementação prática das soluções. Ao longo deste período, os dois estagiários colaboraram de forma contínua e transversal em todas as componentes do ecossistema, desde a modelação da base de dados à definição da arquitetura global, bem como o desenvolvimento das interfaces de utilizador e pela configuração da infraestrutura de nuvem.
 
 O desenvolvimento abrangeu as seguintes frentes principais, todas trabalhadas de forma colaborativa:
 \begin{itemize}
