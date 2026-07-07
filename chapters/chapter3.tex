@@ -82,15 +82,18 @@ Paralelamente, foi desenhado o modelo de dados relacional, identificando as enti
 
 \subsection{Fase 3: Desenvolvimento e Implementação}
 
-Esta foi a fase mais longa e correspondeu à implementação prática das soluções. O trabalho foi dividido entre os dois estagiários da seguinte forma:
+Esta foi a fase mais longa e correspondeu à implementação prática das soluções. Ao longo deste período, os dois estagiários colaboraram de forma contínua e transversal em todas as componentes do ecossistema, desde a modelação da base de dados à definição da arquitetura global, passando pelo desenvolvimento das interfaces de utilizador e pela configuração da infraestrutura de nuvem.
 
+O desenvolvimento abrangeu as seguintes frentes principais, todas trabalhadas de forma colaborativa:
 \begin{itemize}
-    \item \textbf{Estagiário (autor deste relatório):} Responsável principal pelo desenvolvimento do website institucional (\textit{Next.js} 15 e \textit{Tailwind CSS} v4), incluindo a área pública, a área reservada de clientes e a integração com a \ac{API} central. Participou igualmente na modelação da base de dados e na definição dos \textit{endpoints} da \ac{API} associados ao website.
-
-    \item \textbf{Colega de estágio:} Responsável principal pelo desenvolvimento da aplicação de \textit{backoffice} e do terminal de pesagem \textit{Kiosk} (\textit{Blazor Server}, .NET 10), incluindo o sistema de emparelhamento de dispositivos.
+    \item \textbf{Website Institucional} (\textit{Next.js} 15 e \textit{Tailwind CSS} v4): área pública, área reservada de clientes e integração com a \ac{API} central.
+    \item \textbf{Aplicação de Backoffice e Terminal Kiosk} (\textit{Blazor Server}, .NET 10): painel de gestão administrativa, módulos de controlo logístico e terminal de pesagem com autenticação por PIN e emparelhamento de dispositivos.
+    \item \textbf{API Central} (.NET 10, \textit{Clean Architecture}): definição de \textit{endpoints}, regras de negócio, integração com Supabase e sistema de autenticação com JWT.
+    \item \textbf{Modelação da Base de Dados}: desenho do esquema relacional em PostgreSQL, migrações com Entity Framework Core e decisões de integridade referencial e exclusão lógica.
+    \item \textbf{Ferramenta de Comparação de Toners} (React + Vite + Tauri): interface web/desktop para cruzamento de inventário e tabelas de clientes.
 \end{itemize}
 
-Apesar desta divisão, ambos os estagiários colaboraram em decisões conjuntas de arquitetura, na definição de contratos da \ac{API} e na garantia de consistência de dados entre as plataformas.
+A colaboração entre os dois estagiários estendeu-se igualmente à revisão cruzada de código, ao alinhamento de contratos de \ac{API} e à resolução conjunta de problemas de integração entre plataformas.
 
 \subsection{Fase 4: Testes e Validação}
 
