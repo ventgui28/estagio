@@ -50,7 +50,7 @@ A escolha das tecnologias foi um processo deliberado, realizado em conjunto pelo
 
 \subsection{Persistência e Infraestrutura de Dados}
 \begin{itemize}
-    \item \textbf{\textit{PostgreSQL} com \textit{Supabase}:} O PostgreSQL foi adotado pela sua fiabilidade relacional e suporte nativo a transações ACID complexas. A plataforma \textit{Supabase} simplificou a infraestrutura ao disponibilizar o SGBD PostgreSQL em nuvem, juntamente com buckets compatíveis com S3 para ficheiros de recolha e autenticação integrada de utilizadores.
+    \item \textbf{\textit{PostgreSQL} com \textit{Supabase}:} O PostgreSQL foi adotado pela sua fiabilidade relacional e suporte nativo a transações ACID complexas. A sua relevância no mercado é amplamente reconhecida: segundo o \textit{Stack Overflow Developer Survey 2024} \autocite{SOSurvey2024}, o PostgreSQL é a base de dados mais utilizada a nível global, com \textbf{49\%} dos programadores a reportarem a sua utilização. A plataforma \textit{Supabase} simplificou a infraestrutura ao disponibilizar o SGBD PostgreSQL em nuvem, juntamente com buckets compatíveis com S3 para ficheiros de recolha e autenticação integrada de utilizadores.
     \item \textbf{\textit{Entity Framework Core} (ORM):} O acesso aos dados é mediado pelo EF Core sob a abordagem \textit{Code-First}. Esta decisão garantiu que as alterações de base de dados fossem mantidas sob controlo de código C\# estruturado, permitindo auditorias fáceis em ambiente Git através de migrações explícitas.
 \end{itemize}
 
