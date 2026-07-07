@@ -1,39 +1,45 @@
 \chapter{Introdução}\label{chap1}
 \acresetall
 
+O presente relatório descreve as atividades desenvolvidas no âmbito do estágio curricular do Curso Técnico Superior Profissional (CTeSP) em Tecnologias e Programação de Sistemas de Informação (TPSI), ministrado pelo Instituto Superior de Engenharia de Coimbra (ISEC). O estágio realizou-se na empresa 20 Recolher -- Gestão de Resíduos, Lda., tendo como objetivo principal o desenvolvimento e implementação de um ecossistema de software integrado para a automatização dos processos logísticos e operacionais da organização, a par do acompanhamento das tarefas manuais de triagem e manutenção de hardware informático.
 
 \section{Enquadramento e Motivação}
-% Descreve o contexto geral do estágio, por que razão este projeto é importante
-% e qual a motivação pessoal/profissional para a realização do mesmo.
 
-Escreve aqui sobre o contexto geral do teu estágio.
+Na atualidade, a transição digital e a sustentabilidade ecológica representam dois dos maiores desafios da sociedade. A gestão eficiente de Resíduos de Equipamentos Elétricos e Eletrónicos (REEE) insere-se diretamente no conceito de economia circular, onde a reutilização, reciclagem e valorização de materiais procuram mitigar o impacto ambiental negativo associado ao desperdício tecnológico. Numa organização dedicada à recolha e reencaminhamento destes resíduos, a precisão e rapidez na recolha de dados são fundamentais para garantir a conformidade regulamentar, a rastreabilidade dos materiais e a rentabilidade do negócio.
+
+A motivação pessoal e profissional para a realização deste projeto prende-se com a oportunidade de aplicar os conhecimentos práticos e teóricos adquiridos durante a formação académica no CTeSP de TPSI a um cenário organizacional real. O desenvolvimento de um ecossistema de software distribuído e moderno (envolvendo Next.js 15, .NET 10, Blazor Server, PostgreSQL e Clean Architecture) permitiu enfrentar desafios reais de engenharia de software, tais como o isolamento de lógica de negócio, controlo de acessos, persistência na nuvem, tratamento de concorrência e integração direta com hardware através de portas de comunicação série. Adicionalmente, as tarefas manuais de triagem de hardware proporcionaram uma compreensão enriquecedora sobre a reciclagem física de componentes de computadores, permitindo criar um nexo direto entre a gestão logística digital e a realidade operacional do armazém de resíduos eletrónicos.
 
 \section{Apresentação da Entidade de Acolhimento}
-% Apresenta a empresa "20 Recolher". O que faz, a sua área de atuação,
-% onde se localiza e a sua importância no mercado. Podes adicionar secções
-% sobre o organograma ou equipa se for relevante.
 
-A 20 Recolher é uma empresa...
+A 20 Recolher -- Gestão de Resíduos, Lda. é uma entidade licenciada que opera no setor da gestão ambiental, com foco na recolha, triagem e encaminhamento adequado de REEE, consumíveis de impressão (tinteiros e toners) e material informático obsoleto. A empresa foi fundada em 2014 em Tentúgal, tendo tido como rampa de lançamento o prémio de empreendedorismo atribuído em abril de 2013 pela Comunidade Intermunicipal da Região de Coimbra (CIM-RC). 
+
+Com o crescimento contínuo das suas operações e o aumento do volume de resíduos processados, a empresa mudou-se em novembro de 2022 para a Zona Industrial de Cantanhede, onde dispõe de instalações adequadas ao armazenamento e triagem de grandes volumes de hardware. O público-alvo da 20 Recolher assenta essencialmente no mercado empresarial e em organismos do setor público (escolas, tribunais, conservatórias), garantindo que os componentes potencialmente nocivos ao ambiente sejam devidamente descontaminados e reciclados, ao mesmo tempo que se recuperam peças eletrónicas funcionais de forma a reintegrá-las no mercado sob a forma de equipamentos recondicionados.
 
 \section{Objetivos do Estágio}
-% Define claramente os objetivos gerais e específicos que pretendes atingir
-% ao longo do teu estágio na empresa.
 
-Os principais objetivos definidos para este estágio incluem:
+O estágio curricular teve como finalidade desenhar e implementar soluções tecnológicas que transformassem os fluxos de trabalho anteriormente informais e manuais da 20 Recolher num ecossistema digital integrado. 
+
+Como \textbf{Objetivo Geral}, definiu-se a conceção de um ecossistema digital centralizado que automatizasse o ciclo de recolha desde o pedido online inicial de um cliente até à pesagem final registada na balança física do armazém, assegurando total consistência e rastreabilidade dos dados.
+
+Para concretizar este objetivo, definiram-se os seguintes \textbf{Objetivos Específicos}:
 \begin{itemize}
-    \item Objetivo 1;
-    \item Objetivo 2;
+    \item \textbf{Desenvolvimento do Website Institucional:} Implementação de um portal moderno com Next.js 15 e Tailwind CSS v4, disponibilizando uma área pública institucional e uma área reservada para clientes submeterem pedidos de recolha, gerirem o seu histórico e comunicarem em tempo real com a equipa técnica.
+    \item \textbf{Criação da Aplicação de Backoffice:} Desenvolvimento de um painel de controlo administrativo interno em Blazor Server para os operadores organizarem o agendamento de recolhas, gerirem tabelas tarifárias de materiais e auditarem os logs de segurança do sistema.
+    \item \textbf{Construção do Terminal de Pesagem (Kiosk):} Criação de uma aplicação adaptada a ecrãs táteis na zona de armazém, comunicando com a balança através do protocolo RS-232, minimizando erros humanos através da leitura automática do peso físico de resíduos.
+    \item \textbf{Conceção e Modelação da Base de Dados:} Estruturação de uma base de dados relacional PostgreSQL (alojada via Supabase) que garanta integridade referencial, histórico de dados através de exclusão lógica (\textit{soft-delete}) e conformidade no armazenamento de ficheiros anexos.
+    \item \textbf{Desenvolvimento da API Central:} Implementação de uma API RESTful em .NET 10 baseada na arquitetura \textit{Clean Architecture}, responsável por centralizar o acesso aos dados e isolar as regras de negócio cruciais das camadas de interface.
+    \item \textbf{Garantia de Qualidade:} Criação de uma suite de testes unitários, testes de integração e testes de componentes de interface (\textit{bUnit}), ultrapassando os 610 testes automáticos com 100\% de sucesso.
+    \item \textbf{Triagem e Recondicionamento de Hardware:} Acompanhamento técnico na manutenção e teste de componentes informáticos (RAM, SSDs, baterias e carregadores) para maximizar a economia circular.
 \end{itemize}
 
 \section{Estrutura do Relatório}
-% Faz um resumo do conteúdo de cada capítulo do relatório para guiar o leitor.
 
-O presente documento está estruturado da seguinte forma:
+O presente relatório está estruturado em seis capítulos principais, organizados da seguinte forma:
 \begin{itemize}
-    \item \textbf{Capítulo~\ref{chap1} -- Introdução:} Apresenta o enquadramento, a empresa de acolhimento, os objetivos e a organização do relatório;
-    \item \textbf{Capítulo~\ref{chap2} -- Enquadramento Empresarial:} Apresenta a entidade de acolhimento (20 Recolher), a equipa de trabalho e o enquadramento do estagiário;
-    \item \textbf{Capítulo~\ref{chap3} -- Atividades Planeadas:} Descreve os objetivos definidos e o plano de trabalhos inicial;
-    \item \textbf{Capítulo~\ref{chap4} -- Atividades Desenvolvidas e Resultados:} Detalha as tarefas realizadas, dividindo-as entre o desenvolvimento de software (aplicações e base de dados) e o trabalho manual de hardware (testes de componentes e triagem de resíduos eletrónicos), apresentando os respetivos resultados obtidos;
-    \item \textbf{Capítulo~\ref{chap5} -- Sugestões, Comentários e Propostas de Melhoria:} Reúne reflexões críticas, sugestões e propostas de evolução técnica para o projeto;
-    \item \textbf{Capítulo~\ref{chap6} -- Conclusões:} Faz um balanço final dos objetivos atingidos e das competências adquiridas.
+    \item \textbf{Capítulo~\ref{chap1} -- Introdução:} Apresenta o enquadramento, a contextualização e motivação para o desenvolvimento do projeto, bem como a apresentação da entidade de acolhimento, os objetivos definidos e a organização do relatório.
+    \item \textbf{Capítulo~\ref{chap2} -- Enquadramento Empresarial:} Descreve detalhadamente a empresa 20 Recolher, a constituição da equipa técnica de desenvolvimento e a integração do estagiário no ambiente de trabalho.
+    \item \textbf{Capítulo~\ref{chap3} -- Atividades Planeadas:} Apresenta as necessidades originais identificadas, a justificação das escolhas tecnológicas e o plano de trabalhos inicial dividido por fases temporais.
+    \item \textbf{Capítulo~\ref{chap4} -- Atividades Desenvolvidas e Resultados:} Constitui o núcleo do relatório, descrevendo a arquitetura global do ecossistema de software, a modelação da base de dados, o website, as aplicações internas (.NET e Blazor) e os respetivos resultados. Detalha igualmente as atividades manuais de triagem de hardware informático.
+    \item \textbf{Capítulo~\ref{chap5} -- Sugestões, Comentários e Propostas de Melhoria:} Reúne as reflexões críticas sobre o percurso de estágio, as limitações tecnológicas identificadas e propostas de evolução técnica futura.
+    \item \textbf{Capítulo~\ref{chap6} -- Conclusões:} Apresenta o balanço final de cumprimento de objetivos e aquisição de competências profissionais.
 \end{itemize}
