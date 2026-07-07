@@ -1,0 +1,56 @@
+\chapter{Enquadramento Empresarial}\label{chap2}
+
+
+\section{Apresentação da Entidade de Acolhimento}
+A 20 Recolher - Gestão de Resíduos, Lda. é uma empresa que trabalha na recolha e encaminhamento para reciclagem de \ac{REEE}, material informático e consumíveis de impressão (como tinteiros e toners).
+
+A empresa nasceu a partir de uma ideia distinguida em abril de 2013 com o prémio de empreendedorismo da \ac{CIM-RC}. Com a licença da \ac{CCDRC}, começou a trabalhar em 2014 em Tentúgal. Em novembro de 2022, devido ao crescimento do volume de trabalho e à necessidade de instalações maiores, a empresa mudou-se para a Zona Industrial de Cantanhede (Núcleo 1, Lote 2, Fração E), onde opera atualmente.
+
+O foco da 20 Recolher está no mercado empresarial e em entidades do Estado (como tribunais, escolas e conservatórias). O seu objetivo principal é garantir que os resíduos eletrónicos, que muitas vezes contêm substâncias perigosas para o ambiente, sejam recolhidos e tratados de forma correta, promovendo a reciclagem e a reutilização de componentes.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{imagens/logo-20-recolher.png}
+    \caption{Logótipo da 20 Recolher - Gestão de Resíduos, Lda.}
+    \label{fig:logo_empresa}
+\end{figure}
+
+\section{Equipa onde se insere o estagiário}
+A equipa de desenvolvimento técnico da empresa é composta por dois estagiários: eu e um colega de curso, ambos alunos do \ac{CTeSP} de \ac{TPSI} no \ac{ISEC}. O trabalho decorre sob a supervisão de Fernando Oliveira, CEO e supervisor de estágio na 20 Recolher.
+
+Por ser uma equipa pequena, a estrutura de trabalho é direta e informal. As decisões sobre a arquitetura do software, a escolha das tecnologias e a distribuição de tarefas foram tomadas de forma conjunta entre os dois estagiários, com a validação final do orientador de estágio.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance = 1.2cm and 1cm,
+        every node/.style = {draw, rectangle, rounded corners, minimum width=3cm, minimum height=1cm, align=center, fill=gray!10},
+        line/.style = {draw, ->, thick}
+    ]
+        % Nodes
+        \node (ceo) {\textbf{Fernando Oliveira} \\ \small Supervisor / CEO};
+        \node (intern1) [below left=of ceo] {\textbf{Estagiário (Eu)} \\ \small Desenvolvimento Web};
+        \node (intern2) [below right=of ceo] {\textbf{Colega de Estágio} \\ \small Desenvolvimento de Pesagens};
+        
+        % Connections
+        \path [line] (ceo.south) -- ++(0,-0.5) -| (intern1.north);
+        \path [line] (ceo.south) -- ++(0,-0.5) -| (intern2.north);
+    \end{tikzpicture}
+    \caption{Organograma da Equipa Técnica.}
+    \label{fig:organograma}
+\end{figure}
+
+\section{Enquadramento Pessoal na Equipa}
+Ao longo do estágio, as responsabilidades de desenvolvimento foram distribuídas de forma a responder às necessidades da 20 Recolher e a tirar partido do trabalho conjunto.
+
+No início do estágio, trabalhei em colaboração com o meu colega no planeamento, levantamento de requisitos, desenho da arquitetura e modelação da base de dados da aplicação principal de pesagens e gestão de recolhas (desenvolvida em \texttt{.NET 10.0} e \texttt{Blazor Server}). Esta aplicação centraliza a gestão das recolhas e a integração com os terminais de pesagem instalados na zona de pesagens.
+
+Posteriormente, para aumentar a produtividade e focar o desenvolvimento, dividimos o trabalho em duas partes:
+\begin{itemize}
+    \item O meu colega de estágio ficou responsável pelo desenvolvimento da aplicação de pesagens, que corre num ecrã tátil na zona de pesagens.
+    \item Eu assumi a responsabilidade total pelo desenvolvimento e publicação do novo \textit{website} institucional da empresa, utilizando \texttt{Next.js 15} e \texttt{Tailwind CSS v4}.
+\end{itemize}
+
+Apesar desta divisão, mantivemos um contacto constante para garantir a integração dos dados entre as duas plataformas e a consistência visual. No desenvolvimento do \textit{website}, tomei de forma autónoma as decisões de design, estrutura e otimização de \ac{SEO}, com o objetivo de facilitar o pedido de recolhas online por parte de novos clientes.
+
+

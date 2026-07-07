@@ -1,0 +1,399 @@
+
+
+Instituto Politécnico de Coimbra
+Instituto Superior de Engenharia de Coimbra
+
+
+
+Curso Técnico Superior Profissional em
+Tecnologias e Programação de Sistemas de Informação
+
+
+
+Relatório de Estágio desenvolvido no âmbito da Componente de Formação em Contexto de Trabalho
+
+
+
+20 Recolher - Gestão de Residuos,  Lda
+Guilherme Laranjeiro Ventura
+
+
+
+
+COIMBRA, <dia> de <mês> de 2022
+
+
+
+Instituto Politécnico de Coimbra
+Instituto Superior de Engenharia de Coimbra
+
+
+
+Relatório do Estágio desenvolvido no âmbito da Componente de Formação em Contexto de Trabalho
+04/03/2026 a __/07/2026
+
+
+
+Guilherme Laranjeiro Ventura 
+a2024149428@isec.pt
++351 935602163 
+
+
+
+Orientador(es):
+Paulo Miguel Gouveia Mariano
+<Cargo, Instituição>
+
+Supervisor(es) na Empresa/Instituição:
+Fernando Oliveira
+CEO, 20 Recolher - Gestão de Residuos,  Lda
+
+
+  
+  Agradecimentos
+    <Inserir aqui os agradecimentos às pessoas/entidades que de alguma forma ajudaram na realização do trabalho descrito.>
+
+
+
+  
+  Índice
+LISTA DE FIGURAS	VII
+LISTA DE TABELAS	IX
+NOMENCLATURA	XI
+1	INTRODUÇÃO <ESTILO: TÍTULO 1>	1
+1.1	SECÇÕES DE NÍVEL 2 <ESTILO: TÍTULO 2>	2
+1.1.1.	Estrutura do Relatório <Estilo: Título 3>	3
+2	ENQUADRAMENTO EMPRESARIAL	5
+2.1	EQUIPA ONDE SE INSERE O ESTAGIÁRIO	5
+2.2	ENQUADRAMENTO PESSOAL NA EQUIPA	5
+3	ATIVIDADES PLANEADAS	7
+3.1	DESCRIÇÃO DE OBJETIVOS	7
+4	ATIVIDADES DESENVOLVIDAS E RESULTADOS	9
+4.1	ATIVIDADES DESENVOLVIDAS	9
+4.2	RESULTADOS OBTIDOS	9
+5	SUGESTÕES, COMENTÁRIOS E PROPOSTAS DE MELHORIA	11
+5.1	SUGESTÕES	11
+5.2	COMENTÁRIOS	11
+5.3	PROPOSTAS DE MELHORIA	11
+6	CONCLUSÕES	13
+7	REFERÊNCIAS BIBLIOGRÁFICAS	15
+APÊNDICE	17
+ANEXO I - <TÍTULO DO ANEXO I>	19
+ANEXO II - <TÍTULO DO ANEXO II>	21
+
+
+
+Lista de Figuras
+Fig.  1.1 - Como referenciar uma Figura/Tabela ao longo do texto, ou colocar nº de pág.	1
+Fig.  1.2 - Exemplo de figura ( Estilo: Figura/Legenda).	2
+Fig.  2.1 - Exemplo de figura	5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lista de Tabelas
+Tabela 3.1 Exemplo de tabela	9
+
+
+
+Nomenclatura
+Abreviaturas
+CTeSPCurso Técnico Superior Profissional
+
+
+1  Introdução <Estilo: Título 1>
+    <Inserir aqui uma introdução que contextualize o trabalho desenvolvido e que apresente a fundamentação teórica da área das atividades.>
+
+    Para colocar uma referência a uma Figura ou Tabela no texto, no Word 2003, usar: Inserir+Referência+Referência Cruzada e escolher de acordo com a Fig.  1.1 (ver pág. 1). Deve usar a referência de "só nome e número", e caso pretenda colocar a página onde se encontra, deve mudar a opção para "Número de página", de seguida clicar em inserir. A linha onde se insere a imagem deve ser do estilo Figura, bem como a legenda da mesma (as referências [1], seguem a mesma metodologia). 
+    Para inserir nova figura, basta fazer copy+paste de uma anterior e inseri-la no local onde se pretende. Para actualizar o nº da figura (e restantes automaticamente), Seleccionar todo o texto (editar+seleccionar tudo = Ctrl+T) e com o botão direito do rato, escolher do menu que abre, a opção "Actualizar Campo" e de seguida "Actualizar todo o índice" (fazer o nº de vezes necessárias até terminar). Após este passo, todos os índices do documento estão actualizados, podendo-se imprimir o documento, caso seja a versão final. De forma análoga para as referências que devem ser numéricas.
+ 
+Fig.  1.1 - Como referenciar uma Figura/Tabela ao longo do texto, ou colocar nº de pág.
+
+No Word 2007, para colocar no texto uma referência a uma Tabela, Figura ou referência bibliográfica ir à opção referências e selecionar Referência Cruzada. A 
+    Fig.  1.2 e a Tabela 4.1 (pág. 9) são descritas pelo autor Erro! A origem da referência não foi encontrada.].
+Nota: as referências a Tabelas, Figuras ou referências bibliográficas acima indicadas são automáticas. Assim, caso se introduzam novos elementos, o texto adaptar-se-á e renumera Tabelas, Figuras e referências bibliográficas inseridas ao longo do texto, bem como o nº de páginas).
+
+    As referências bibliográficas devem ser numeradas, tal como se indica acima.
+    O texto deve ser escrito em formato Times New Roman, tamanho 12, com espaçamento entre linhas de 1,5 linhas. Estilo a usar: Corpo_texto (tal como se encontra neste modelo).
+    Todos os novos capítulos devem ser iniciados numa página ímpar.
+    A Equação (1.1) exemplifica o formato correto a usar no corpo do texto.
+(1.1)    O Índice, Lista de Figuras, Lista de Tabelas e referências bibliográficas, devem ser automáticas para serem automaticamente gerados no fim da escrita do relatório. Todas as referências a Figuras, Tabelas, ou referências bibliográficas ao longo do texto devem também ser inseridas de forma automática, para permitir inserir novas tabelas ou figuras ao longo do texto, para evitar mais trabalho com a renumeração de figuras, tabelas e das referências bibliográficas ao longo do texto.
+    As Tabelas e Figuras devem estar centradas. Nas Figuras, a legenda é colocada após a Figura, enquanto nas Tabelas é colocada antes. 
+1.1  Secções de nível 2 <Estilo: Título 2>
+    Pode seccionar os temas de acordo com esta formatação.
+
+
+Fig.  1.2 - Exemplo de figura ( Estilo: Figura/Legenda).
+1.1.1. 
+Estrutura do Relatório <Estilo: Título 3>
+    O primeiro capítulo deverá ter uma secção com o resumo dos vários capítulos e com a estrutura do relatório.
+
+    
+2  Enquadramento Empresarial
+    O segundo capítulo deverá ser focado na empresa/instituição de acolhimento onde o estágio decorre, apresentando sempre que possível a empresa/instituição de acolhimento, área de negócio, e em concreto a área onde o estágio se insere, bem como o enquadramento do estagiário na equipa de recursos humanos.
+
+Fig.  2.1 - Exemplo de figura
+2.1  Equipa onde se insere o estagiário
+    <Inserir aqui informação acerca da equipa onde se insere o estagiário.>
+2.2  Enquadramento Pessoal na Equipa
+    <Inserir aqui informação acerca do enquadramento do aluno na equipa descrita na secção anterior.>
+
+
+3  Atividades planeadas
+    <Inserir aqui as várias atividades que correspondem ao plano de trabalhos.>
+3.1  Descrição de objetivos
+    <Inserir aqui os objetivos a atingir no estágio.>
+
+
+4  Atividades desenvolvidas e resultados
+    Neste capítulo dever ser feita a descrição das tarefas desenvolvidas e dos resultados obtidos.
+4.1  Atividades desenvolvidas
+    <Inserir aqui as várias atividades desenvolvidas.>
+4.2  Resultados obtidos
+    <Inserir aqui os resultados obtidos.>
+
+Tabela 4.1 Exemplo de tabela
+Exemplificação de uma tabela       CaracterísticasHTP
+HTPHPTTPTFTPMTPLKFTempo de AprendizagemAltaAltaAltaMédiaMédiaMédiaMédiaVersatilidadeAltaAltaAltaMédiaBaixaBaixaBaixaActualizaçõesNãoNãoNãoNãoNãoNãoNãoOpen SourceNãoNãoNãoSimSimSimSim
+
+
+5  Sugestões, comentários e propostas de melhoria
+    <Inserir aqui uma breve introdução ao capítulo.>
+5.1  Sugestões
+    <Inserir aqui as sugestões relativas ao estágio.>
+5.2  Comentários
+    <Inserir aqui os comentários ao estágio.>
+5.3  Propostas de melhoria
+    <Inserir aqui as propostas de melhoria.>
+
+
+6  Conclusões
+     <Inserir aqui as principais conclusões, problemas encontrados, e perspectivas que se abriram com o decorrer do trabalho e que poderiam ser alvo de novos trabalhos/estágios.>
+
+
+7  Referências bibliográficas
+<Inserir aqui a lista de referências bibliográficas citadas no corpo do relatório formatadas de acordo com os exemplos seguintes.>
+Livro de um só autor:
+[1] Costa, J. (1995). Caracterização e constituição do Solo. 5ª edição, Fundação Calouste Gulbenkian. Lisboa. 
+Livro de vários autores:
+[2] Cunha, C. e Cintra, L. (1996). Breve gramática do Português contemporâneo. 9ª edição, Edições João Sá da Costa. Lisboa. 
+[3] Ferreira, J.C., Strecht, A., Ribeiro, J.R., Soeiro, A. e Cotrim, G. (1999). Manual de agricultura biológica - Fertilização e protecção das plantas para uma agricultura sustentável. 2ª Edição, AGROBIO. Lisboa. 
+[4] Pierzynski, G., Sims, J. e Vance, G. (1994). Soils and environmental quality. Lewis Publishers. Florida.
+
+[1] Nome do autor. (ano). Título. Nº da edição, Editora. Local da publicação. Volume. 
+- OBRA 1.
+[2] Nome do autor. (ano). Título. Nº da edição, Editora. Local da publicação. Volume. 
+- OBRA 2.
+[3] Nome do autor. (ano). Título. Nº da edição, Editora. Local da publicação. Volume. 
+- OBRA 3.
+[4] Nome do autor. (ano). Título. Nº da edição, Editora. Local da publicação. Volume. 
+- OBRA 4.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+Apêndice(s)
+<Inserir aqui tabelas, quadros, gráficos, figuras, etc. de suporte ao desenvolvimento do relatório.>
+
+
+Anexo I - <Título do anexo I>
+<Inserir aqui esclarecimentos de suporte ao relatório e/ou outras observações consideradas relevantes.>
+
+
+Anexo II - <Título do anexo II>
+<Inserir aqui outros esclarecimentos de suporte ao relatório e/ou outras observações consideradas relevantes.>
+
+
+
+
+
+
+
+
+
+    O presente documento constituído por ____ páginas numeradas, (especificar: com ou sem anexos), foi elaborado pelo signatário no âmbito da Formação em Contexto de Trabalho (Estágio) do Curso Técnico Superior Profissional (CTeSP) em Tecnologias e Programação de Sistemas de Informação.
+
+
+    Entregue em __ de ________________ de 20__
+
+
+    Nome do aluno: ______________________________________________________________
+
+
+    Assinatura (Obrigatória)
+
+
+
+
+Mod6_243.01
+
+Modelo C.27_2.0
+SISTEMA INTERNO DE GARANTIA DE QUALIDADE
+4
+
+
+
+
+Mod6_243.01
+
+Modelo C.27_2.0
+SISTEMA INTERNO DE GARANTIA DE QUALIDADE
+
+
+
+
+xi
+Mod6_243.01
+
+Modelo C.27_2.0
+SISTEMA INTERNO DE GARANTIA DE QUALIDADE
+   
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3
+Mod6_243.01
+
+Modelo C.27_2.0
+SISTEMA INTERNO DE GARANTIA DE QUALIDADE
+   
+
+5
+Mod6_243.01
+
+Modelo C.27_2.0
+SISTEMA INTERNO DE GARANTIA DE QUALIDADE
+
+7
+Mod6_243.01
+
+Modelo C.27_2.0
+SISTEMA INTERNO DE GARANTIA DE QUALIDADE
+
+9
+Mod6_243.01
+
+Modelo C.27_2.0
+SISTEMA INTERNO DE GARANTIA DE QUALIDADE
+
+
+
+
+
+
+
+
+23
+Mod6_243.01
+
+Modelo C.27_2.0
+SISTEMA INTERNO DE GARANTIA DE QUALIDADE
+
+
+
+
+
+
+
+
+
+

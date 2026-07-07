@@ -1,0 +1,128 @@
+﻿\chapter{Atividades Planeadas}\label{chap3}
+
+
+\section{Descrição de Objetivos}\label{sec:objetivos}
+
+O estágio curricular realizado na 20 Recolher --- Gestão de Resíduos, Lda. teve como ponto de partida um levantamento detalhado das necessidades tecnológicas da empresa.
+
+\subsection{Estado Inicial e Problema Identificado}
+No início do período de estágio, constatou-se que os processos operacionais dependiam de métodos inteiramente manuais e descentralizados. Os pedidos de recolha de resíduos por parte dos clientes eram comunicados por canais informais, como telefonemas ou trocas de e-mail manuais, sem qualquer validação automática de dados ou agendamento estruturado.
+O registo físico das pesagens dependia de os operadores anotarem os valores medidos na balança industrial e, posteriormente, digitarem essa informação em folhas de cálculo locais. Este procedimento gerava frequentes erros de introdução, redundância de dados e lacunas de rastreabilidade. A empresa não possuía presença digital estruturada, impedindo os seus clientes de consultar faturas, históricos de pesagem ou códigos legais de resíduos (LER) de forma autónoma.
+Esta dependência de tarefas manuais provocava atrasos nas operações logísticas, sobrecarga nos canais de comunicação interna e uma considerável exposição a perdas de dados.
+
+O objetivo central do estágio consistiu, assim, em conceber, desenvolver e implementar uma solução tecnológica integrada que automatizasse e digitalizasse estes processos, aumentando a eficiência operacional da empresa e melhorando a experiência dos seus clientes.
+
+\subsection{Objetivo Geral}
+
+Desenvolver um ecossistema de software integrado para a 20 Recolher que automatize o ciclo completo de gestão de recolhas de resíduos --- desde a solicitação online por parte do cliente até ao registo físico das pesagens no armazém ---, substituindo processos manuais por fluxos digitais seguros, rastreáveis e escaláveis.
+
+\subsection{Objetivos Específicos}
+
+Para concretizar o objetivo geral, definiram-se os seguintes objetivos específicos:
+
+\begin{itemize}
+    \item \textbf{Desenvolvimento do Website Institucional:} Criar um novo website institucional moderno para a empresa, com duas vertentes distintas: uma área pública para apresentação dos serviços e captação de novos clientes, e uma área reservada para clientes registados. Esta área reservada permite que os clientes efetuem pedidos de recolha de forma autónoma, acompanhem o estado das suas recolhas e comuniquem diretamente com os operadores através de um sistema de mensagens diretas. A presença digital estruturada é fundamental para reduzir o volume de contactos telefónicos e e-mails manuais, centralizando a gestão de clientes numa plataforma digital segura.
+
+    \item \textbf{Desenvolvimento da Aplicação de \textit{Backoffice}:} Construir uma aplicação de gestão interna para os operadores da empresa, que centralize o controlo de clientes, a triagem e agendamento de pedidos de recolha, a visualização de pesagens e a administração de utilizadores e permissões. O objetivo é substituir o uso de folhas de cálculo e comunicaç?    \item \textbf{Desenvolvimento do Terminal de Pesagem (\textit{Kiosk}):} Desenvolver uma aplicação dedicada à zona física de pesagens, concebida para operar em ecrãs táteis. O terminal simplifica a introdução de valores de peso, automatizando a recolha de dados de pesagem e associando-as à recolha em curso e ao material pesado.
+
+    \item \textbf{Modelação e Implementação da Base de Dados Centralizada:} Conceber e implementar o modelo de dados relacional que suporte de forma unificada todas as aplicações do ecossistema. O modelo deve garantir a integridade referencial dos dados, manter um histórico completo de operações (através de exclusão lógica) e ser alojado numa infraestrutura de nuvem fiável e escalável.
+
+    \item \textbf{Desenvolvimento da \ac{API} Central:} Criar uma \textit{Application Programming Interface} (API) \textit{RESTful} que funcione como a única camada de acesso à base de dados, garantindo que todas as aplicações comuniquem com os dados de forma centralizada, segura e consistente. Este objetivo surgiu da necessidade de separar as duas aplicações Blazor (backoffice e terminal de pesagem) que inicialmente foram concebidas como uma única aplicação monolítica.
+
+    \item \textbf{Garantia de Qualidade Através de Testes Automáticos:} Assegurar a estabilidade do sistema mediante a adoção de uma metodologia de desenvolvimento guiado por testes (\textit{Test-Driven Development} --- TDD), com a implementação de uma suite de testes.
+\end{itemize}
+
+
+\section{Decisões Técnicas e Justificação das Escolhas}\label{sec:tecnologias-escolhas}
+
+A escolha das tecnologias foi um processo deliberado, realizado em conjunto pelos dois estagiários no início do estágio, após o levantamento de requisitos. Os principais critérios de avaliação foram a adequação técnica ao problema, a curva de aprendizagem, a maturidade do ecossistema e a capacidade de integração entre as diferentes componentes do sistema.
+
+\subsection{Desenvolvimento Frontend e Presença Web}
+\begin{itemize}
+    \item \textbf{\textit{Next.js} 15 (Website Institucional):} Escolhido para o website por ser um \textit{framework} React moderno com suporte nativo a renderização do lado do servidor (\textit{Server-Side Rendering}), garantindo boa velocidade de carregamento e excelentes práticas de indexação em motores de busca (\ac{SEO}). A versão 15 com \textit{App Router} simplifica o roteamento e aumenta a segurança no consumo de dados.
+    \item \textbf{\textit{Tailwind CSS} v4 (Estilização):} Adoção da biblioteca de utilitários CSS para acelerar o desenho da interface e garantir um visual fluido e responsivo em smartphones, tablets e computadores, sem necessidade de ficheiros CSS gigantescos.
+\end{itemize}
+
+\subsection{Aplicações Empresariais Internas}
+\begin{itemize}
+    \item \textbf{\textit{Blazor Server} com .NET 10 (Backoffice e Kiosk):} Escolhido por permitir a criação de interfaces de utilizador ricas e em tempo real usando C\# em vez de JavaScript tradicional. Isto permitiu aos estagiários partilhar lógica de negócio, modelos e validações diretamente com a API centralizada, acelerando o desenvolvimento e reduzindo o índice de bugs.
+\end{itemize}
+
+\subsection{Persistência e Infraestrutura de Dados}
+\begin{itemize}
+    \item \textbf{\textit{PostgreSQL} com \textit{Supabase}:} O PostgreSQL foi adotado pela sua fiabilidade relacional e suporte nativo a transações ACID complexas. A plataforma \textit{Supabase} simplificou a infraestrutura ao disponibilizar o SGBD PostgreSQL em nuvem, juntamente com buckets compatíveis com S3 para ficheiros de recolha e autenticação integrada de utilizadores.
+    \item \textbf{\textit{Entity Framework Core} (ORM):} O acesso aos dados é mediado pelo EF Core sob a abordagem \textit{Code-First}. Esta decisão garantiu que as alterações de base de dados fossem mantidas sob controlo de código C\# estruturado, permitindo auditorias fáceis em ambiente Git através de migrações explícitas.
+\end{itemize}
+
+\subsection{Qualidade de Software e Frameworks de Testes}
+\begin{itemize}
+    \item \textbf{\textit{xUnit}, \textit{Moq} e \textit{bUnit}:} De modo a assegurar que o sistema mantém a robustez à medida que cresce, estabeleceu-se a integração de testes unitários e de integração através de xUnit e Moq. Os componentes Blazor foram testados de forma isolada com o bUnit. Esta suite garantiu a estabilidade de regras de negócio cruciais, como pesagens e permissões administrativas.
+\end{itemize}
+
+
+\section{Plano de Trabalhos}\label{sec:plano-trabalhos}
+
+O plano de trabalhos foi estruturado em cinco fases, que se sobrepõem temporalmente de forma natural. As fases de análise e modelação ocorreram essencialmente no início do estágio, enquanto o desenvolvimento e os testes decorreram de forma contínua ao longo de todo o período. O estágio decorreu entre março e julho de 2025.
+
+\subsection{Fase 1: Levantamento de Requisitos e Análise}
+
+Nesta fase inicial, procedeu-se à análise das necessidades operacionais da empresa através de reuniões com o supervisor. O objetivo foi compreender em detalhe os processos existentes --- gestão de pedidos, registo de pesagens, comunicação com clientes --- e identificar as lacunas que a solução tecnológica deveria suprir.
+
+Foram levantados e documentados requisitos de dois tipos:
+\begin{itemize}
+    \item \textbf{Requisitos Funcionais:} as funcionalidades que o sistema deve disponibilizar, como a submissão de pedidos de recolha online, o registo manual assistido de pesagens, o sistema de mensagens entre clientes e operadores, e a gestão de permissões por cargo;
+    \item \textbf{Requisitos Não Funcionais:} as características de qualidade do sistema, como a segurança dos dados, a compatibilidade com dispositivos táteis, o tempo de resposta da \ac{API} e a disponibilidade em infraestrutura de nuvem.
+\end{itemize}
+
+\subsection{Fase 2: Desenho da Arquitetura e Modelação da Base de Dados}
+
+Com base nos requisitos levantados, procedeu-se ao desenho da arquitetura global do sistema. Esta fase culminou na decisão de adotar uma \textit{Clean Architecture}, com uma \ac{API} central como único ponto de acesso à base de dados, consumida pelas aplicações \textit{Blazor} e pelo website.
+
+Paralelamente, foi desenhado o modelo de dados relacional, identificando as entidades principais, as suas relações de cardinalidade e as restrições de integridade referencial. O modelo foi implementado em \textit{PostgreSQL} através de uma abordagem \textit{Code-First} com \textit{Entity Framework Core}, sendo o esquema gerado e versionado através do mecanismo de migrações.
+
+\subsection{Fase 3: Desenvolvimento e Implementação}
+
+Esta foi a fase mais longa e correspondeu à implementação prática das soluções. O trabalho foi dividido entre os dois estagiários da seguinte forma:
+
+\begin{itemize}
+    \item \textbf{Estagiário (autor deste relatório):} Responsável principal pelo desenvolvimento do website institucional (\textit{Next.js} 15 e \textit{Tailwind CSS} v4), incluindo a área pública, a área reservada de clientes e a integração com a \ac{API} central. Participou igualmente na modelação da base de dados e na definição dos \textit{endpoints} da \ac{API} associados ao website.
+
+    \item \textbf{Colega de estágio:} Responsável principal pelo desenvolvimento da aplicação de \textit{backoffice} e do terminal de pesagem \textit{Kiosk} (\textit{Blazor Server}, .NET 10), incluindo o sistema de emparelhamento de dispositivos.
+\end{itemize}
+
+Apesar desta divisão, ambos os estagiários colaboraram em decisões conjuntas de arquitetura, na definição de contratos da \ac{API} e na garantia de consistência de dados entre as plataformas.
+
+\subsection{Fase 4: Testes e Validação}
+
+Em paralelo com o desenvolvimento, foram elaborados testes automáticos que acompanharam o crescimento do projeto. Adotou-se uma abordagem de desenvolvimento guiado por testes (\textit{Test-Driven Development}), em que os testes são escritos antes ou durante a implementação de cada funcionalidade.
+
+A suite de testes abrangeu três níveis:
+\begin{itemize}
+    \item \textbf{Testes Unitários:} validação isolada das regras de negócio implementadas na camada de domínio;
+    \item \textbf{Testes de Integração:} validação do comportamento dos serviços da \ac{API} em conjunto com a camada de infraestrutura;
+    \item \textbf{Testes de Componente (\textit{bUnit}):} validação do comportamento e renderização dos componentes \textit{Blazor} da interface de utilizador.
+\end{itemize}
+
+No final do período de estágio, a suite continha mais de 610 testes automáticos, todos com resultado positivo.
+
+\subsection{Fase 5: Documentação e Entrega}
+
+A fase final correspondeu à consolidação da documentação técnica e à preparação da entrega do projeto. Foram produzidos documentos de referência para futuros programadores, nomeadamente um guia de instalação em produção, um guia do \textit{frontend} para clientes e a documentação dos controladores da \ac{API}. Esta fase incluiu igualmente a elaboração do presente relatório de estágio.
+
+\vspace{1em}
+O cronograma das fases de trabalho ao longo do período de estágio encontra-se na Tabela~\ref{tab:cronograma}.
+
+\begin{table}[H]
+    \centering
+    \caption{Cronograma das Fases do Plano de Trabalhos (2025).}
+    \label{tab:cronograma}
+    \begin{tabularx}{\textwidth}{|X|c|c|c|c|c|}
+        \hline
+        \rowcolor{gray!20} \textbf{Fase / Atividade} & \textbf{Mar.} & \textbf{Abr.} & \textbf{Mai.} & \textbf{Jun.} & \textbf{Jul.} \\ \hline
+        Fase 1: Levantamento de Requisitos e Análise & \cellcolor{gray!50} X & & & & \\ \hline
+        Fase 2: Arquitetura e Modelação da Base de Dados & \cellcolor{gray!50} X & \cellcolor{gray!50} X & & & \\ \hline
+        Fase 3: Desenvolvimento e Implementação & & \cellcolor{gray!50} X & \cellcolor{gray!50} X & \cellcolor{gray!50} X & \cellcolor{gray!50} X \\ \hline
+        Fase 4: Testes e Validação & & \cellcolor{gray!50} X & \cellcolor{gray!50} X & \cellcolor{gray!50} X & \cellcolor{gray!50} X \\ \hline
+        Fase 5: Documentação e Entrega & & & & \cellcolor{gray!50} X & \cellcolor{gray!50} X \\ \hline
+    \end{tabularx}
+\end{table}

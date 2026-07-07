@@ -1,0 +1,387 @@
+﻿%Ficheiro Principal - Contem packages a usar e a definição do esqueleto do relatório.
+% Recursos usados durante a elaboração deste documento:
+% - https://www.overleaf.com/learn - Documentação do overleaf, serve de rampa de lançamento para aprender o LaTeX.
+% - https://www.tablesgenerator.com/ - Permite a criação de tabelas para LaTeX sem ter que lidar com a sintaxe do mesmo.
+% - https://app.diagrams.net/ - Permite criar figuras e diagramas de forma fácil. Permite a exportação das figuras criadas para PDF o que preserva a qualidade da mesma.
+% - https://www.google.com/ - Para tudo o resto.
+
+\documentclass[12pt,twoside,a4paper,openany]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=4.0cm,bottom=3.0cm,left=2.54cm,right=2.54cm,headheight=80pt,headsep=0.5cm,footskip=1.2cm]{geometry}
+
+\usepackage[portuguese]{babel}
+\usepackage{setspace}
+\makeatletter
+%APAGA A LINHA DO INÍCIO DAS PGs
+\usepackage{ragged2e}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{blindtext}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{soul} % para riscar texto com \st{}
+\newcommand{\confidencial}{\textcolor{red}{[CONFIDENCIAL]}}
+
+\usepackage{fancyhdr}
+\usepackage{float} % para a imagem não saltar pgn
+\usepackage{listings}
+%\usepackage{minted}
+\usepackage{csquotes}
+\usepackage[open=true]{bookmark}
+\usepackage{xcolor}
+\usepackage{tikz} %para criar tarjas pretas em textos
+\usetikzlibrary{positioning}
+\usepackage{minitoc}
+
+
+\lstset{
+  language=Python,
+  inputencoding=utf8,
+  upquote=true, % Aspas retas
+  columns=flexible, % Para a largura das letras ajustar bem
+  extendedchars=true,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{olive},
+  numbers=left,
+  frame=single,
+  showstringspaces=false, 
+  tabsize=4,
+  breaklines=true,
+  moredelim=**[is][\confidencial]{``}{``},
+  literate={á}{{\'a}}1 {ã}{{\~a}}1 {â}{{\^a}}1 {à}{{\`a}}1
+           {é}{{\'e}}1 {ê}{{\^e}}1 {í}{{\'i}}1 {ó}{{\'o}}1
+           {ô}{{\^o}}1 {õ}{{\~o}}1 {ú}{{\'u}}1 {ç}{{\c{c}}}1
+           {Ç}{{\c{C}}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 
+           {Ó}{{\'O}}1 {Ú}{{\'U}}1 {Â}{{\^A}}1 {Ê}{{\^E}}1 
+           {Ô}{{\^O}}1 {Õ}{{\~O}}1 {Ç}{{\c{C}}}1,
+}
+
+
+
+\setcounter{minitocdepth}{2}
+\mtcsettitle{minitoc}{Índice do Capítulo}
+\setlength{\headheight}{80pt} %!!!!!!!!!!!!!!!!!!!
+\bookmarksetup{
+  numbered, 
+}
+%APAGA A LINHA DO INÍCIO DAS PGs
+\usepackage{ragged2e}
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter.~}{0pt}{}
+\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
+\titlespacing{\subsection}{0pt}{*1.5}{*0.8}
+
+% with this we ensure that the chapter and section
+% headings are in lowercase.
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+\usepackage[style=apa]{biblatex}
+\usepackage{tabularx}
+\usepackage{pdfpages}
+\usepackage{placeins}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{color, colortbl}
+\addbibresource{report/bibliografia.bib}
+\usepackage{hyperref}
+\def\blankpage{%
+      \clearpage%
+      \thispagestyle{empty}%
+      %\addtocounter{page}{-1}% Rui - comentei para evitar abstract em página par
+      \null%
+      \clearpage}
+\usepackage{caption}
+%\DeclareCaptionType{equ}[Fórmula][]
+\usepackage{acronym}
+
+
+%PARA APAGAR A LINHA QUE APARECIA NO INÍCIO DE CADA PÁGINA
+\renewcommand{\headrulewidth}{0pt} 
+
+
+\usepackage{matlab-prettifier}
+\usepackage[normalem]{ulem}
+
+\newif\ifconfid
+\confidtrue                   % comment this line out to unveil all hidden text
+\colorlet{confidcolor}{black} % change the colour of boxes here (e.g. "red")
+
+
+% ----------- implementation details -----------
+\makeatletter
+
+% from Martin's Scharrer's answer (https://tex.stackexchange.com/a/16004/21891)
+\def\confid@UL@putbox{%
+  \ifx\UL@start\@empty%
+  \else % not inner
+    \vrule\@width\z@ \LA@penalty\@M
+    {\UL@skip\wd\UL@box \UL@leaders \kern-\UL@skip}%
+    \phantom{\box\UL@box}%
+  \fi
+}
+
+\newcommand\confidentiel{}%
+
+\ifconfid
+\renewcommand\confidentiel[1][confidcolor]{%
+ \bgroup%
+ \let\UL@putbox\confid@UL@putbox%
+ \markoverwith{\hbox to.01em{\hss\textcolor{#1}{|}\hss}}\ULon%
+}
+\fi
+
+\lst@AddToHook{Init}{%
+  \ifconfid%
+    \lstset{moredelim=[is][\confidentiel]``,keepspaces}%
+  \else
+    \lstset{moredelim=**[is][]``}%
+  \fi
+}
+
+% Anteração no título do ToC
+% https://tex.stackexchange.com/questions/28516/how-to-change-the-title-of-toc
+\addto\captionsportuguese{% Replace "english" with the language you use
+  \renewcommand{\contentsname}%
+    {Índice}%
+}
+
+% PDF bookmarks  
+% https://tex.stackexchange.com/questions/330534/how-to-properly-add-section-to-pdf-bookmarks
+\makeatletter
+\newcommand*{\sectionbookmark}[1][]{%
+  \bookmark[%
+    level=section,%
+    dest=\@currentHref,%
+    #1%
+  ]%
+}
+\makeatother
+
+%BEGIN: 2022-09-14 (Acerta a impressão fullduplex)
+\let\tmp\oddsidemargin
+\let\oddsidemargin\evensidemargin
+\let\evensidemargin\tmp
+\reversemarginpar
+%END: 2022-09-14 (Acerta a impressão fullduplex)
+
+% margens pela APA
+%\usepackage[a4paper,margin=2.54cm]{geometry} 
+\onehalfspacing % espaçamento entre linhas 1,5
+
+\setlength{\footskip}{60pt}
+\pagestyle{fancy}
+
+
+\fancyhead[L]{\includegraphics[height=2.4cm]{imagens/LOGO-ISEC.png}}
+\fancyhead[LE,RO]{}
+\fancyfoot[L]{\raisebox{2.2ex}{\tiny\parbox{10cm}{Mod6\_243.01\\Modelo C.27\_2.0\\SISTEMA INTERNO DE GARANTIA DE QUALIDADE}}}
+\fancyfoot[C]{\hspace*{6cm}\includegraphics[height=1.1cm]{imagens/barra_centro2030.png}} 
+\fancyfoot[R]{\thepage}
+%\setlength{\footskip}{25pt} % aumenta distância do rodapé
+
+% CRIA: um estilo sem numeração só para capa e contracapa:
+\fancypagestyle{semNumero}{
+  \fancyhf{} % limpa tudo
+  \fancyfoot[L]{\raisebox{2.2ex}{\tiny\parbox{10cm}{Mod6\_243.01\\Modelo C.27\_2.0\\SISTEMA INTERNO DE GARANTIA DE QUALIDADE}}}
+  \fancyfoot[C]{\hspace*{6cm}\includegraphics[height=1.1cm]{imagens/barra_centro2030.png}}
+}
+
+% CRIA: plain - footnote
+\fancypagestyle{plain}{
+  \fancyhf{} % limpa o cabeçalho e rodapé padrão do plain
+  \fancyhead[L]{\includegraphics[height=2.4cm]{imagens/LOGO-ISEC.png}}
+  \fancyfoot[L]{\raisebox{2.2ex}{\tiny\parbox{10cm}{Mod6\_243.01\\Modelo C.27\_2.0\\SISTEMA INTERNO DE GARANTIA DE QUALIDADE}}}
+  \fancyfoot[C]{\hspace*{6cm}\includegraphics[height=1cm]{imagens/barra_centro2030.png}}
+  \fancyfoot[R]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+
+% Comando para "redactar" (tarja preta) do "\usepackage{tikz}"
+% \redact{informações sensíveis}
+\newcommand{\redact}[1]{%
+  \tikz[baseline]{%
+    \node[fill=black, text=black, inner sep=0.5ex, anchor=base] {#1};%
+  }%
+}
+
+
+% Configuração da Lista de Figuras (LOF) e Lista de Tabelas (LOT)
+\usepackage[titles]{tocloft}
+\renewcommand{\cftfigpresnum}{Fig.~~}
+\renewcommand{\cftfigaftersnum}{~-~}
+\setlength{\cftfignumwidth}{4.5em}
+
+\renewcommand{\cfttabpresnum}{Tabela~}
+\renewcommand{\cfttabaftersnum}{~}
+\setlength{\cfttabnumwidth}{5.0em}
+
+\begin{document}
+\frontmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            INÍCIO DA CAPA
+\begin{center}
+
+    
+\includegraphics[width=0.4\textwidth]{imagens/LOGO-ISEC.png}\\
+
+\vspace{1.5cm}
+    
+\Large\textbf{
+Instituto Politécnico de Coimbra\\
+\textit{Instituto Superior de Engenharia de Coimbra}}
+\vspace{1.5cm}
+
+\textbf{Curso Técnico Superior Profissional em\\ 
+Tecnologias e Programação de Sistemas de Informação}
+\vspace{1cm}
+
+\textrm{Relatório de Estágio desenvolvido no âmbito da\\ Componente de Formação em Contexto de Trabalho}\\
+\vspace{1cm}
+
+\textbf{20 Recolher - Gestão de Resíduos,  Lda} \\   
+\vspace{1cm}
+
+\normalsize\textbf{Guilherme Laranjeiro Ventura}
+
+\vspace{1cm}
+
+\small\textrm{COIMBRA, julho de 2026}
+\vspace{1cm}
+   
+\end{center}
+
+
+\thispagestyle{semNumero} % Aplica o estilo
+%\fancyfoot[CO]{\includegraphics[height=1cm]{imagens/Barra_PRR2.png}} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                           INÍCIO DA CONTRA CAPA
+
+\thispagestyle{semNumero} % Aplica o estilo
+
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{imagens/LOGO-ISEC.png}\\
+
+\vspace{1.5cm}
+\Large\textbf{Instituto Politécnico de Coimbra\\
+\Large\textit{Instituto Superior de Engenharia de Coimbra}}\\
+\vspace{1.5cm}
+
+\textrm{Relatório do Estágio desenvolvido no âmbito da\\ 
+Componente de Formação em Contexto de Trabalho\\}
+
+\small\textrm{04/03/2026 a 14/07/2026}
+
+\vspace{1.5cm}
+
+\textrm{Guilherme Laranjeiro Ventura\\
+a2024149428@isec.pt\\
++351 935602163\\}
+
+\end{center}
+
+\vspace{1cm}
+\begin{flushright}
+\begin{minipage}{0.5\textwidth}
+    \raggedright
+\small\textbf{Orientador(es):}\\
+\small\textrm{Paulo Miguel Gouveia Mariano\\
+Professor, ISEC\\}
+\small\textbf{Supervisor(es) na Empresa/Instituição:}\\
+\small\textrm{Fernando Oliveira\\
+CEO, 20 Recolher - Gestão de Resíduos,  Lda}
+\end{minipage}
+\end{flushright}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                          AGRADECIMENTOS
+
+
+\include{report/agradecimentos}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                           ÍNDICE
+\pagestyle{fancy} %plain - footnote
+
+
+\pdfbookmark[section]{\contentsname}{toc}
+%Indice
+\dominitoc
+%\addtocontents{toc}{\vspace{10pt}} % evita que fique colado ao rodapé
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                             LISTAS
+%\addcontentsline{toc}{chapter}{Lista de Figuras}
+\listoffigures
+\sectionbookmark{Lista de Figuras}
+\blankpage{}
+
+%\addcontentsline{toc}{chapter}{Lista de Tabelas}
+\listoftables
+\sectionbookmark{Lista de Tabelas}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                           ACRÓNIMOS
+
+%Acronimos
+\include{report/acronyms}
+\fancyhead{} % limpa cabeçalho
+\renewcommand{\headrulewidth}{0pt} % remove linha horizontal
+\blankpage{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                           CAPÍTULOS
+
+\mainmatter %começa a numerar as páginas com números arábicos
+\cleardoublepage
+\include{chapters/chapter1}
+\cleardoublepage
+\include{chapters/chapter2}
+\cleardoublepage
+\include{chapters/chapter3}
+\cleardoublepage
+\include{chapters/chapter4}
+\cleardoublepage
+\include{chapters/chapter5}
+\cleardoublepage
+\include{chapters/chapter6}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           BIBLIOGRAFIA
+
+\nocite{*}
+% --- FIM DA BIBLIOGRAFIA ---
+
+%\printbibliography
+\cleardoublepage
+\printbibliography[heading=bibintoc,title={Referências}]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                               ANEXOS
+
+% Descomenta e ajusta esta secção quando tiveres os teus próprios anexos (ex: Proposta de Estágio em PDF)
+% \appendix
+% \chapter{Proposta de Estágio}\label{ApeI}
+% \thispagestyle{fancy}
+% \includepdf[pages=-,scale=0.9]{annexs/teu-plano-de-trabalhos.pdf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                       ÚLTIMA PÁGINA
+
+\blankpage{}
+\input{report/ultima_pagina}
+\blankpage{}
+
+\end{document}
