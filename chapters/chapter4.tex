@@ -131,9 +131,9 @@ Para além do backoffice administrativo, o sistema dispõe de um módulo dedicad
 
 As características estruturais e operacionais deste terminal incluem:
 \begin{itemize}
-    \item \textbf{Integração com Balança Física:} O sistema comunica em tempo real com a balança industrial da empresa através de portas de comunicação série (protocolos RS-232), efetuando a leitura e importação automática do peso físico sem necessidade de introdução manual por parte do operador, o que minimiza erros humanos e otimiza o fluxo de registo.
+    \item \textbf{Registo de Pesagem Simplificado:} O sistema disponibiliza uma interface rápida para o operador introduzir e validar manualmente o peso medido na balança industrial, associando-o instantaneamente ao material e recolha correspondentes.
     \item \textbf{Autenticação Simplificada:} A autenticação no quiosque é baseada na introdução de um código numérico pessoal (PIN) através de um teclado virtual sobredimensionado no ecrã. Isto evita a necessidade de introduzir palavras-passe complexas em ecrãs táteis expostos a poeira e condições operacionais de armazém.
-    \item \textbf{Processo Guiado de Pesagem (Wizard):} O registo de pesagens é estruturado na forma de um assistente passo-a-passo (\textit{Wizard}). O operador seleciona a recolha em curso, o material que está a ser pesado, confirma a leitura automática do peso e submete o registo de forma sequencial e validada estruturalmente pelas regras de negócio.
+    \item \textbf{Processo Guiado de Pesagem (Wizard):} O registo de pesagens é estruturado na forma de um assistente passo-a-passo (\textit{Wizard}). O operador seleciona a recolha em curso, o material que está a ser pesado, introduz o peso medido e submete o registo de forma sequencial e validada estruturalmente pelas regras de negócio.
     \item \textbf{Emparelhamento de Terminais (Pairing Code):} Para garantir que apenas quiosques físicos autorizados comunicam com a base de dados central, implementou-se um fluxo de emparelhamento obrigatório. O administrador gera um código de autorização temporário no backoffice e introduz este código no novo terminal para estabelecer a ligação encriptada definitiva.
 \end{itemize}
 
@@ -245,12 +245,12 @@ O ecrã de entrada do quiosque tátil de balança (Figura~\ref{fig:kiosklogin}) 
     \label{fig:kiosklogin}
 \end{figure}
 
-O assistente de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) orienta o funcionário ao longo das fases de pesagem física. O assistente exibe em tempo real o valor lido a partir da balança industrial ligada por porta série, permitindo a seleção do tipo de resíduo e a confirmação do registo estruturado da recolha.
+O assistente de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) orienta o funcionário ao longo das fases de pesagem física. O assistente exibe os campos de seleção do tipo de resíduo e permite a introdução rápida do peso medido, assegurando a confirmação e o registo estruturado da recolha.
 
 \begin{figure}[H]
     \centering
     \framebox[0.9\textwidth]{\parbox{0.85\textwidth}{\centering\vspace{1cm}[Captura de Ecrã: Quiosque - Pesagem]\vspace{1cm}}}
-    \caption{Assistente de pesagem com leitura de peso automática via porta série.}
+    \caption{Assistente de pesagem para introdução e validação do peso.}
     \label{fig:kioskweigh}
 \end{figure}
 
