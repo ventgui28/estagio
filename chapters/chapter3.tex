@@ -35,17 +35,17 @@ Para concretizar o objetivo geral, definiram-se os seguintes objetivos específi
 
 \section{Decisões Técnicas e Justificação das Escolhas}\label{sec:tecnologias-escolhas}
 
-A escolha das tecnologias foi um processo deliberado, realizado em conjunto pelos dois estagiários no início do estágio, após o levantamento de requisitos. Os principais critérios de avaliação foram a adequação técnica ao problema, a curva de aprendizagem, a maturidade do ecossistema e a capacidade de integração entre as diferentes componentes do sistema.
+A escolha das tecnologias baseou-se em critérios como a adequação técnica ao problema, a curva de aprendizagem, a maturidade do ecossistema e a capacidade de integração entre as diferentes componentes do sistema.
 
 \subsection{Desenvolvimento Frontend e Presença Web}
 \begin{itemize}
-    \item \textbf{\textit{Next.js} 15 (Website Institucional):} Escolhido para o website por ser um \textit{framework} React moderno com suporte nativo a renderização do lado do servidor (\textit{Server-Side Rendering}), garantindo boa velocidade de carregamento e excelentes práticas de indexação em motores de busca (\ac{SEO}). A versão 15 com \textit{App Router} simplifica o roteamento e aumenta a segurança no consumo de dados.
-    \item \textbf{\textit{Tailwind CSS} v4 (Estilização):} Adoção da biblioteca de utilitários CSS para acelerar o desenho da interface e garantir um visual fluido e responsivo em smartphones, tablets e computadores, sem necessidade de ficheiros CSS gigantescos.
+    \item \textbf{\textit{Next.js} 15 (Website Institucional):} Escolhido para o website por ser um \textit{framework} React moderno com suporte a renderização do lado do servidor (\textit{Server-Side Rendering}), o que otimiza o tempo de resposta inicial e a indexação em motores de busca (\ac{SEO}). A versão 15 com \textit{App Router} simplifica o roteamento e o consumo de dados.
+    \item \textbf{\textit{Tailwind CSS} v4 (Estilização):} Adoção da biblioteca de utilitários CSS para acelerar o desenho da interface e garantir um visual fluido e responsivo em smartphones, tablets e computadores.
 \end{itemize}
 
 \subsection{Aplicações Empresariais Internas}
 \begin{itemize}
-    \item \textbf{\textit{Blazor Server} com .NET 10 (Backoffice e Kiosk):} Escolhido por permitir a criação de interfaces de utilizador ricas e em tempo real usando C\# em vez de JavaScript tradicional. Isto permitiu aos estagiários partilhar lógica de negócio, modelos e validações diretamente com a API centralizada, o que acelerou o desenvolvimento e reduziu o índice de bugs.
+    \item \textbf{\textit{Blazor Server} com .NET 10 (Backoffice e Kiosk):} Escolhido por permitir a criação de interfaces de utilizador ricas em tempo real usando C\# em vez de JavaScript tradicional. Isto facilitou a partilha de lógica de negócio, modelos e validações diretamente com a API centralizada, reduzindo a ocorrência de erros.
 \end{itemize}
 
 \subsection{Persistência e Infraestrutura de Dados}

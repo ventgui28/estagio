@@ -30,9 +30,9 @@ Para assegurar a digitalização eficiente dos processos da empresa, foram model
 
 \subsection{Modelação da Base de Dados}
 
-A base de dados constitui o núcleo central de toda a infraestrutura tecnológica desenvolvida, que sustenta de forma unificada tanto o website institucional (através da área reservada de cliente e do painel de gestão editorial) como as aplicações empresariais de backoffice e do terminal de pesagem. Para responder aos requisitos de consistência, integridade de dados e escalabilidade, optou-se pela utilização de um sistema de gestão de bases de dados relacional, especificamente o PostgreSQL. A base de dados é gerida e alojada na nuvem através da plataforma Supabase, o que confere elevada disponibilidade e simplifica as operações de monitorização e cópias de segurança.
+A base de dados centraliza o armazenamento de informação do website institucional (incluindo a área de cliente e a gestão de conteúdos) e das aplicações de backoffice e quiosque. Optou-se pelo sistema de gestão de bases de dados relacional PostgreSQL, gerido e alojado na nuvem através da plataforma Supabase, o que garante a disponibilidade dos dados e simplifica a monitorização e a realização de cópias de segurança.
 
-A modelação física e a comunicação com o motor de base de dados foram estruturadas através de uma abordagem \textit{Code-First} suportada pelo Entity Framework Core (EF Core), o mapeador objeto-relacional (ORM) padrão da plataforma .NET. Sob esta metodologia, todo o esquema de tabelas, chaves primárias, chaves estrangeiras e restrições de integridade foi modelado sob a forma de classes de domínio na linguagem C\#. As atualizações estruturais e a sincronização do esquema com o servidor PostgreSQL foram geridas de forma estrita através do sistema de migrações (\textit{migrations}) do EF Core, assegurando a rastreabilidade e a reprodutibilidade do esquema em ambientes de desenvolvimento e produção.
+A modelação física e a comunicação com o motor de base de dados foram estruturadas através de uma abordagem \textit{Code-First} com o Entity Framework Core (EF Core), o mapeador objeto-relacional (ORM) da plataforma .NET. Sob esta metodologia, o esquema de tabelas, chaves primárias, chaves estrangeiras e restrições de integridade foi definido em classes C\#. As atualizações estruturais e a sincronização do esquema com o servidor PostgreSQL foram aplicadas através das migrações (\textit{migrations}) do EF Core, mantendo a reprodutibilidade do esquema em desenvolvimento e produção.
 
 A arquitetura de dados divide-se nas seguintes entidades principais:
 \begin{itemize}
@@ -70,28 +70,28 @@ O diagrama relacional simplificado da base de dados, detalhando as tabelas e as 
 
 \subsection{Website Institucional}
 
-O website institucional foi desenvolvido utilizando a versão 15 do Next.js com a arquitetura App Router. Esta escolha tecnológica permitiu tirar partido de renderização do lado do servidor (\textit{Server-Side Rendering}) e geração estática de páginas para otimizar o tempo de resposta inicial, garantindo simultaneamente boas práticas de indexação em motores de busca (SEO). A estilização e o desenho responsivo da interface foram concebidos com a versão 4 do Tailwind CSS, resultando numa interface moderna, fluida e adaptável a dispositivos móveis, tablets e computadores.
+O website institucional foi desenvolvido utilizando a versão 15 do Next.js com a arquitetura App Router. Esta estrutura possibilita a renderização do lado do servidor (\textit{Server-Side Rendering}) e a geração estática de páginas para diminuir o tempo de resposta inicial, garantindo simultaneamente a indexação em motores de busca (SEO). A estilização responsiva da interface foi concebida com a versão 4 do Tailwind CSS, o que resulta numa interface fluida e adaptável a smartphones, tablets e computadores.
 
-A plataforma está organizada em três grandes áreas funcionais e de acesso regulado: a área pública de informação e captação de clientes, a área reservada de clientes e o painel de administração de conteúdos.
+A plataforma está organizada em três áreas funcionais e de acesso regulado: a área pública de informação e captação de clientes, a área reservada de clientes e o painel de administração de conteúdos.
 
 \subsubsection{Área Pública}
 A secção pública do website destina-se a apresentar os serviços da empresa e a estabelecer canais de comunicação com a comunidade e potenciais parceiros de negócio, sendo composta pelas seguintes páginas:
 \begin{itemize}
-    \item \textbf{Página Inicial:} Apresenta uma secção introdutória de forte impacto visual, um resumo dos serviços principais de recolha de resíduos industriais, estatísticas gerais sobre o impacto ecológico das atividades da empresa e uma secção de perguntas frequentes (FAQs) para responder rapidamente a dúvidas recorrentes dos utilizadores.
+    \item \textbf{Página Inicial:} Apresenta uma secção introdutória, um resumo dos serviços principais de recolha de resíduos, estatísticas gerais sobre o impacto ecológico da atividade e uma secção de perguntas frequentes (FAQs) para responder a dúvidas recorrentes dos utilizadores.
     \item \textbf{Serviços e Institucional:} Páginas dedicadas a detalhar os procedimentos regulamentares da empresa, os tipos de resíduos recolhidos e a história da organização.
-    \item \textbf{Notícias:} Apresenta uma listagem cronológica de artigos publicados pela empresa, dotada de paginação e filtros de pesquisa por categorias, com redirecionamento para artigos de leitura individual.
-    \item \textbf{Contactos:} Disponibiliza um canal direto de envio de mensagens com validação de dados e a integração de um mapa interativo para localização física das instalações da empresa.
+    \item \textbf{Notícias:} Apresenta uma listagem de artigos publicados pela empresa, com paginação e filtros de pesquisa por categorias, com redirecionamento para artigos de leitura individual.
+    \item \textbf{Contactos:} Disponibiliza um canal de envio de mensagens com validação de dados e a integração de um mapa interativo para localização física das instalações da empresa.
     \item \textbf{Política de Privacidade:} Documento regulamentar para assegurar a conformidade da recolha e tratamento de dados dos utilizadores face à legislação em vigor.
 \end{itemize}
 
 \subsubsection{Área Reservada de Cliente}
-Acedida através de mecanismos de autenticação segura, a área de cliente faculta aos parceiros comerciais ferramentas para gerir autonomamente as suas operações diárias com a empresa, dividindo-se nos seguintes módulos funcionais:
+Acedida através de mecanismos de autenticação segura, a área de cliente faculta aos parceiros comerciais ferramentas para gerir as suas operações diárias com a empresa, dividindo-se nos seguintes módulos funcionais:
 \begin{itemize}
     \item \textbf{Painel de Controlo:} Mostra um resumo dinâmico das recolhas efetuadas, pedidos ativos e alertas de suporte pendentes.
-    \item \textbf{Pedidos de Recolha:} Permite a submissão de novas solicitações de recolha mediante um formulário onde o cliente indica os materiais de resíduos que deseja recolher, dados de contacto adicionais e anexa documentos ou fotografias relevantes para a operação. Disponibiliza ainda a consulta, cancelamento e reativação de pedidos em curso.
-    \item \textbf{Histórico de Recolhas:} Regista os eventos logísticos concluídos e agendados. Apresenta o peso líquido total registado na balança física e a respetiva codificação legal (Lista Europeia de Resíduos), permitindo a exportação de dados em formatos estruturados como PDF e tabelas CSV.
-    \item \textbf{Catálogo de Materiais:} Listagem paginada e pesquisável de todos os resíduos autorizados e geridos pela empresa, permitindo a exportação rápida dos dados tarifários vigentes para formato CSV.
-    \item \textbf{Perfil de Cliente:} Permite ao parceiro solicitar atualizações aos seus dados cadastrais e fiscais. Estas alterações são submetidas a um fluxo de controlo interno, exigindo a aprovação manual de um operador no backoffice antes de serem efetivamente integradas na base de dados, prevenindo dados incorretos e tentativas de fraude.
+    \item \textbf{Pedidos de Recolha:} Permite a submissão de solicitações de recolha mediante um formulário onde o cliente indica os materiais de resíduos que deseja recolher, dados de contacto e anexa documentos ou fotografias de suporte. Disponibiliza ainda a consulta, cancelamento e reativação de pedidos em curso.
+    \item \textbf{Histórico de Recolhas:} Regista os eventos logísticos concluídos e agendados. Apresenta o peso líquido total registado na balança física e a respetiva codificação legal (Lista Europeia de Resíduos), permitindo a exportação de dados em formatos como PDF e tabelas CSV.
+    \item \textbf{Catálogo de Materiais:} Listagem de todos os resíduos autorizados e geridos pela empresa, permitindo a exportação rápida dos dados tarifários vigentes para formato CSV.
+    \item \textbf{Perfil de Cliente:} Permite ao parceiro solicitar atualizações aos seus dados cadastrais e fiscais. Estas alterações são submetidas a um fluxo de controlo interno, exigindo a aprovação manual de um operador no backoffice antes de serem integradas na base de dados, prevenindo dados incorretos e tentativas de fraude.
     \item \textbf{Suporte Técnico (Chat):} Canal de mensagens direto e em tempo real com a equipa da empresa, concebido para acelerar a resolução de litígios ou o esclarecimento de dúvidas sobre agendamentos de recolha.
 \end{itemize}
 
@@ -103,13 +103,13 @@ O painel administrativo é uma secção restrita e protegida por perfis de acess
 \end{itemize}
 
 \subsubsection{Alojamento e Publicação}
-Durante as fases de desenvolvimento e testes de validação com a equipa da empresa, o website institucional foi alojado na plataforma Vercel, beneficiando de processos automatizados de compilação e publicação contínua (\textit{Continuous Deployment}). A arquitetura foi concebida para permitir a transição simplificada para o domínio e servidores corporativos permanentes da empresa.
+Durante as fases de desenvolvimento e testes de validação com a equipa da empresa, o website institucional foi alojado na plataforma Vercel, com compilação e publicação contínua (\textit{Continuous Deployment}). A arquitetura foi concebida para permitir a transição simplificada para o domínio e servidores corporativos permanentes da empresa.
 
 \subsection{Ferramenta de Comparação de Preços de Toners}
 
-No âmbito das necessidades de otimização do processo de vendas de consumíveis da empresa, foi desenvolvida uma ferramenta utilitária dedicada à comparação de preços de toners. Esta ferramenta permite carregar tabelas tarifárias e propostas de compra de múltiplos potenciais clientes corporativos e parceiros, frequentemente fornecidas em formatos de folhas de cálculo com diferentes estruturas de colunas, e efetuar o mapeamento flexível e a normalização de referências de produto. Com isto, a 20 Recolher consegue cruzar a informação do seu inventário de toners com a procura do mercado e com as tabelas de preços da concorrência, identificando a proposta de venda comercialmente mais vantajosa e competitiva para os seus compradores.
+Para otimizar o processo de vendas de consumíveis da empresa, desenvolveu-se uma ferramenta utilitária dedicada à comparação de preços de toners. Esta ferramenta permite carregar tabelas tarifárias e propostas de compra de múltiplos clientes corporativos e parceiros, fornecidas em folhas de cálculo com diferentes estruturas de colunas, e efetuar o mapeamento e a normalização de referências de produto. Com isto, a 20 Recolher cruza a informação do seu inventário de toners com a procura do mercado e com as tabelas de preços da concorrência, identificando a proposta de venda comercialmente mais vantajosa para os seus compradores.
 
-A aplicação foi construída utilizando a biblioteca React e a ferramenta de compilação Vite para a interface web. O processamento dos ficheiros locais é assegurado pela biblioteca XLSX, enquanto o armazenamento do histórico de tendências de preços é gerido localmente no navegador através de IndexedDB. Adicionalmente, foi implementada uma camada de empacotamento nativo com o Tauri para possibilitar a sua distribuição e execução como aplicação de ambiente de trabalho (\textit{desktop}). O desenvolvimento desta ferramenta foi realizado em parceria com o colega de estágio, tendo os testes unitários do motor de normalização de dados sido implementados com a biblioteca Vitest.
+A aplicação foi construída com a biblioteca React e a ferramenta de compilação Vite para a interface web. O processamento dos ficheiros locais é assegurado pela biblioteca XLSX, enquanto o armazenamento do histórico de tendências de preços é gerido no navegador através de IndexedDB. Implementou-se uma camada de empacotamento nativo com o Tauri para possibilitar a sua distribuição como aplicação de ambiente de trabalho (\textit{desktop}). O desenvolvimento desta ferramenta foi realizado em parceria com o colega de estágio, tendo os testes unitários do motor de normalização de dados sido implementados com a biblioteca Vitest.
 
 \subsection{App de Backoffice}
 
