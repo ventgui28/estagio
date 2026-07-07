@@ -137,7 +137,7 @@ As características estruturais e operacionais deste terminal incluem:
     \item \textbf{Emparelhamento de Terminais (Pairing Code):} Para garantir que apenas quiosques físicos autorizados comunicam com a base de dados central, implementou-se um fluxo de emparelhamento obrigatório. O administrador gera um código de autorização temporário no backoffice e introduz este código no novo terminal para estabelecer a ligação encriptada definitiva.
 \end{itemize}
 
-A aplicação partilha componentes reutilizáveis através do módulo comum do projeto e foi desenvolvida utilizando a metodologia de desenvolvimento guiado por testes (TDD), garantindo estabilidade e permitindo a execução automática de um conjunto robusto de mais de 610 testes de regressão (utilizando as ferramentas xUnit, Moq e testes de interface bUnit). O desenvolvimento deste módulo foi realizado em estreita parceria com o colega de estágio.
+A aplicação partilha componentes reutilizáveis através do módulo comum do projeto e foi desenhada com foco na usabilidade e fiabilidade das operações sob condições de armazém. O desenvolvimento deste módulo foi realizado em estreita parceria com o colega de estágio.
 
 \subsection{Integração entre Sistemas e API Central}
 
@@ -252,15 +252,6 @@ O assistente de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) or
     \framebox[0.9\textwidth]{\parbox{0.85\textwidth}{\centering\vspace{1cm}[Captura de Ecrã: Quiosque - Pesagem]\vspace{1cm}}}
     \caption{Assistente de pesagem com leitura de peso automática via porta série.}
     \label{fig:kioskweigh}
-\end{figure}
-
-A qualidade da implementação é validada pela suite de testes automáticos das aplicações .NET (cuja execução se encontra representada na Figura~\ref{fig:testresults}). A suite de testes compreende mais de 610 testes de integração, testes unitários de lógica de negócio e testes de componentes Blazor com a biblioteca bUnit, registando um sucesso de execução de 100\%.
-
-\begin{figure}[H]
-    \centering
-    \framebox[0.9\textwidth]{\parbox{0.85\textwidth}{\centering\vspace{1cm}[Captura de Ecrã: Resultados dos Testes]\vspace{1cm}}}
-    \caption{Resultados da execução dos 610+ testes automáticos da suite .NET.}
-    \label{fig:testresults}
 \end{figure}
 
 \section{Manutenção e Triagem de Hardware}

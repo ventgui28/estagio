@@ -1,4 +1,4 @@
-﻿\chapter{Atividades Planeadas}\label{chap3}
+\chapter{Atividades Planeadas}\label{chap3}
 
 
 \section{Descrição de Objetivos}\label{sec:objetivos}
@@ -22,14 +22,14 @@ Para concretizar o objetivo geral, definiram-se os seguintes objetivos específi
 
 \begin{itemize}
     \item \textbf{Desenvolvimento do Website Institucional:} Criar um novo website institucional moderno para a empresa, com duas vertentes distintas: uma área pública para apresentação dos serviços e captação de novos clientes, e uma área reservada para clientes registados. Esta área reservada permite que os clientes efetuem pedidos de recolha de forma autónoma, acompanhem o estado das suas recolhas e comuniquem diretamente com os operadores através de um sistema de mensagens diretas. A presença digital estruturada é fundamental para reduzir o volume de contactos telefónicos e e-mails manuais, centralizando a gestão de clientes numa plataforma digital segura.
-
-    \item \textbf{Desenvolvimento da Aplicação de \textit{Backoffice}:} Construir uma aplicação de gestão interna para os operadores da empresa, que centralize o controlo de clientes, a triagem e agendamento de pedidos de recolha, a visualização de pesagens e a administração de utilizadores e permissões. O objetivo é substituir o uso de folhas de cálculo e comunicaç?    \item \textbf{Desenvolvimento do Terminal de Pesagem (\textit{Kiosk}):} Desenvolver uma aplicação dedicada à zona física de pesagens, concebida para operar em ecrãs táteis. O terminal simplifica a introdução de valores de peso, automatizando a recolha de dados de pesagem e associando-as à recolha em curso e ao material pesado.
+    \item \textbf{Desenvolvimento da Aplicação de \textit{Backoffice}:} Construir uma aplicação de gestão interna para os operadores da empresa, que centralize o controlo de clientes, a triagem e agendamento de pedidos de recolha, a visualização de pesagens e a administração de utilizadores e permissões. O objetivo é substituir o uso de folhas de cálculo e comunicações manuais.
+    \item \textbf{Desenvolvimento do Terminal de Pesagem (\textit{Kiosk}):} Desenvolver uma aplicação dedicada à zona física de pesagens, concebida para operar em ecrãs táteis. O terminal simplifica a introdução de valores de peso, automatizando a recolha de dados de pesagem e associando-as à recolha em curso e ao material pesado.
 
     \item \textbf{Modelação e Implementação da Base de Dados Centralizada:} Conceber e implementar o modelo de dados relacional que suporte de forma unificada todas as aplicações do ecossistema. O modelo deve garantir a integridade referencial dos dados, manter um histórico completo de operações (através de exclusão lógica) e ser alojado numa infraestrutura de nuvem fiável e escalável.
 
     \item \textbf{Desenvolvimento da \ac{API} Central:} Criar uma \textit{Application Programming Interface} (API) \textit{RESTful} que funcione como a única camada de acesso à base de dados, garantindo que todas as aplicações comuniquem com os dados de forma centralizada, segura e consistente. Este objetivo surgiu da necessidade de separar as duas aplicações Blazor (backoffice e terminal de pesagem) que inicialmente foram concebidas como uma única aplicação monolítica.
 
-    \item \textbf{Garantia de Qualidade Através de Testes Automáticos:} Assegurar a estabilidade do sistema mediante a adoção de uma metodologia de desenvolvimento guiado por testes (\textit{Test-Driven Development} --- TDD), com a implementação de uma suite de testes.
+    \item \textbf{Testes e Validação Funcional:} Realizar testes práticos de integração do software com os ecrãs táteis e a balança física nas instalações da empresa, assegurando a fiabilidade das operações.
 \end{itemize}
 
 
@@ -54,9 +54,9 @@ A escolha das tecnologias foi um processo deliberado, realizado em conjunto pelo
     \item \textbf{\textit{Entity Framework Core} (ORM):} O acesso aos dados é mediado pelo EF Core sob a abordagem \textit{Code-First}. Esta decisão garantiu que as alterações de base de dados fossem mantidas sob controlo de código C\# estruturado, permitindo auditorias fáceis em ambiente Git através de migrações explícitas.
 \end{itemize}
 
-\subsection{Qualidade de Software e Frameworks de Testes}
+\subsection{Validação Funcional e de Integração}
 \begin{itemize}
-    \item \textbf{\textit{xUnit}, \textit{Moq} e \textit{bUnit}:} De modo a assegurar que o sistema mantém a robustez à medida que cresce, estabeleceu-se a integração de testes unitários e de integração através de xUnit e Moq. Os componentes Blazor foram testados de forma isolada com o bUnit. Esta suite garantiu a estabilidade de regras de negócio cruciais, como pesagens e permissões administrativas.
+    \item \textbf{Testes em Ambiente Real:} Verificação da comunicação através de portas de comunicação série (RS-232) e validação da usabilidade do terminal quiosque táctil sob condições reais de armazém.
 \end{itemize}
 
 
@@ -94,16 +94,16 @@ Apesar desta divisão, ambos os estagiários colaboraram em decisões conjuntas 
 
 \subsection{Fase 4: Testes e Validação}
 
-Em paralelo com o desenvolvimento, foram elaborados testes automáticos que acompanharam o crescimento do projeto. Adotou-se uma abordagem de desenvolvimento guiado por testes (\textit{Test-Driven Development}), em que os testes são escritos antes ou durante a implementação de cada funcionalidade.
+Em paralelo com o desenvolvimento, foram realizados testes funcionais e de aceitação para verificar a conformidade dos fluxos de trabalho implementados. Esta fase focou-se em garantir que a integração entre as diferentes aplicações do ecossistema ocorria de forma estável e que a usabilidade da interface tátil respondia às necessidades dos operadores.
 
-A suite de testes abrangeu três níveis:
+A verificação abrangeu três vertentes:
 \begin{itemize}
-    \item \textbf{Testes Unitários:} validação isolada das regras de negócio implementadas na camada de domínio;
-    \item \textbf{Testes de Integração:} validação do comportamento dos serviços da \ac{API} em conjunto com a camada de infraestrutura;
-    \item \textbf{Testes de Componente (\textit{bUnit}):} validação do comportamento e renderização dos componentes \textit{Blazor} da interface de utilizador.
+    \item \textbf{Testes de Comunicação Série:} validação da receção de dados de peso a partir da balança industrial via porta RS-232;
+    \item \textbf{Testes de Usabilidade e Interface:} verificação da facilidade de introdução de dados por toque e login por PIN sob condições de poeira e luz no armazém;
+    \item \textbf{Testes de Integração de Dados:} confirmação de que os dados submetidos pelo quiosque e pelo website eram corretamente processados e persistidos na base de dados central.
 \end{itemize}
 
-No final do período de estágio, a suite continha mais de 610 testes automáticos, todos com resultado positivo.
+Os testes permitiram identificar e corrigir desvios de usabilidade antes da entrega final.
 
 \subsection{Fase 5: Documentação e Entrega}
 
