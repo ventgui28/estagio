@@ -81,7 +81,7 @@ A secção pública do website destina-se a apresentar os serviços da empresa e
     \item \textbf{Página Inicial:} Apresenta uma secção introdutória, um resumo dos serviços principais de recolha de resíduos, estatísticas gerais sobre o impacto ecológico da atividade e uma secção de perguntas frequentes (FAQs) para responder a dúvidas recorrentes dos utilizadores.
     \item \textbf{Serviços e Institucional:} Páginas dedicadas a detalhar os procedimentos regulamentares da empresa, os tipos de resíduos recolhidos e a história da organização.
     \item \textbf{Notícias:} Apresenta uma listagem de artigos publicados pela empresa, com paginação e filtros de pesquisa por categorias, com redirecionamento para artigos de leitura individual.
-    \item \textbf{Contactos:} Disponibiliza um canal de envio de mensagens com validação de dados e a integração de um mapa interativo para localização física das instalações da empresa.
+    \item \textbf{Contactos:} Disponibiliza um canal de envio de mensagens com validação de dados e a integração de um mapa interativo para localização física das instalações da empresa. Esta página serve igualmente como ponto de entrada para novos clientes que pretendam submeter um pedido de recolha sem conta registada, permitindo iniciar o contacto com a empresa de forma direta e sem necessidade de autenticação prévia.
     \item \textbf{Política de Privacidade:} Documento regulamentar para assegurar a conformidade da recolha e tratamento de dados dos utilizadores face à legislação em vigor.
 \end{itemize}
 
@@ -89,7 +89,7 @@ A secção pública do website destina-se a apresentar os serviços da empresa e
 Acedida através de mecanismos de autenticação segura, a área de cliente faculta aos parceiros comerciais ferramentas para gerir as suas operações diárias com a empresa, dividindo-se nos seguintes módulos funcionais:
 \begin{itemize}
     \item \textbf{Painel de Controlo:} Mostra um resumo dinâmico das recolhas efetuadas, pedidos ativos e alertas de suporte pendentes.
-    \item \textbf{Pedidos de Recolha:} Permite a submissão de solicitações de recolha mediante um formulário onde o cliente indica os materiais de resíduos que deseja recolher, dados de contacto e anexa documentos ou fotografias de suporte. Disponibiliza ainda a consulta, cancelamento e reativação de pedidos em curso.
+    \item \textbf{Pedidos de Recolha:} Permite a submissão de solicitações de recolha mediante um formulário onde o cliente indica os materiais de resíduos que deseja recolher, dados de contacto e anexa documentos ou fotografias de suporte. Note-se que a submissão de um pedido de recolha pode ser iniciada por duas vias distintas: através desta área reservada (por clientes já registados) ou através da página pública de Contactos (por novos clientes sem conta). Em ambos os casos, o pedido é registado na base de dados e encaminhado para o operador de backoffice. Esta página disponibiliza ainda a consulta, cancelamento e reativação de pedidos em curso.
     \item \textbf{Histórico de Recolhas:} Regista os eventos logísticos concluídos e agendados, divididos em duas páginas distintas: uma para pedidos de recolha e outra para as recolhas propriamente ditas. Enquanto uma recolha se encontra em curso, o cliente pode acompanhar as informações do pedido e da recolha associada. Quando o operador marca a recolha como \textit{Concluída} após o registo de todas as pesagens no terminal de balança, os detalhes das pesagens individuais --- material, peso e valor correspondente --- ficam imediatamente visíveis nesta página. A página permite ainda a exportação dos dados em formato PDF e tabelas CSV.
     \item \textbf{Catálogo de Materiais:} Listagem de todos os resíduos autorizados e geridos pela empresa, permitindo a exportação rápida dos dados tarifários vigentes para formato CSV.
     \item \textbf{Perfil de Cliente:} Permite ao parceiro solicitar atualizações aos seus dados cadastrais e fiscais. Estas alterações são submetidas a um fluxo de controlo interno, exigindo a aprovação manual de um operador no backoffice antes de serem integradas na base de dados, prevenindo dados incorretos e tentativas de fraude.
@@ -209,7 +209,7 @@ A interface da área reservada de cliente (Figura~\ref{fig:dashboard}) oferece a
     \label{fig:dashboard}
 \end{figure}
 
-O formulário de submissão de pedidos de recolha (Figura~\ref{fig:novopedido}) permite ao cliente registar uma nova solicitação de forma guiadca. O ecrã dispõe de controlos de seleção de locais de recolha, escolha paginada de materiais regulamentares e uma área dedicada ao carregamento de ficheiros para anexar imagens ou comprovativos de suporte.
+O formulário de submissão de pedidos de recolha (Figura~\ref{fig:novopedido}) pode ser acedido por duas vias distintas: através da página pública de Contactos (para novos clientes sem conta registada) ou através da área reservada do portal de cliente (para clientes já autenticados). O ecrã dispõe de controlos de seleção de locais de recolha, escolha paginada de materiais regulamentares e uma área dedicada ao carregamento de ficheiros para anexar imagens ou comprovativos de suporte.
 
 \begin{figure}[H]
     \centering
