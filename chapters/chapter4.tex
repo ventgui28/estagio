@@ -7,7 +7,7 @@ Neste capítulo, são descritas em pormenor as atividades realizadas ao longo do
 
 Esta secção descreve a conceção, arquitetura e implementação das soluções de software que compõem o ecossistema tecnológico desenvolvido para a empresa.
 
-\subsection{Arquitetura Geral do Sistema}
+\subsection{Arquitetura do Sistema e API Central}
 
 O ecossistema tecnológico foi desenhado sob uma arquitetura distribuída e modular, com o objetivo de garantir a separação de conceitos, a escalabilidade das aplicações e a facilidade de manutenção a longo prazo. O núcleo da solução assenta num modelo de \textit{Clean Architecture} (ou Arquitetura Cebola) implementado no backoffice, complementado por uma API centralizada que funciona como o único ponto de contacto com a base de dados.
 
@@ -20,7 +20,7 @@ A infraestrutura é constituída por três camadas lógicas principais:
 
 O isolamento das regras de negócio na API central garante que as aplicações clientes (Web, Backoffice e Quiosque) não comuniquem diretamente com a base de dados, reduzindo o risco de acessos não autorizados e facilitando futuras integrações com outros sistemas da empresa.
 
-\subsection{Fluxos Principais da Aplicação}
+\noindent\textbf{Fluxos Principais da Aplicação}
 
 Para assegurar a digitalização eficiente dos processos da empresa, foram modelados e implementados três fluxos fundamentais:
 \begin{enumerate}
@@ -29,7 +29,9 @@ Para assegurar a digitalização eficiente dos processos da empresa, foram model
     \item \textbf{Fluxo de Alteração Cadastral e Auditoria de Segurança:} De forma a impedir fraudes e dados cadastrais incorretos na faturação, sempre que o cliente edita os seus dados fiscais ou morada na área reservada do website, a atualização não é imediata. A alteração entra numa tabela de propostas temporárias. O operador de backoffice analisa o pedido e valida. Se aprovar, a API executa a persistência na tabela central de Clientes e cria um registo de auditoria (\textit{audit log}).
 \end{enumerate}
 
-\subsection{Modelação da Base de Dados}
+\subsection{Modelação de Dados e Segurança}
+
+\noindent\textbf{Modelação da Base de Dados}
 
 A base de dados centraliza o armazenamento de informação do website institucional (incluindo a área de cliente e a gestão de conteúdos) e das aplicações de backoffice e quiosque. Optou-se pelo sistema de gestão de bases de dados relacional PostgreSQL, gerido e alojado na nuvem através da plataforma Supabase, o que garante a disponibilidade dos dados e simplifica a monitorização e a realização de cópias de segurança.
 
@@ -69,13 +71,15 @@ O diagrama relacional simplificado da base de dados, detalhando as tabelas e as 
     \label{fig:erd}
 \end{figure}
 
-\subsection{Website Institucional}
+\subsection{Aplicações do Ecossistema}
+
+\noindent\textbf{Website Institucional e Área de Cliente}
 
 O website institucional foi desenvolvido utilizando a versão 15 do Next.js com a arquitetura App Router. Esta estrutura possibilita a renderização do lado do servidor (\textit{Server-Side Rendering}) e a geração estática de páginas para diminuir o tempo de resposta inicial, garantindo simultaneamente a indexação em motores de busca (SEO). A estilização responsiva da interface foi concebida com a versão 4 do Tailwind CSS, o que resulta numa interface fluida e adaptável a smartphones, tablets e computadores.
 
 A plataforma está organizada em três áreas funcionais e de acesso regulado: a área pública de informação e captação de clientes, a área reservada de clientes e o painel de administração de conteúdos.
 
-\subsubsection{Área Pública}
+\paragraph{Área Pública}
 A secção pública do website destina-se a apresentar os serviços da empresa e a estabelecer canais de comunicação com a comunidade e potenciais parceiros de negócio, sendo composta pelas seguintes páginas:
 \begin{itemize}
     \item \textbf{Página Inicial:} Apresenta uma secção introdutória, um resumo dos serviços principais de recolha de resíduos, estatísticas gerais sobre o impacto ecológico da atividade e uma secção de perguntas frequentes (FAQs) para responder a dúvidas recorrentes dos utilizadores.
@@ -85,7 +89,7 @@ A secção pública do website destina-se a apresentar os serviços da empresa e
     \item \textbf{Política de Privacidade:} Documento regulamentar para assegurar a conformidade da recolha e tratamento de dados dos utilizadores face à legislação em vigor.
 \end{itemize}
 
-\subsubsection{Área Reservada de Cliente}
+\paragraph{Área Reservada de Cliente}
 Acedida através de mecanismos de autenticação segura, a área de cliente faculta aos parceiros comerciais ferramentas para gerir as suas operações diárias com a empresa, dividindo-se nos seguintes módulos funcionais:
 \begin{itemize}
     \item \textbf{Painel de Controlo:} Mostra um resumo dinâmico das recolhas efetuadas, pedidos ativos e alertas de suporte pendentes.
@@ -96,17 +100,17 @@ Acedida através de mecanismos de autenticação segura, a área de cliente facu
     \item \textbf{Suporte Técnico (Chat):} Canal de mensagens direto com a equipa da empresa, concebido para acelerar a resolução de litígios ou o esclarecimento de dúvidas sobre agendamentos de recolha. Do ponto de vista técnico, cada mensagem submetida pelo cliente é enviada via pedido HTTP à API central (alojada no serviço Render), que valida os dados e os persiste na base de dados PostgreSQL, tornando-os disponíveis para leitura pelo operador de backoffice.
 \end{itemize}
 
-\subsubsection{Painel de Administração}
+\paragraph{Painel de Administração}
 O painel administrativo é uma secção restrita e protegida por perfis de acesso elevados (administrador e super-administrador do website), que permite a gestão direta dos conteúdos editoriais do website:
 \begin{itemize}
     \item \textbf{Módulo de Notícias:} Permite a criação, edição e eliminação lógica de publicações utilizando um editor visual de texto estruturado. Inclui campos dedicados para a configuração de títulos, slugs de URL e meta-descrições para a otimização em motores de busca (SEO).
     \item \textbf{Controlo e RevisoeseNoticias:} Possibilita a visualização do histórico de revisões dos artigos, permitindo comparar alterações estruturais e reverter edições antes da sua publicação definitiva no website.
 \end{itemize}
 
-\subsubsection{Alojamento e Publicação}
+\paragraph{Alojamento e Publicação}
 Durante as fases de desenvolvimento e testes de validação com a equipa da empresa, o website institucional foi alojado na plataforma Vercel. O fluxo de desenvolvimento foi estruturado com recurso ao editor de código \textit{VS Code} e controlo de versões com \textit{Git}. Ao efetuar o envio de novos commits para o repositório alojado no \textit{GitHub}, a plataforma Vercel executava automaticamente o processo de compilação e publicação contínua (\textit{Continuous Deployment}). Note-se que o alojamento no Vercel serviu como um ambiente de testes dinâmico, facilitando a validação em tempo real das funcionalidades e da usabilidade responsiva da interface em múltiplos dispositivos físicos, incluindo computadores de secretária (\textit{desktop}) e smartphones (\textit{Android}), antes da transição para os servidores corporativos permanentes da empresa.
 
-\subsection{Ferramenta de Comparação de Preços de Toners}
+\noindent\textbf{Ferramenta de Comparação de Preços de Toners}
 
 Para otimizar o processo de vendas de consumíveis da empresa, desenvolveu-se uma ferramenta utilitária dedicada à comparação de preços de toners. Esta ferramenta permite carregar tabelas tarifárias e propostas de compra de múltiplos clientes corporativos e parceiros, fornecidas em folhas de cálculo com diferentes estruturas de colunas, e efetuar o mapeamento e a normalização de referências de produto. Com isto, a 20 Recolher cruza a informação do seu inventário de toners com a procura do mercado e com as tabelas de preços da concorrência, identificando a proposta de venda comercialmente mais vantajosa para os seus compradores.
 
@@ -114,7 +118,7 @@ A aplicação foi construída com a biblioteca React e a ferramenta de compilaç
 
 Do ponto de vista operacional, o fluxo de utilização da ferramenta estrutura-se da seguinte forma: o utilizador abre a aplicação e importa um ficheiro Excel fornecido pelo cliente ou parceiro comercial, recorrendo à opção dedicada na interface. A ferramenta apresenta de seguida uma pré-visualização do conteúdo do ficheiro, onde o utilizador define manualmente o ponto de início de cada campo relevante --- referência do produto, nome e preço --- adaptando-se assim a qualquer estrutura de colunas, independentemente do formato do ficheiro recebido. Com os campos devidamente mapeados, a ferramenta executa automaticamente o cruzamento com o inventário da empresa, identificando as referências comuns e calculando as margens para determinar a proposta comercialmente mais vantajosa para cada comprador.
 
-\subsection{App de Backoffice}
+\noindent\textbf{App de Backoffice Administrativo}
 
 Para além do portal de clientes, o ecossistema tecnológico integra a aplicação de gestão interna (Backoffice), desenvolvida em .NET 10 sob a tecnologia Blazor Server. Esta aplicação destina-se ao controlo administrativo global da atividade e é utilizada pelos operadores e administradores da empresa para gerir e monitorizar todo o fluxo logístico e de pesagens.
 
@@ -128,7 +132,9 @@ A aplicação encontra-se estruturada nos seguintes módulos funcionais principa
 
 Em termos de usabilidade, a interface foi desenhada para se adaptar a diferentes cenários de trabalho, incluindo a utilização em dispositivos móveis e tablets no terreno. Para tal, implementaram-se tabelas de dados dinâmicas com colunas configuráveis e persistidas localmente para cada operador, além de menus de ações acionados por toque longo (\textit{long press}), adequados a ecrãs táteis. A aplicação disponibiliza ainda a exportação de relatórios de atividade em formato PDF e um painel dedicado à recuperação de registos inativos através do mecanismo de exclusão lógica (\textit{Soft-Delete}). O desenvolvimento desta aplicação de gestão foi realizado em colaboração com o colega de estágio.
 
-\subsection{App de Balança - Terminal Kiosk}
+\noindent\textbf{Terminal de Pesagem (Quiosque de Balança)}
+
+
 
 Para além do backoffice administrativo, o sistema dispõe de um módulo dedicado especificamente à zona física de pesagens, designado por Terminal Kiosk. Trata-se de uma aplicação desenvolvida em .NET 10 sob a tecnologia Blazor Server, com uma interface otimizada para interação tátil (\textit{touchscreen}), concebida para ser operada de forma rápida e intuitiva por funcionários no terreno.
 
@@ -143,7 +149,9 @@ As características estruturais e operacionais deste terminal incluem:
 
 A aplicação partilha componentes reutilizáveis através do módulo comum do projeto e foi desenhada com foco na usabilidade e fiabilidade das operações sob condições de armazém. O desenvolvimento deste módulo foi realizado em estreita parceria com o colega de estágio.
 
-\subsection{Integração entre Sistemas e API Central}
+\noindent\textbf{API Central e Integração de Sistemas}
+
+
 
 Inicialmente, as aplicações de backoffice administrativo e o terminal de pesagem física (Kiosk) foram concebidos e implementados de forma acoplada numa única aplicação. No entanto, a evolução do projeto e a necessidade de isolar os ambientes físico e de escritório exigiram a separação destas ferramentas em duas aplicações independentes. Para suportar esta nova topologia sem comprometer a consistência dos dados, foi desenvolvida a API Central (\texttt{RecolherApp.Api}) na plataforma .NET.
 
@@ -167,11 +175,13 @@ O website institucional em Next.js também comunica de forma estrita com esta AP
 
 Adicionalmente, a API disponibiliza o catálogo de materiais regulamentares para popular as seleções de formulários no website, integrando um mecanismo de salvaguarda local (\textit{local fallback}) para manter o formulário de pedidos funcional em caso de instabilidade temporária na ligação de rede. O envio de ficheiros e comprovativos no website é reencaminhado pelo proxy para a API .NET, que executa tarefas automáticas de compressão e conversão de imagem para o formato WebP antes de submeter os ficheiros para o armazenamento permanente no Supabase Storage.
 
-\subsection{Segurança e Autenticação}
+\noindent\textbf{Segurança e Autenticação}
+
+
 
 Para proteger os dados cadastrais, comerciais e operacionais geridos pelas diferentes aplicações, foi implementado um modelo de segurança e autenticação estruturado em duas vertentes principais: uma destinada ao portal web público e de clientes, e outra direcionada às ferramentas internas da empresa (Backoffice e quiosque de pesagens).
 
-\subsubsection{Segurança no Website e Área de Cliente}
+\paragraph{Segurança no Website e Área de Cliente}
 A autenticação e autorização na área de cliente e no painel administrativo do website são geridas através da integração com o serviço centralizado Supabase Auth, estruturando-se da seguinte forma:
 \begin{itemize}
     \item \textbf{Criação de Conta via Convite:} O processo de registo de um novo cliente é acionado automaticamente aquando da submissão do seu primeiro pedido de recolha de resíduos. O sistema regista os dados na base de dados e insere uma tarefa na fila de envio de e-mails, disparando um convite seguro contendo um link de ativação único. O utilizador utiliza esse link para definir a sua palavra-passe e ativar a sua área reservada.
@@ -179,7 +189,7 @@ A autenticação e autorização na área de cliente e no painel administrativo 
     \item \textbf{Proteção de Rotas via Middleware:} O acesso às páginas privadas (tanto da área reservada de cliente como da administração) é interceptado por um componente de filtragem do Next.js (Middleware). Este componente valida a integridade do token, o seu prazo de validade e o perfil associado ao utilizador antes de permitir a renderização das páginas.
 \end{itemize}
 
-\subsubsection{Segurança nas Aplicações .NET (Backoffice e Quiosque)}
+\paragraph{Segurança nas Aplicações .NET (Backoffice e Quiosque)}
 As ferramentas administrativas internas e de pesagem utilizam um modelo de autenticação adaptado às condições do ambiente onde são utilizadas:
 \begin{itemize}
     \item \textbf{Autenticação por Código de Acesso (PIN):} No terminal quiosque de pesagem física, os operadores autenticam-se através de um código numérico pessoal. O sistema armazena este código encriptado recorrendo a algoritmos de dispersão (\textit{hashing}) seguros, impedindo a sua extração direta em caso de acesso indevido à base de dados estrutural.
@@ -187,7 +197,9 @@ As ferramentas administrativas internas e de pesagem utilizam um modelo de auten
     \item \textbf{Controlo de Acesso Baseado em Perfis:} A autorização interna baseia-se num sistema de controlo de acessos baseado em permissões granulares. Cada cargo profissional possui um conjunto de permissões ativas estruturado em formato JSON. Após a autenticação, a API central emite um token de sessão interno que transporta estas permissões e que é validado em cada pedido efetuado pelas aplicações Blazor.
 \end{itemize}
 
-\subsection{Resultados do Website Institucional}
+\subsection{Resultados Operacionais e Interfaces}
+
+\noindent\textbf{Resultados do Website Institucional}
 
 Nesta secção, apresentam-se os resultados visuais e operacionais obtidos com a implementação do website institucional da empresa, ilustrando o estado final das principais interfaces e fluxos disponíveis.
 
@@ -227,7 +239,7 @@ Por fim, o painel de administração de notícias (Figura~\ref{fig:adminnews}) �
     \label{fig:adminnews}
 \end{figure}
 
-\subsection{Resultados das Apps .NET}
+\noindent\textbf{Resultados das Aplicações .NET}
 
 Abaixo são descritos os ecrãs e resultados operacionais desenvolvidos para as aplicações em .NET 10 (Backoffice administrativo e quiosque tátil de balança), que suportam a gestão operacional interna.
 
@@ -262,7 +274,7 @@ O assistente de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) or
 
 Paralelamente às tarefas de desenvolvimento de software, foram realizadas diversas atividades práticas e manuais no departamento técnico da empresa, focadas no processamento, triagem e recondicionamento de REEE. Estas atividades visam a economia circular, procurando testar e recuperar componentes funcionais antes de os encaminhar para reciclagem de matérias-primas.
 
-\subsection{Testes e Diagnóstico de Memórias RAM}
+\subsection{Diagnóstico de RAM e Unidades de Armazenamento}
 
 A triagem de módulos de memória RAM constitui um passo essencial na recuperação de computadores obsoletos ou danificados que são entregues na empresa. Foram efetuados testes sistemáticos a memórias de tecnologia DDR3 e DDR4, tanto de formato DIMM (computadores de secretária) como SO-DIMM (portáteis). O processo estruturou-se da seguinte forma:
 \begin{itemize}
@@ -272,7 +284,7 @@ A triagem de módulos de memória RAM constitui um passo essencial na recuperaç
     \item \textbf{Classificação e Armazenamento:} Os módulos aprovados foram classificados de acordo com a sua capacidade (GB) e tecnologia (DDR3 ou DDR4) e organizados para reutilização em equipamentos recondicionados. Módulos que não geravam imagem foram descartados e encaminhados para reciclagem de REEE.
 \end{itemize}
 
-\subsection{Testes de Unidades de Armazenamento (SATA SSD e M.2)}
+\noindent\textbf{Testes de Unidades de Armazenamento (SATA SSD e M.2)}
 
 Com a crescente substituição de discos mecânicos por unidades de estado sólido, a empresa recebe volumes significativos de dispositivos de armazenamento SSD, tanto com interface SATA de 2,5 polegadas como no formato M.2 (SATA e NVMe). Para avaliar a sua viabilidade de reutilização, seguiu-se o seguinte protocolo:
 \begin{itemize}
@@ -281,7 +293,7 @@ Com a crescente substituição de discos mecânicos por unidades de estado sóli
     \item \textbf{Destino das Unidades:} Unidades em excelente estado de saúde (normalmente com saúde superior a 80%) foram separadas para recondicionamento e instalação em equipamentos a preparar para venda. Discos inoperacionais ou com níveis severos de degradação foram encaminhados para reciclagem de REEE.
 \end{itemize}
 
-\subsection{Triagem e Separação de Baterias de Portáteis}
+\subsection{Triagem de Baterias e Transformadores}
 
 As baterias de iões de lítio (Li-ion) provenientes de computadores portáteis exigem um processo de triagem cuidadoso devido aos riscos de segurança associados ao seu armazenamento e transporte (risco de curto-circuito ou fuga térmica). As atividades realizadas nesta área englobaram:
 \begin{itemize}
@@ -290,7 +302,7 @@ As baterias de iões de lítio (Li-ion) provenientes de computadores portáteis 
     \item \textbf{Separação por Marca:} Organização das baterias em bom estado físico de acordo com o fabricante/marca do portátil correspondente (ex: HP, Dell, Asus, Lenovo), facilitando o seu emparelhamento com futuros equipamentos a recondicionar.
 \end{itemize}
 
-\subsection{Separação e Validação de Transformadores de Alimentação}
+\noindent\textbf{Separação e Validação de Transformadores de Alimentação}
 
 A triagem de transformadores (carregadores de computadores portáteis e periféricos diversos) permitiu recuperar centenas de unidades funcionais, evitando o desperdício de componentes elétricos de alta qualidade. O trabalho manual desenvolvido incluiu:
 \begin{itemize}
@@ -299,7 +311,7 @@ A triagem de transformadores (carregadores de computadores portáteis e perifér
     \item \textbf{Separação por Marca e Tipo de Conetor:} Triagem e catalogação das unidades aprovadas segundo a marca e o formato geométrico do conector de entrada (ex: conectores cilíndricos de diferentes diâmetros, fichas retangulares proprietárias ou interfaces USB-C), preparando-as para acompanhar os respetivos equipamentos recondicionados.
 \end{itemize}
 
-\subsection{Limpeza e Preparação de Equipamentos para Venda}
+\subsection{Preparação e Recondicionamento de Equipamentos}
 
 A fase final do processo de recondicionamento consistiu na preparação integral dos equipamentos para reintegração no mercado. Após a substituição dos componentes internos validados, cada equipamento foi sujeito a um conjunto de procedimentos de higienização e configuração de software, garantindo que a empresa disponibiliza ao cliente um produto em condições comercialmente adequadas:
 \begin{itemize}
