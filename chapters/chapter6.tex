@@ -1,51 +1,41 @@
-\chapter{Conclusões}\label{chap6}
+\chapter{Sugestões, Comentários e Propostas de Melhoria}\label{chap6}
 \thispagestyle{fancy}
 
-\section{Balanço do Estágio}
+Neste capítulo é realizada uma análise reflexiva e crítica sobre o decorrer do estágio curricular, integrando as sugestões organizacionais, comentários sobre a experiência de trabalho, as dificuldades enfrentadas, as limitações identificadas no sistema e as propostas de trabalho futuro.
 
-O estágio curricular realizado na empresa 20 Recolher -- Gestão de Resíduos, Lda., no período compreendido entre março e julho de 2026, constituiu uma experiência globalmente muito positiva e enriquecedora, tanto a nível técnico como a nível profissional e pessoal.
+\section{Sugestões}
 
-Antes do início do estágio, as expetativas centravam-se na possibilidade de aplicar os conhecimentos teóricos e práticos adquiridos ao longo do curso CTeSP de Tecnologias e Programação de Sistemas de Informação num contexto organizacional real, com os desafios e as exigências que esse ambiente acarreta. Essas expetativas foram amplamente correspondidas. O projeto desenvolvido revelou-se tecnicamente ambicioso e multidisciplinar, exigindo a mobilização simultânea de competências em desenvolvimento web, arquiteturas distribuídas, bases de dados relacionais e segurança de software.
+Relativamente ao funcionamento do estágio e à sua articulação académica, sugere-se à coordenação do curso do ISEC uma maior flexibilidade na definição inicial de cronogramas e prazos de entrega para projetos complexos que integrem múltiplos módulos e aplicações independentes. Projetos que envolvem o desenvolvimento simultâneo de websites institucionais, aplicações internas de backoffice, quiosques táteis industriais e APIs centralizadas estão sujeitos a frequentes adaptações e necessidades de reestruturação de bases de dados locais e remotas. A alocação oficial de um período de margem especificamente dedicado a testes de integração prática no ambiente físico da empresa de acolhimento contribuiria significativamente para mitigar riscos de planeamento e garantir uma transição mais fluida e segura para o ambiente de produção.
 
-O trabalho de desenvolvimento foi conduzido em entreajuda com a restante equipa técnica, com o apoio constante do supervisor de estágio na definição de prioridades e na validação de decisões técnicas. Esta dinâmica promoveu o desenvolvimento da capacidade de tomada de decisão e a consciência da responsabilidade associada ao desenvolvimento de software para uso real em ambiente empresarial.
+\section{Comentários}
 
-Para além da vertente de software, as tarefas de triagem e manutenção de hardware realizadas nas instalações da empresa proporcionaram uma visão prática sobre o ciclo de vida de equipamentos eletrónicos e sobre os processos de valorização de resíduos. Esta componente permitiu criar um nexo concreto entre a gestão digital dos processos logísticos e a realidade operacional do armazém, contribuindo para uma compreensão mais holística do negócio da empresa.
+A integração na equipa técnica da 20 Recolher -- Gestão de Resíduos, Lda. representou uma oportunidade única e altamente enriquecedora de crescimento profissional e pessoal. A vivência diária no armazém permitiu compreender com clareza o impacto direto que a automação e a digitalização de processos exercem na produtividade operacional de uma empresa. A articulação contínua e a tutoria de Fernando Oliveira, supervisor e CEO da empresa, foram fundamentais ao longo de todo o percurso. O supervisor prestou suporte na definição de prioridades e no esclarecimento de dúvidas do quotidiano operacional, tais como as especificações técnicas da triagem de componentes de hardware (identificando quais as marcas e transformadores a guardar para reintegração em portáteis recondicionados ou a destinar para corte e reciclagem), promovendo um equilíbrio saudável entre autonomia no desenvolvimento do software e orientação prática nas atividades manuais.
 
-Em termos de ambiente organizacional, a 20 Recolher revelou-se uma empresa acolhedora e aberta, onde o estagiário foi integrado de forma genuína nas dinâmicas internas, com liberdade de participar em decisões técnicas e de propor soluções. O acompanhamento prestado pelo supervisor permitiu orientar o trabalho de forma eficiente, mantendo ao mesmo tempo um grau de autonomia que incentivou o desenvolvimento da capacidade de tomada de decisão.
+\section{Dificuldades Encontradas e Soluções Adotadas}
 
-\section{Competências Adquiridas e Aprendizagem}
-
-O desenvolvimento do ecossistema tecnológico e a realização de tarefas práticas de hardware permitiram a consolidação e a aquisição de diversas competências de natureza técnica, metodológica e comportamental, destacando-se:
+Durante o ciclo de desenvolvimento, a equipa enfrentou as seguintes dificuldades principais:
 \begin{itemize}
-    \item \textbf{Desenvolvimento Full-stack e Arquitetura:} Domínio prático do ecossistema Next.js 15 para a área pública e reservada de clientes, e do Blazor Server (.NET 10) para aplicações administrativas e quiosques táteis. Consolidação de conceitos de \textit{Clean Architecture} e separação de conceitos na conceção de APIs RESTful robustas.
-    \item \textbf{Modelação de Dados e Infraestrutura Cloud:} Modelação avançada de bases de dados relacionais em PostgreSQL com abordagem Code-First (EF Core), incluindo otimizações com índices direcionados, lógica de exclusão lógica (\textit{soft-delete}) e gestão de ficheiros descentralizada em buckets S3 do Supabase.
-    \item \textbf{Fluxo de Trabalho Moderno (DevOps):} Utilização diária de ferramentas de desenvolvimento como o editor \textit{VS Code}, controlo de versões distribuído com \textit{Git} e repositórios \textit{GitHub}, integrados com pipelines de publicação contínua (\textit{Continuous Deployment}) na plataforma \textit{Vercel} para validações de usabilidade e no \textit{Render} para alojamento da API.
-    \item \textbf{Hardware e Princípios de Economia Circular:} Desenvolvimento de competências práticas em diagnóstico de hardware, englobando a diferenciação visual e entalhes de memórias \ac{RAM} DDR3/DDR4, testes \ac{SMART} de integridade de \acp{SSD} (\ac{SATA}/M.2), higienização física de componentes e montagem final de computadores prontos para venda.
-    \item \textbf{Autonomia, Comunicação e Colaboração:} Desenvolvimento da capacidade de tomada de decisão autónoma em contexto empresarial real, a par da resolução dinâmica de dúvidas de inventário e triagem diretamente com o supervisor de estágio.
+    \item \textbf{Gestão de Estados Concorrentes nos Pedidos:} A existência de múltiplos acessos simultâneos por parte de clientes e operadores gerava inconsistências temporárias no estado das recolhas (por exemplo, dois operadores a tentarem aprovar o mesmo pedido). Para resolver isto, foi implementada uma validação ao nível da API baseada em controlo de concorrência otimista e tratamento de exceções no EF Core.
+    \item \textbf{Migração de Arquitetura Monolítica para Distribuída:} Numa fase inicial, o backoffice e o terminal de pesagem foram idealizados numa única aplicação Blazor. Contudo, isso gerava duplicação de acessos à base de dados. Adotou-se como solução isolar o acesso aos dados numa API central baseada em \textit{controllers} RESTful. Esta mudança exigiu a refatoração da comunicação para chamadas \ac{HTTP} assíncronas em \ac{JSON}, o que estabilizou o sistema.
+    \item \textbf{Gestão de Cache no Supabase e Atualizações Realtime:} Garantir que as notificações de chat e o estado dos pedidos fossem atualizados sem sobrecarregar a base de dados com consultas repetitivas (\textit{polling}) foi complexo. A solução consistiu em configurar o cliente Realtime do Supabase baseado em WebSockets apenas para eventos específicos (mensagens de chat), mantendo o restante fluxo sob pedidos REST padrão.
+    \item \textbf{Erros de Hidratação em Next.js 15 (Hydration Mismatch):} Detetaram-se incoerências de renderização entre o servidor e o cliente ao carregar a data/hora dos pedidos de recolha, causadas pelas diferenças de fuso horário local dos navegadores em relação ao servidor. A resolução passou por isolar a renderização de carimbos temporais, utilizando efeitos do React (\texttt{useEffect}) para garantir que os dados dependentes do cliente só são renderizados após o componente estar totalmente montado no browser.
+    \item \textbf{Políticas \ac{CORS} e Partilha de Cookies HttpOnly:} A comunicação entre o website (Vercel) e a API C\# (Render) falhava inicialmente devido à rejeição de cabeçalhos de autenticação e cookies em pedidos cruzados de domínios diferentes. Resolveu-se este problema definindo políticas explícitas de \ac{CORS} na API .NET que permitem credenciais (\texttt{AllowCredentials()}) e especificando detalhadamente as origens permitidas, sem recorrer a \textit{wildcards} (*), além do alinhamento das diretivas \textit{SameSite} e \textit{Secure} dos cookies.
+    \item \textbf{Instabilidade de Ligação e Circuitos SignalR no Blazor:} No ambiente físico do armazém, quebras pontuais na cobertura Wi-Fi causavam a perda de ligação das sessões do Backoffice e do Quiosque, obrigando os operadores a reiniciar o processo. Contornou-se este problema estendendo os tempos de expiração de reconexão dos circuitos SignalR na configuração do Blazor Server, em conjunto com o armazenamento local temporário dos estados de listagem e filtragem ativa.
 \end{itemize}
 
-\section{Objetivos Atingidos}
+\section{Limitações do Projeto}
 
-Os objetivos definidos no início do estágio foram, na sua globalidade, atingidos com sucesso. Em seguida, apresenta-se uma análise do grau de cumprimento de cada um deles:
-
+Apesar de o ecossistema tecnológico ter atingido os objetivos estipulados, persistem algumas limitações:
 \begin{itemize}
-    \item \textbf{Desenvolvimento do Website Institucional:} Concluído. O website em Next.js 15 foi desenvolvido, integrando a área pública, a área reservada de clientes com os módulos de pedidos de recolha, histórico, chat e perfil, e o painel de administração de conteúdos. A plataforma foi publicada no Vercel para efeitos de validação e testes com a equipa da empresa.
-
-    \item \textbf{Criação da Aplicação de Backoffice:} Concluído. O painel de gestão interno em Blazor Server foi desenvolvido com os módulos de controlo logístico, gestão de entidades, auditoria de segurança e validação de alterações cadastrais, respondendo aos requisitos operacionais da empresa.
-
-    \item \textbf{Construção do Terminal de Pesagem (Kiosk):} Concluído. O terminal tátil de pesagem foi implementado com autenticação por PIN, assistente de registo passo-a-passo e sistema de emparelhamento de dispositivos, garantindo segurança e usabilidade em ambiente de armazém.
-
-    \item \textbf{Conceção e Modelação da Base de Dados:} Concluído. O esquema relacional em PostgreSQL foi desenhado e versionado através de migrações do Entity Framework Core, incorporando mecanismos de exclusão lógica, índices de performance e controlo de integridade referencial.
-
-    \item \textbf{Desenvolvimento da API Central:} Concluído. A API RESTful em .NET 10, estruturada em \textit{Clean Architecture}, foi desenvolvida como ponto único de acesso à base de dados, integrando autenticação JWT, controlo de acessos por permissões granulares e processamento assíncrono de e-mails.
-
-    \item \textbf{Ferramenta de Comparação de Toners:} Concluído. A ferramenta utilitária de cruzamento de preços de toners foi desenvolvida em React com Vite e empacotada como aplicação de ambiente de trabalho com Tauri, respondendo a uma necessidade concreta do processo de vendas da empresa.
-
-    \item \textbf{Triagem e Recondicionamento de Hardware:} Concluído de forma contínua ao longo do estágio. Foram efetuados testes e diagnósticos sistemáticos a memórias \ac{RAM}, unidades de armazenamento \ac{SSD}, baterias de portáteis e transformadores de alimentação, contribuindo para o processo de economia circular da empresa.
-
-    \item \textbf{Testes e Validação Funcional:} Concluído. Foram realizados testes de usabilidade e de integração de dados nas instalações da empresa, permitindo identificar e corrigir desvios antes da entrega final.
+    \item \textbf{Dependência de Alojamento Cloud (Supabase/Vercel):} Dado que a base de dados centralizada e o website estão alojados em infraestruturas cloud externas, o ecossistema necessita de ligação permanente à Internet. No caso de uma falha de rede física no armazém da empresa, o quiosque de pesagem não conseguirá registar novas pesagens de forma automática na API.
+    \item \textbf{Falta de Módulo de Faturação Direta Integrado:} Atualmente, o sistema extrai listagens em formatos estruturados (\ac{CSV}/\ac{PDF}) para permitir a faturação manual. O ecossistema não possui uma integração direta via Web Services com o software de faturação certificado da empresa (ex: Primavera ou Sage).
 \end{itemize}
 
-Em termos de desvios ao plano inicial, o único aspeto que não chegou a ser concretizado prendeu-se com a integração direta do terminal de pesagem com hardware de balança industrial, funcionalidade que, embora prevista no código, não foi ativada por razões operacionais da empresa durante o período de estágio. Este desvio não comprometeu a utilidade do sistema, uma vez que o registo manual de peso no terminal continua a responder às necessidades imediatas da operação.
+\section{Propostas de Melhoria (Trabalho Futuro)}
 
-Em conclusão, o estágio representou uma etapa formativa decisiva no percurso académico e profissional. A experiência adquirida no desenvolvimento de um ecossistema de software real e complexo, combinada com a integração num ambiente empresarial com processos logísticos concretos, consolidou competências técnicas avançadas e desenvolveu capacidades transversais de comunicação, gestão de prioridades e trabalho em equipa que serão fundamentais na continuidade da carreira profissional.
+Para futuros desenvolvimentos e evolução contínua da plataforma, propõem-se as seguintes melhorias técnicas:
+\begin{itemize}
+    \item \textbf{Modo Offline com Sincronização Posterior no Quiosque:} Implementar um mecanismo de persistência de pesagens local no terminal (usando bases de dados SQLite locais ou armazenamento local encriptado) que permita continuar a operar sem ligação à Internet e envie os dados acumulados de forma assíncrona assim que a ligação à API for restabelecida.
+    \item \textbf{Integração de APIs de Software de Faturação Certificado:} Desenvolver conectores dedicados para comunicar com o ERP da empresa, automatizando a emissão imediata da guia de transporte e da fatura após a validação da pesagem no terminal quiosque.
+    \item \textbf{Notificações Push e Aplicação Móvel para Clientes:} Expandir a presença web do cliente para uma aplicação híbrida móvel ou implementar notificações push nativas no navegador, alertando instantaneamente os utilizadores quando uma recolha for efetuada ou quando for recebida resposta do suporte técnico.
+\end{itemize}

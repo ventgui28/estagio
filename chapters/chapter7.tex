@@ -1,0 +1,51 @@
+\chapter{Conclusões}\label{chap7}
+\thispagestyle{fancy}
+
+\section{Balanço do Estágio}
+
+O estágio curricular realizado na empresa 20 Recolher -- Gestão de Resíduos, Lda., no período compreendido entre março e julho de 2026, constituiu uma experiência globalmente muito positiva e enriquecedora, tanto a nível técnico como a nível profissional e pessoal.
+
+Antes do início do estágio, as expetativas centravam-se na possibilidade de aplicar os conhecimentos teóricos e práticos adquiridos ao longo do curso CTeSP de Tecnologias e Programação de Sistemas de Informação num contexto organizacional real, com os desafios e as exigências que esse ambiente acarreta. Essas expetativas foram amplamente correspondidas. O projeto desenvolvido revelou-se tecnicamente ambicioso e multidisciplinar, exigindo a mobilização simultânea de competências em desenvolvimento web, arquiteturas distribuídas, bases de dados relacionais e segurança de software.
+
+O trabalho de desenvolvimento foi conduzido em entreajuda com a restante equipa técnica, com o apoio constante do supervisor de estágio na definição de prioridades e na validação de decisões técnicas. Esta dinâmica promoveu o desenvolvimento da capacidade de tomada de decisão e a consciência da responsabilidade associada ao desenvolvimento de software para uso real em ambiente empresarial.
+
+Para além da vertente de software, as tarefas de triagem e manutenção de hardware realizadas nas instalações da empresa proporcionaram uma visão prática sobre o ciclo de vida de equipamentos eletrónicos e sobre os processos de valorização de resíduos. Esta componente permitiu criar um nexo concreto entre a gestão digital dos processos logísticos e a realidade operacional do armazém, contribuindo para uma compreensão mais holística do negócio da empresa.
+
+Em termos de ambiente organizacional, a 20 Recolher revelou-se uma empresa acolhedora e aberta, onde o estagiário foi integrado de forma genuína nas dinâmicas internas, com liberdade de participar em decisões técnicas e de propor soluções. O acompanhamento prestado pelo supervisor permitiu orientar o trabalho de forma eficiente, mantendo ao mesmo tempo um grau de autonomia que incentivou o desenvolvimento da capacidade de tomada de decisão.
+
+\section{Competências Adquiridas e Aprendizagem}
+
+O desenvolvimento do ecossistema tecnológico e a realização de tarefas práticas de hardware permitiram a consolidação e a aquisição de diversas competências de natureza técnica, metodológica e comportamental, destacando-se:
+\begin{itemize}
+    \item \textbf{Desenvolvimento Full-stack e Arquitetura:} Domínio prático do ecossistema Next.js 15 para a área pública e reservada de clientes, e do Blazor Server (.NET 10) para aplicações administrativas e quiosques táteis. Consolidação de conceitos de \textit{Clean Architecture} e separação de conceitos na conceção de APIs RESTful robustas.
+    \item \textbf{Modelação de Dados e Infraestrutura Cloud:} Modelação avançada de bases de dados relacionais em PostgreSQL com abordagem Code-First (EF Core), incluindo otimizações com índices direcionados, lógica de exclusão lógica (\textit{soft-delete}) e gestão de ficheiros descentralizada em buckets S3 do Supabase.
+    \item \textbf{Fluxo de Trabalho Moderno (DevOps):} Utilização diária de ferramentas de desenvolvimento como o editor \textit{VS Code}, controlo de versões distribuído com \textit{Git} e repositórios \textit{GitHub}, integrados com pipelines de publicação contínua (\textit{Continuous Deployment}) na plataforma \textit{Vercel} para validações de usabilidade e no \textit{Render} para alojamento da API.
+    \item \textbf{Hardware e Princípios de Economia Circular:} Desenvolvimento de competências práticas em diagnóstico de hardware, englobando a diferenciação visual e entalhes de memórias \ac{RAM} DDR3/DDR4, testes \ac{SMART} de integridade de \acp{SSD} (\ac{SATA}/M.2), higienização física de componentes e montagem final de computadores prontos para venda.
+    \item \textbf{Autonomia, Comunicação e Colaboração:} Desenvolvimento da capacidade de tomada de decisão autónoma em contexto empresarial real, a par da resolução dinâmica de dúvidas de inventário e triagem diretamente com o supervisor de estágio.
+\end{itemize}
+
+\section{Objetivos Atingidos}
+
+Os objetivos definidos no início do estágio foram, na sua globalidade, atingidos com sucesso. Em seguida, apresenta-se uma análise do grau de cumprimento de cada um deles:
+
+\begin{itemize}
+    \item \textbf{Desenvolvimento do Website Institucional:} Concluído. O website em Next.js 15 foi desenvolvido, integrando a área pública, a área reservada de clientes com os módulos de pedidos de recolha, histórico, chat e perfil, e o painel de administração de conteúdos. A plataforma foi publicada no Vercel para efeitos de validação e testes com a equipa da empresa.
+ 
+    \item \textbf{Criação da Aplicação de Backoffice:} Concluído. O painel de gestão interno em Blazor Server foi desenvolvido com os módulos de controlo logístico, gestão de entidades, auditoria de segurança e validação de alterações cadastrais, respondendo aos requisitos operacionais da empresa.
+
+    \item \textbf{Construção do Terminal de Pesagem (Kiosk):} Concluído. O terminal tátil de pesagem foi implementado com autenticação por PIN, assistente de registo passo-a-passo e sistema de emparelhamento de dispositivos, garantindo segurança e usabilidade em ambiente de armazém.
+
+    \item \textbf{Conceção e Modelação da Base de Dados:} Concluído. O esquema relacional em PostgreSQL foi desenhado e versionado através de migrações do Entity Framework Core, incorporando mecanismos de exclusão lógica, índices de performance e controlo de integridade referencial.
+
+    \item \textbf{Desenvolvimento da API Central:} Concluído. A API RESTful em .NET 10, estruturada em \textit{Clean Architecture}, foi desenvolvida como ponto único de acesso à base de dados, integrando autenticação JWT, controlo de acessos por permissões granulares e processamento assíncrono de e-mails.
+
+    \item \textbf{Ferramenta de Comparação de Toners:} Concluído. A ferramenta utilitária de cruzamento de preços de toners foi desenvolvida em React com Vite e empacotada como aplicação de ambiente de trabalho com Tauri, respondendo a uma necessidade concreta do processo de vendas da empresa.
+
+    \item \textbf{Triagem e Recondicionamento de Hardware:} Concluído de forma contínua ao longo do estágio. Foram efetuados testes e diagnósticos sistemáticos a memórias \ac{RAM}, unidades de armazenamento \ac{SSD}, baterias de portáteis e transformadores de alimentação, contribuindo para o processo de economia circular da empresa.
+
+    \item \textbf{Testes e Validação Funcional:} Concluído. Foram realizados testes de usabilidade e de integração de dados nas instalações da empresa, permitindo identificar e corrigir desvios antes da entrega final.
+\end{itemize}
+
+Em termos de desvios ao plano inicial, o único aspeto que não chegou a ser concretizado prendeu-se com a integração direta do terminal de pesagem com hardware de balança industrial, funcionalidade que, embora prevista no código, não foi ativada por razões operacionais da empresa durante o período de estágio. Este desvio não comprometeu a utilidade do sistema, uma vez que o registo manual de peso no terminal continua a responder às necessidades imediatas da operação.
+
+Em conclusão, o estágio representou uma etapa formativa decisiva no percurso académico e profissional. A experiência adquirida no desenvolvimento de um ecossistema de software real e complexo, combinada com a integração num ambiente empresarial com processos logísticos concretos, consolidou competências técnicas avançadas e desenvolveu capacidades transversais de comunicação, gestão de prioridades e trabalho em equipa que serão fundamentais na continuidade da carreira profissional.

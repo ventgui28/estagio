@@ -1,41 +1,188 @@
-\chapter{Sugestões, Comentários e Propostas de Melhoria}\label{chap5}
+\chapter{Manutenção e Triagem de Hardware}\label{chap5}
 \thispagestyle{fancy}
 
-Neste capítulo é realizada uma análise reflexiva e crítica sobre o decorrer do estágio curricular, integrando as sugestões organizacionais, comentários sobre a experiência de trabalho, as dificuldades enfrentadas, as limitações identificadas no sistema e as propostas de trabalho futuro.
+Paralelamente às tarefas de desenvolvimento de software, foram realizadas diversas atividades práticas e manuais no departamento técnico da empresa, focadas no processamento, triagem e recondicionamento de REEE. Estas atividades visam a economia circular, procurando testar e recuperar componentes funcionais antes de os encaminhar para reciclagem de matérias-primas. Para apoiar o processo de triagem e orientar os operadores na tomada de decisão sobre o destino comercial de cada componente, elaborou-se uma matriz de classificação de referência que se encontra detalhada na Tabela~\ref{tab:matriz_triagem} do Apêndice~\ref{ap:tabela_triage}.
 
-\section{Sugestões}
+\section{Fluxo de Triagem e Processamento de Hardware}
 
-Relativamente ao funcionamento do estágio e à sua articulação académica, sugere-se à coordenação do curso do ISEC uma maior flexibilidade na definição inicial de cronogramas e prazos de entrega para projetos complexos que integrem múltiplos módulos e aplicações independentes. Projetos que envolvem o desenvolvimento simultâneo de websites institucionais, aplicações internas de backoffice, quiosques táteis industriais e APIs centralizadas estão sujeitos a frequentes adaptações e necessidades de reestruturação de bases de dados locais e remotas. A alocação oficial de um período de margem especificamente dedicado a testes de integração prática no ambiente físico da empresa de acolhimento contribuiria significativamente para mitigar riscos de planeamento e garantir uma transição mais fluida e segura para o ambiente de produção.
+De forma a garantir que todas as unidades de hardware recebidas na empresa são tratadas segundo um padrão de qualidade consistente e de acordo com as normas de segurança e sustentabilidade da economia circular, estabeleceu-se um fluxo lógico de processamento de resíduos elétricos e eletrónicos (REEE). Este processo manual sistemático está esquematizado no fluxograma da Figura~\ref{fig:fluxo_triagem}.
 
-\section{Comentários}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        block/.style={rectangle, draw=black, fill=blue!5, thick, minimum width=3.5cm, minimum height=1cm, align=center, rounded corners},
+        decision/.style={diamond, aspect=1.5, draw=black, fill=yellow!15, thick, minimum width=3cm, minimum height=1cm, align=center},
+        recicla/.style={rectangle, draw=red!80, fill=red!5, thick, minimum width=3.5cm, minimum height=1cm, align=center, rounded corners},
+        line/.style={draw, -latex, thick}
+    ]
+        % Nodes
+        \node[block] (init) {Receção de \acs{REEE}};
+        \node[block, below=0.6cm of init] (visual) {Inspeção Visual /\\Limpeza Física};
+        \node[decision, below=0.6cm of visual] (ok) {Danos Físicos?};
+        \node[recicla, right=1.5cm of ok] (recicla) {Descarte / Reciclagem\\de \acs{REEE} (Cobre/Silício)};
+        \node[block, below=0.8cm of ok] (test) {Testes Práticos\\(\acs{RAM}/\acs{SSD}/Alim.)};
+        \node[decision, below=0.8cm of test] (testok) {Funcional?};
+        \node[block, below=0.8cm of testok] (recond) {Recondicionamento\\(Higienização / Windows)};
+        \node[block, below=0.6cm of recond] (fim) {Reintegração\\no Mercado};
 
-A integração na equipa técnica da 20 Recolher -- Gestão de Resíduos, Lda. representou uma oportunidade única e altamente enriquecedora de crescimento profissional e pessoal. A vivência diária no armazém permitiu compreender com clareza o impacto direto que a automação e a digitalização de processos exercem na produtividade operacional de uma empresa. A articulação contínua e a tutoria de Fernando Oliveira, supervisor e CEO da empresa, foram fundamentais ao longo de todo o percurso. O supervisor prestou suporte na definição de prioridades e no esclarecimento de dúvidas do quotidiano operacional, tais como as especificações técnicas da triagem de componentes de hardware (identificando quais as marcas e transformadores a guardar para reintegração em portáteis recondicionados ou a destinar para corte e reciclagem), promovendo um equilíbrio saudável entre autonomia no desenvolvimento do software e orientação prática nas atividades manuais.
+        % Paths
+        \path[line] (init) -- (visual);
+        \path[line] (visual) -- (ok);
+        \path[line] (ok) -- node[above, near start] {Sim} (recicla);
+        \path[line] (ok) -- node[left] {Não} (test);
+        \path[line] (test) -- (testok);
+        \path[line] (testok) -- node[right, near start] {Não} (recicla);
+        \path[line] (testok) -- node[left] {Sim} (recond);
+        \path[line] (recond) -- (fim);
+    \end{tikzpicture}
+    \caption{Fluxograma do processo sistemático de triagem e recondicionamento de hardware.}
+    \label{fig:fluxo_triagem}
+\end{figure}
 
-\section{Dificuldades Encontradas e Soluções Adotadas}
+\section{Diagnóstico de RAM e Unidades de Armazenamento}
 
-Durante o ciclo de desenvolvimento, a equipa enfrentou as seguintes dificuldades principais:
+A triagem de módulos de memória \ac{RAM} constitui um passo essencial na recuperação de computadores obsoletos ou danificados que são entregues na empresa. Foram efetuados testes sistemáticos a memórias de tecnologia DDR3 e DDR4, tanto de formato DIMM (computadores de secretária) como SO-DIMM (portáteis). O processo estruturou-se da seguinte forma:
 \begin{itemize}
-    \item \textbf{Gestão de Estados Concorrentes nos Pedidos:} A existência de múltiplos acessos simultâneos por parte de clientes e operadores gerava inconsistências temporárias no estado das recolhas (por exemplo, dois operadores a tentarem aprovar o mesmo pedido). Para resolver isto, foi implementada uma validação ao nível da API baseada em controlo de concorrência otimista e tratamento de exceções no EF Core.
-    \item \textbf{Migração de Arquitetura Monolítica para Distribuída:} Numa fase inicial, o backoffice e o terminal de pesagem foram idealizados numa única aplicação Blazor. Contudo, isso gerava duplicação de acessos à base de dados. Adotou-se como solução isolar o acesso aos dados numa API central baseada em \textit{controllers} RESTful. Esta mudança exigiu a refatoração da comunicação para chamadas \ac{HTTP} assíncronas em \ac{JSON}, o que estabilizou o sistema.
-    \item \textbf{Gestão de Cache no Supabase e Atualizações Realtime:} Garantir que as notificações de chat e o estado dos pedidos fossem atualizados sem sobrecarregar a base de dados com consultas repetitivas (\textit{polling}) foi complexo. A solução consistiu em configurar o cliente Realtime do Supabase baseado em WebSockets apenas para eventos específicos (mensagens de chat), mantendo o restante fluxo sob pedidos REST padrão.
-    \item \textbf{Erros de Hidratação em Next.js 15 (Hydration Mismatch):} Detetaram-se incoerências de renderização entre o servidor e o cliente ao carregar a data/hora dos pedidos de recolha, causadas pelas diferenças de fuso horário local dos navegadores em relação ao servidor. A resolução passou por isolar a renderização de carimbos temporais, utilizando efeitos do React (\texttt{useEffect}) para garantir que os dados dependentes do cliente só são renderizados após o componente estar totalmente montado no browser.
-    \item \textbf{Políticas \ac{CORS} e Partilha de Cookies HttpOnly:} A comunicação entre o website (Vercel) e a API C\# (Render) falhava inicialmente devido à rejeição de cabeçalhos de autenticação e cookies em pedidos cruzados de domínios diferentes. Resolveu-se este problema definindo políticas explícitas de \ac{CORS} na API .NET que permitem credenciais (\texttt{AllowCredentials()}) e especificando detalhadamente as origens permitidas, sem recorrer a \textit{wildcards} (*), além do alinhamento das diretivas \textit{SameSite} e \textit{Secure} dos cookies.
-    \item \textbf{Instabilidade de Ligação e Circuitos SignalR no Blazor:} No ambiente físico do armazém, quebras pontuais na cobertura Wi-Fi causavam a perda de ligação das sessões do Backoffice e do Quiosque, obrigando os operadores a reiniciar o processo. Contornou-se este problema estendendo os tempos de expiração de reconexão dos circuitos SignalR na configuração do Blazor Server, em conjunto com o armazenamento local temporário dos estados de listagem e filtragem ativa.
+    \item \textbf{Inspeção Visual Inicial e Limpeza:} Verificação de danos físicos no circuito impresso, contactos oxidados ou ausência de componentes passivos (como condensadores SMD). Os contactos dourados foram limpos de forma a remover qualquer oxidação.
+    \item \textbf{Identificação da Tecnologia (DDR3 vs. DDR4):} A distinção entre módulos DDR3 e DDR4 foi realizada através de três critérios fundamentais: a posição do entalhe (\textit{notch}) na fila de contactos (DDR3 centrado, DDR4 deslocado para a lateral), a leitura das etiquetas do fabricante (identificando PC3 ou PC3L para DDR3, e PC4 para DDR4) e as diferenças de voltagem nominal (1,5\,V ou 1,35\,V para DDR3, e 1,2\,V para DDR4), como ilustrado na Figura~\ref{fig:foto_diferenca_ram}.
+    \item \textbf{Verificação de Funcionamento Prático (POST):} Instalação de cada módulo individual numa placa-mãe de testes compatível com a respetiva tecnologia (Figura~\ref{fig:foto_computador_ram}). O diagnóstico baseou-se na verificação do POST (Power-On Self-Test): se o sistema arrancasse, concluísse o POST e exibisse sinal de vídeo estável com as informações básicas do sistema, o módulo era considerado operacional.
+    \item \textbf{Classificação e Armazenamento:} Os módulos aprovados foram classificados de acordo com a sua capacidade (GB) e tecnologia (DDR3 ou DDR4) e organizados para reutilização em equipamentos recondicionados. Módulos que não geravam imagem foram descartados e encaminhados para reciclagem de \ac{REEE}.
 \end{itemize}
 
-\section{Limitações do Projeto}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagens/foto_computador_ram}
+    \caption{Equipamento utilizado para validação funcional de módulos de memória RAM.}
+    \label{fig:foto_computador_ram}
+\end{figure}
 
-Apesar de o ecossistema tecnológico ter atingido os objetivos estipulados, persistem algumas limitações:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagens/foto_diferenca_ram}
+    \caption{Comparação física entre diferentes tipos de módulos de memória RAM utilizados nos testes.}
+    \label{fig:foto_diferenca_ram}
+\end{figure}
+
+\noindent\textbf{Testes de Unidades de Armazenamento (\ac{SATA} \ac{SSD} e M.2)}
+
+Com a crescente substituição de discos mecânicos por unidades de estado sólido, a empresa recebe volumes significativos de dispositivos de armazenamento \ac{SSD}, tanto com interface \ac{SATA} de 2,5 polegadas como no formato M.2 (\ac{SATA} e \ac{NVMe}). Para avaliar a sua viabilidade de reutilização, seguiu-se o seguinte protocolo:
 \begin{itemize}
-    \item \textbf{Dependência de Alojamento Cloud (Supabase/Vercel):} Dado que a base de dados centralizada e o website estão alojados em infraestruturas cloud externas, o ecossistema necessita de ligação permanente à Internet. No caso de uma falha de rede física no armazém da empresa, o quiosque de pesagem não conseguirá registar novas pesagens de forma automática na API.
-    \item \textbf{Falta de Módulo de Faturação Direta Integrado:} Atualmente, o sistema extrai listagens em formatos estruturados (\ac{CSV}/\ac{PDF}) para permitir a faturação manual. O ecossistema não possui uma integração direta via Web Services com o software de faturação certificado da empresa (ex: Primavera ou Sage).
+    \item \textbf{Ligação e Apagamento de Dados:} Ligação das unidades a computadores de teste ou adaptadores dedicados (Figura~\ref{fig:foto_teste_m2}). Efetuou-se uma formatação de baixo nível ou apagamento seguro para garantir a eliminação de dados anteriores e preservar a confidencialidade das informações de antigos utilizadores.
+    \item \textbf{Análise de Saúde \ac{SMART}:} Execução do software \textit{Hard Disk Sentinel} para leitura e avaliação dos dados de integridade \ac{SMART} (Figura~\ref{fig:foto_hd_sentinel}). Foram analisados a percentagem geral de saúde, a temperatura de funcionamento, o tempo acumulado de atividade (\textit{power-on time}) e parâmetros críticos como o contador de setores realocados (\textit{Reallocated Sectors Count} - ID 05) e contagem de setores incorrigíveis (\textit{Uncorrectable Sector Count} - ID 198).
+    \item \textbf{Destino das Unidades (Reutilização vs. Reciclagem):} Unidades com saúde superior a 50\% e temperatura estável foram aprovadas para recondicionamento. Discos com saúde inferior a 50\%, falhas graves de \ac{SMART}, firmware corrompido/valores incoerentes ou que não comunicassem com o sistema de diagnóstico foram encaminhados para reciclagem. As unidades aprovadas foram formatadas na Gestão de Discos do Windows 10, higienizadas e marcadas fisicamente na carcaça com a respetiva percentagem de saúde antes do armazenamento por capacidade (Figura~\ref{fig:foto_caixa_m2}).
 \end{itemize}
 
-\section{Propostas de Melhoria (Trabalho Futuro)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagens/foto_teste_m2}
+    \caption{Computador de testes utilizado para validação funcional de unidades de armazenamento M.2.}
+    \label{fig:foto_teste_m2}
+\end{figure}
 
-Para futuros desenvolvimentos e evolução contínua da plataforma, propõem-se as seguintes melhorias técnicas:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/foto_hd_sentinel}
+    \caption{Análise do estado de saúde de uma unidade de armazenamento através do Hard Disk Sentinel.}
+    \label{fig:foto_hd_sentinel}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagens/foto_caixa_m2}
+    \caption{Organização de discos M.2 testados e identificados após o processo de triagem.}
+    \label{fig:foto_caixa_m2}
+\end{figure}
+
+\section{Triagem de Baterias, Transformadores, Monitores e PCs All-in-One}
+
+As baterias de iões de lítio (Li-ion) provenientes de computadores portáteis exigem um processo de triagem cuidadoso devido aos riscos de segurança associados ao seu armazenamento e transporte (risco de curto-circuito ou fuga térmica). As atividades realizadas nesta área englobaram:
 \begin{itemize}
-    \item \textbf{Modo Offline com Sincronização Posterior no Quiosque:} Implementar um mecanismo de persistência de pesagens local no terminal (usando bases de dados SQLite locais ou armazenamento local encriptado) que permita continuar a operar sem ligação à Internet e envie os dados acumulados de forma assíncrona assim que a ligação à API for restabelecida.
-    \item \textbf{Integração de APIs de Software de Faturação Certificado:} Desenvolver conectores dedicados para comunicar com o ERP da empresa, automatizando a emissão imediata da guia de transporte e da fatura após a validação da pesagem no terminal quiosque.
-    \item \textbf{Notificações Push e Aplicação Móvel para Clientes:} Expandir a presença web do cliente para uma aplicação híbrida móvel ou implementar notificações push nativas no navegador, alertando instantaneamente os utilizadores quando uma recolha for efetuada ou quando for recebida resposta do suporte técnico.
+    \item \textbf{Triagem por Estado Físico:} Inspeção visual minuciosa para deteção de baterias com fissuras, fugas de eletrólito ou sinais de inchaço (deformação física). As baterias danificadas ou inchadas (Figura~\ref{fig:foto_baterias_inchadas}) foram imediatamente isoladas e depositadas num bidão fechado e seguro, próprio para resíduos perigosos e inflamáveis (Figura~\ref{fig:foto_bidoes_baterias}).
+    \item \textbf{Isolamento dos Terminais:} Aplicação sistemática de fita isoladora sobre os pinos de contacto de cada bateria para evitar o contacto acidental entre os terminais e mitigar riscos de curto-circuito durante o manuseamento e armazenamento.
+    \item \textbf{Separação por Marca:} Organização das baterias em bom estado físico de acordo com o fabricante/marca do portátil correspondente (ex: HP, Dell, Asus, Lenovo), facilitando o seu emparelhamento com futuros equipamentos a recondicionar.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagens/foto_baterias_inchadas}
+    \caption{Exemplo de baterias danificadas identificadas durante a triagem, não sendo encaminhadas para reutilização.}
+    \label{fig:foto_baterias_inchadas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagens/foto_bidoes_baterias}
+    \caption{Acondicionamento separado de baterias danificadas para tratamento adequado.}
+    \label{fig:foto_bidoes_baterias}
+\end{figure}
+
+\noindent\textbf{Separação e Validação de Transformadores de Alimentação}
+
+A triagem de transformadores (carregadores de computadores portáteis e periféricos diversos) permitiu recuperar centenas de unidades funcionais, evitando o desperdício de componentes elétricos de alta qualidade. O trabalho manual desenvolvido incluiu:
+\begin{itemize}
+    \item \textbf{Inspeção de Segurança Elétrica e Eliminação:} Exclusão de transformadores que apresentassem danos físicos visíveis na carcaça plástica ou cabos descarnados, dobrados ou deteriorados. As unidades consideradas irrecuperáveis foram eliminadas por corte do cabo, procedimento que inviabiliza a sua reutilização futura e permite a separação do cobre para reciclagem de matérias-primas.
+    \item \textbf{Teste Dinâmico de Alimentação:} Para verificar a integridade da entrega de energia de forma prática e rápida, utilizou-se uma placa-mãe de testes configurada sem processador ou memórias. Ao ligar o carregador na porta de alimentação, a placa emitia um sinal sonoro (apito/beep) contínuo. A receção deste sinal confirmava a passagem correta e estável da corrente elétrica, validando o transformador como funcional.
+    \item \textbf{Separação por Marca e Tipo de Conetor:} Triagem e catalogação das unidades aprovadas segundo a marca e o formato geométrico do conector de entrada (ex: conetores cilíndricos de diferentes diâmetros, fichas retangulares proprietárias ou interfaces USB-C), preparando-as para acompanhar os respetivos equipamentos recondicionados.
+\end{itemize}
+
+\noindent\textbf{Separação e Diagnóstico de Monitores}
+
+A triagem de monitores de vídeo recebidos na empresa seguiu um procedimento de teste sistemático para categorização e encaminhamento adequado:
+\begin{itemize}
+    \item \textbf{Teste de Imagem Inicial:} Ligação de cada monitor a uma fonte de vídeo e corrente elétrica. Caso o monitor não apresentasse imagem ou estivesse completamente inoperacional, era encaminhado diretamente para a zona de desmantelamento da empresa.
+    \item \textbf{Inspeção Visual e Classificação:} Para os monitores funcionais que exibiam imagem, foi realizada uma inspeção visual minuciosa do ecrã e da carcaça. Monitores sem qualquer defeito visual ou no painel eram identificados com uma etiqueta amarela contendo a marcação \textit{"OK"}.
+    \item \textbf{Identificação de Anomalias:} Caso fossem detetados problemas menores no ecrã (como manchas, riscos ligeiros ou pixéis mortos), a unidade era assinalada com uma etiqueta identificativa descrevendo o problema concreto (por exemplo, \textit{"OK COM MANCHA"}), permitindo a sua reutilização condicional ou venda com indicação precisa do defeito.
+\end{itemize}
+
+\noindent\textbf{Processamento e Teste de Computadores All-in-One}
+
+Para a triagem de computadores integrados do tipo \textit{All-in-One} (AIO), foi definido o seguinte fluxo de diagnóstico prático:
+\begin{itemize}
+    \item \textbf{Verificação de Alimentação e POST:} Ligação do equipamento à corrente elétrica. Se o computador não ligasse ou não completasse o POST, era encaminhado diretamente para a área de desmantelamento para reciclagem e aproveitamento de peças internas.
+    \item \textbf{Identificação de Componentes:} Nos computadores funcionais que iniciavam com sucesso, conectava-se um teclado e rato externos de testes para aceder às especificações do sistema no BIOS ou sistema operativo básico. O processador era identificado e registava-se a sua geração. O equipamento era então catalogado e marcado como operacional (ex: com etiqueta contendo a indicação \textit{"OK"} e a geração do CPU), como demonstrado na Figura~\ref{fig:foto_aio_processador}.
+    \item \textbf{Teste de Ecrã Tátil (Touchscreen):} Nos modelos de computadores \textit{All-in-One} equipados com tecnologia de ecrã tátil, procedeu-se a um teste adicional de toque multiponto para validar a resposta do digitalizador e garantir a funcionalidade total do painel interativo.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagens/foto_aio_processador}
+    \caption{Classificação de computadores All-in-One segundo o processador identificado.}
+    \label{fig:foto_aio_processador}
+\end{figure}
+
+\section{Preparação e Recondicionamento de Equipamentos}
+
+O recondicionamento e a preparação final de portáteis integraram procedimentos rigorosos de manutenção física, higienização e validação de software para assegurar que o product final atinge as condições ideais de mercado:
+\begin{itemize}
+    \item \textbf{Inspeção e Diagnóstico Inicial:} Diagnóstico prévio do arranque do sistema, qualidade da imagem no ecrã e funcionamento do carregador. Se o equipamento não exibisse imagem, eram instalados módulos de RAM previamente validados para verificar se o portátil conseguia concluir o POST e carregar o sistema operativo.
+    \item \textbf{Manutenção Física e Térmica:} Desmontagem da tampa inferior do equipamento, limpeza completa da ventoinha do CPU e remoção da poeira acumulada nas grelhas de ventilação e dissipador de calor. A pasta térmica antiga e ressecada foi limpa com álcool isopropílico, aplicando-se de seguida uma camada fina e homogénea de nova pasta térmica de alta qualidade para restabelecer a dissipação térmica eficiente (Figuras~\ref{fig:sub_processador} e \ref{fig:sub_dissipador}).
+    \item \textbf{Higienização Exterior e de Ecrã:} Limpeza minuciosa da carcaça exterior, teclado e \textit{touchpad} utilizando papel absorvente e álcool isopropílico para remover sujidade e marcas de uso. O painel do ecrã foi limpo com produto específico para superfícies óticas para proteger o seu tratamento antirreflexo.
+    \item \textbf{Instalação do Sistema Operativo e Controladores:} Instalação limpa do \textit{Windows 10 Pro} ou \textit{Windows 11 Pro} (dependendo da compatibilidade de hardware) a partir de uma \textit{pen} USB de arranque (Figura~\ref{fig:sub_instalacao}). Em seguida, foi executado o \textit{Windows Update} para instalação automática dos respetivos controladores (\textit{drivers}) de hardware e correções de segurança.
+    \item \textbf{Testes Finais de Estabilidade:} Validação final do sistema deixando o portátil ligado a reproduzir vídeo continuamente por um período prolongado, permitindo detetar falhas sob carga de trabalho, instabilidades no ecrã, problemas na bateria/carregamento ou anomalias relacionadas com a alimentação elétrica.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagens/foto_processador_limpo}
+        \caption{Processador sem refrigeração.}
+        \label{fig:sub_processador}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagens/foto_dissipador_limpo}
+        \caption{Dissipador de calor.}
+        \label{fig:sub_dissipador}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagens/foto_instalacao_windows}
+        \caption{Instalação do Windows.}
+        \label{fig:sub_instalacao}
+    \end{subfigure}
+    \caption{Etapas do processo de manutenção e recondicionamento físico e lógico de computadores portáteis.}
+    \label{fig:recondicionamento_composto}
+\end{figure}
