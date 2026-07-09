@@ -346,6 +346,28 @@ A triagem de módulos de memória \ac{RAM} constitui um passo essencial na recup
     \item \textbf{Classificação e Armazenamento:} Os módulos aprovados foram classificados de acordo com a sua capacidade (GB) e tecnologia (DDR3 ou DDR4) e organizados para reutilização em equipamentos recondicionados. Módulos que não geravam imagem foram descartados e encaminhados para reciclagem de \ac{REEE}.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Computador de testes das RAM]} \\
+    \textit{Bancada e motherboard utilizadas para verificação rápida de arranque de módulos de memória.}
+    \vspace{1.5cm}
+    \caption{Equipamento utilizado para validação funcional de módulos de memória RAM.}
+    \label{fig:foto_computador_ram}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Diferença entre as RAM]} \\
+    \textit{Comparação visual e estrutural entre módulos DDR3 e DDR4, evidenciando as diferenças nos encaixes (notches) e etiquetas de voltagem.}
+    \vspace{1.5cm}
+    \caption{Comparação física entre diferentes tipos de módulos de memória RAM utilizados nos testes.}
+    \label{fig:foto_diferenca_ram}
+\end{figure}
+
 \noindent\textbf{Testes de Unidades de Armazenamento (\ac{SATA} \ac{SSD} e M.2)}
 
 Com a crescente substituição de discos mecânicos por unidades de estado sólido, a empresa recebe volumes significativos de dispositivos de armazenamento \ac{SSD}, tanto com interface \ac{SATA} de 2,5 polegadas como no formato M.2 (\ac{SATA} e \ac{NVMe}). Para avaliar a sua viabilidade de reutilização, seguiu-se o seguinte protocolo:
@@ -354,6 +376,61 @@ Com a crescente substituição de discos mecânicos por unidades de estado sóli
     \item \textbf{Análise de Saúde \ac{SMART}:} Execução do software \textit{Hard Disk Sentinel} para leitura e avaliação dos dados de integridade \ac{SMART}. Foram analisados a percentagem geral de saúde, a temperatura de funcionamento, o tempo acumulado de atividade (\textit{power-on time}) e parâmetros críticos como o contador de setores realocados (\textit{Reallocated Sectors Count} - ID 05) e contagem de setores incorrigíveis (\textit{Uncorrectable Sector Count} - ID 198).
     \item \textbf{Destino das Unidades (Reutilização vs. Reciclagem):} Unidades com saúde superior a 50\% e temperatura estável foram aprovadas para recondicionamento. Discos com saúde inferior a 50\%, falhas graves de \ac{SMART}, firmware corrompido/valores incoerentes ou que não comunicassem com o sistema de diagnóstico foram encaminhados para reciclagem. As unidades aprovadas foram formatadas na Gestão de Discos do Windows 10, higienizadas e marcadas fisicamente na carcaça com a respetiva percentagem de saúde antes do armazenamento por capacidade.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Computador de testes para discos M.2]} \\
+    \textit{Posto de trabalho equipado com adaptadores e baías de ligação rápida para diagnóstico de unidades M.2.}
+    \vspace{1.5cm}
+    \caption{Computador de testes utilizado para validação funcional de unidades de armazenamento M.2.}
+    \label{fig:foto_teste_m2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Hard Disk Sentinel aberto]} \\
+    \textit{Visualização do ecrã de diagnóstico do software, apresentando os parâmetros de integridade, erros registados e percentagem de saúde.}
+    \vspace{1.5cm}
+    \caption{Análise do estado de saúde de uma unidade de armazenamento através do Hard Disk Sentinel.}
+    \label{fig:foto_hd_sentinel}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Gestão de Discos do Windows]} \\
+    \textit{Procedimento de remoção de partições antigas e formatação lógica com criação de novo volume simples em NTFS.}
+    \vspace{1.5cm}
+    \caption{Preparação lógica de unidades de armazenamento através da remoção de partições e criação de volume simples.}
+    \label{fig:foto_gestao_discos}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Caixa com discos M.2 separados e marcados]} \\
+    \textit{Organização em lotes dos discos aprovados, etiquetados individualmente com a respetiva capacidade e integridade.}
+    \vspace{1.5cm}
+    \caption{Organização de discos M.2 testados e identificados após o processo de triagem.}
+    \label{fig:foto_caixa_m2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Discos para desmantelar com X marcado]} \\
+    \textit{Unidades reprovadas nos testes físicos e lógicos, marcadas com caneta indelével para reciclagem e trituração.}
+    \vspace{1.5cm}
+    \caption{Identificação de unidades de armazenamento encaminhadas para desmantelamento após reprovação nos testes.}
+    \label{fig:foto_discos_x}
+\end{figure}
 
 \subsection{Triagem de Baterias, Transformadores, Monitores e PCs All-in-One}
 
@@ -364,6 +441,39 @@ As baterias de iões de lítio (Li-ion) provenientes de computadores portáteis 
     \item \textbf{Separação por Marca:} Organização das baterias em bom estado físico de acordo com o fabricante/marca do portátil correspondente (ex: HP, Dell, Asus, Lenovo), facilitando o seu emparelhamento com futuros equipamentos a recondicionar.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Separação de Baterias por Marca]} \\
+    \textit{Lotes de baterias de portáteis organizados por fabricante nas caixas de armazenamento.}
+    \vspace{1.5cm}
+    \caption{Separação e organização de baterias por marca para posterior validação e reaproveitamento.}
+    \label{fig:foto_baterias_marca}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Baterias Inchadas]} \\
+    \textit{Módulos de iões de lítio que apresentam deformação volumétrica e risco físico, isolados para descarte.}
+    \vspace{1.5cm}
+    \caption{Exemplo de baterias danificadas identificadas durante a triagem, não sendo encaminhadas para reutilização.}
+    \label{fig:foto_baterias_inchadas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Bidões de Armazenamento Seguro]} \\
+    \textit{Recipientes de contenção estanques utilizados para depositar baterias inoperantes ou perigosas.}
+    \vspace{1.5cm}
+    \caption{Acondicionamento separado de baterias danificadas para tratamento adequado.}
+    \label{fig:foto_bidoes_baterias}
+\end{figure}
+
 \noindent\textbf{Separação e Validação de Transformadores de Alimentação}
 
 A triagem de transformadores (carregadores de computadores portáteis e periféricos diversos) permitiu recuperar centenas de unidades funcionais, evitando o desperdício de componentes elétricos de alta qualidade. O trabalho manual desenvolvido incluiu:
@@ -372,6 +482,17 @@ A triagem de transformadores (carregadores de computadores portáteis e perifér
     \item \textbf{Teste Dinâmico de Alimentação:} Para verificar a integridade da entrega de energia de forma prática e rápida, utilizou-se uma placa-mãe de testes configurada sem processador ou memórias. Ao ligar o carregador na porta de alimentação, a placa emitia um sinal sonoro (apito/beep) contínuo. A receção deste sinal confirmava a passagem correta e estável da corrente elétrica, validando o transformador como funcional.
     \item \textbf{Separação por Marca e Tipo de Conetor:} Triagem e catalogação das unidades aprovadas segundo a marca e o formato geométrico do conector de entrada (ex: conectores cilíndricos de diferentes diâmetros, fichas retangulares proprietárias ou interfaces USB-C), preparando-as para acompanhar os respetivos equipamentos recondicionados.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Caixa dos Transformadores Cortados e Separados]} \\
+    \textit{Carregadores inoperantes eliminados por corte de cabos, promovendo a separação e triagem seletiva de materiais.}
+    \vspace{1.5cm}
+    \caption{Separação de transformadores danificados entre cabo e carcaça para encaminhamento adequado.}
+    \label{fig:foto_transformadores_caixa}
+\end{figure}
 
 \noindent\textbf{Separação e Diagnóstico de Monitores}
 
@@ -382,6 +503,17 @@ A triagem de monitores de vídeo recebidos na empresa seguiu um procedimento de 
     \item \textbf{Identificação de Anomalias:} Caso fossem detetados problemas menores no ecrã (como manchas, riscos ligeiros ou pixéis mortos), a unidade era assinalada com uma etiqueta identificativa descrevendo o problema concreto (por exemplo, \textit{"OK COM MANCHA"}), permitindo a sua reutilização condicional ou venda com indicação precisa do defeito.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Monitores Estragados]} \\
+    \textit{Ecrãs e painéis de visualização que chumbaram nos testes de imagem, arrumados na zona de reciclagem de REEE.}
+    \vspace{1.5cm}
+    \caption{Equipamentos de visualização separados após identificação de danos ou avarias.}
+    \label{fig:foto_monitores_estragados}
+\end{figure}
+
 \noindent\textbf{Processamento e Teste de Computadores All-in-One}
 
 Para a triagem de computadores integrados do tipo \textit{All-in-One} (AIO), foi definido o seguinte fluxo de diagnóstico prático:
@@ -390,6 +522,17 @@ Para a triagem de computadores integrados do tipo \textit{All-in-One} (AIO), foi
     \item \textbf{Identificação de Componentes:} Nos computadores funcionais que iniciavam com sucesso, conectava-se um teclado e rato externos de testes para aceder às especificações do sistema no BIOS ou sistema operativo básico. O processador era identificado e registava-se a sua geração. O equipamento era então catalogado e marcado como operacional (ex: com etiqueta contendo a indicação \textit{"OK"} e a geração do CPU).
     \item \textbf{Teste de Ecrã Tátil (Touchscreen):} Nos modelos de computadores \textit{All-in-One} equipados com tecnologia de ecrã tátil, procedeu-se a um teste adicional de toque multiponto para validar a resposta do digitalizador e garantir a funcionalidade total do painel interativo.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Marcação por Processador em All-in-One PCs]} \\
+    \textit{Sinalização na carcaça traseira dos computadores integrados com etiquetas indicadoras do modelo e geração do CPU.}
+    \vspace{1.5cm}
+    \caption{Classificação de computadores All-in-One segundo o processador identificado.}
+    \label{fig:foto_aio_processador}
+\end{figure}
 
 \subsection{Preparação e Recondicionamento de Equipamentos}
 
@@ -401,3 +544,47 @@ O recondicionamento e a preparação final de portáteis integraram procedimento
     \item \textbf{Instalação do Sistema Operativo e Controladores:} Instalação limpa do \textit{Windows 10 Pro} ou \textit{Windows 11 Pro} (dependendo da compatibilidade de hardware) a partir de uma \textit{pen} USB de arranque. Em seguida, foi executado o \textit{Windows Update} para instalação automática dos respetivos controladores (\textit{drivers}) de hardware e correções de segurança.
     \item \textbf{Testes Finais de Estabilidade:} Validação final do sistema deixando o portátil ligado a reproduzir vídeo continuamente por um período prolongado, permitindo detetar falhas sob carga de trabalho, instabilidades no ecrã, problemas na bateria/carregamento ou anomalias relacionadas com a alimentação elétrica.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Processador sem Refrigeração para Troca de Pasta Térmica]} \\
+    \textit{Superfície da CPU limpa e exposta para a aplicação da nova pasta térmica de alta condutividade.}
+    \vspace{1.5cm}
+    \caption{Preparação do processador para substituição da pasta térmica durante o recondicionamento do equipamento.}
+    \label{fig:foto_processador_limpo}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Dissipador de Calor do Portátil]} \\
+    \textit{Conjunto metálico de dissipação térmica e ventoinha completamente limpos de resíduos e poeiras.}
+    \vspace{1.5cm}
+    \caption{Sistema de dissipação térmica removido para limpeza e manutenção.}
+    \label{fig:foto_dissipador_limpo}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Produtos Usados para Limpar os Portáteis]} \\
+    \textit{Materiais de limpeza, incluindo álcool isopropílico, panos de microfibras e pincéis de precisão.}
+    \vspace{1.5cm}
+    \caption{Materiais utilizados na limpeza e preparação estética dos equipamentos portáteis.}
+    \label{fig:foto_produtos_limpeza}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{1.5cm}
+    \textbf{[FOTOGRAFIA: Instalação do Windows]} \\
+    \textit{Ecrã de boas-vindas do instalador do Windows 10/11 Pro a ser configurado num portátil recondicionado.}
+    \vspace{1.5cm}
+    \caption{Instalação do sistema operativo Windows em equipamento preparado para reutilização.}
+    \label{fig:foto_instalacao_windows}
+\end{figure}
