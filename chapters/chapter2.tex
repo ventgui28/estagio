@@ -16,9 +16,9 @@ O foco da 20 Recolher está no mercado empresarial e em entidades do Estado (com
 \end{figure}
 
 \section{Equipa onde se insere o estagiário}
-A equipa de desenvolvimento técnico da empresa é composta pelo estagiário, aluno do \ac{CTeSP} de \ac{TPSI} no \ac{ISEC}, integrado numa estrutura de apoio técnico coordenada por Fernando Oliveira, CEO e supervisor de estágio na 20 Recolher. A estrutura organizacional desta equipa é ilustrada no organograma representado na Figura~\ref{fig:organograma}.
+A equipa de desenvolvimento técnico da empresa é composta por dois estagiários, ambos alunos do \ac{CTeSP} de \ac{TPSI} no \ac{ISEC}, integrados numa estrutura de apoio técnico coordenada por Fernando Oliveira, CEO e supervisor de estágio na 20 Recolher. A estrutura organizacional desta equipa é ilustrada no organograma representado na Figura~\ref{fig:organograma}.
 
-Por ser uma equipa pequena, a estrutura de trabalho é direta e informal. As decisões sobre a arquitetura do software, a escolha das tecnologias e a priorização de tarefas foram tomadas pelo estagiário, com a validação final do supervisor de estágio.
+Por ser uma equipa pequena, a estrutura de trabalho é direta e informal. As decisões sobre a arquitetura do software, a escolha das tecnologias e a priorização de tarefas foram tomadas em conjunto pelos dois estagiários, com a validação final do supervisor de estágio.
 
 \begin{figure}[H]
     \centering
@@ -29,17 +29,19 @@ Por ser uma equipa pequena, a estrutura de trabalho é direta e informal. As dec
     ]
         % Nodes
         \node (ceo) {\textbf{Fernando Oliveira} \\ \small Supervisor / CEO};
-        \node (intern1) [below=of ceo] {\textbf{Estagiário} \\ \small Desenvolvimento de Software};
+        \node (intern1) [below left=of ceo] {\textbf{Estagiário (Autor)} \\ \small Desenvolvimento de Software};
+        \node (intern2) [below right=of ceo] {\textbf{Colega de Estágio} \\ \small Desenvolvimento de Software};
         
         % Connections
-        \path [line] (ceo.south) -- (intern1.north);
+        \path [line] (ceo.south) -- ++(0,-0.5) -| (intern1.north);
+        \path [line] (ceo.south) -- ++(0,-0.5) -| (intern2.north);
     \end{tikzpicture}
     \caption{Organograma da Equipa Técnica.}
     \label{fig:organograma}
 \end{figure}
 
 \section{Enquadramento Pessoal na Equipa}
-Ao longo do estágio, o estagiário assumiu a responsabilidade integral pelo desenvolvimento do ecossistema tecnológico da empresa, respondendo às necessidades da 20 Recolher de forma autónoma e com o apoio do supervisor.
+Ao longo do estágio, o desenvolvimento do ecossistema tecnológico foi realizado em entreajuda entre os dois estagiários, respondendo às necessidades da 20 Recolher e com o apoio do supervisor.
 
 Numa fase inicial, procedeu-se ao levantamento de requisitos, ao desenho da arquitetura e à modelação da base de dados da plataforma de pesagens e gestão de recolhas (desenvolvida em \texttt{.NET 10.0} e \texttt{Blazor Server}), que centraliza a gestão das recolhas e a integração com os terminais de pesagem instalados no armazém.
 
@@ -50,12 +52,12 @@ Posteriormente, o desenvolvimento foi estruturado de forma modular, abrangendo:
     \item A \ac{API} central em \texttt{.NET 10}, como ponto único de acesso à base de dados.
 \end{itemize}
 
-As decisões de design, arquitetura e otimização de \ac{SEO} foram tomadas de forma autónoma, com a validação final do supervisor de estágio.
+As decisões de design, arquitetura e otimização de \ac{SEO} foram tomadas em conjunto, com a validação final do supervisor de estágio.
 
 
 \section{Infraestrutura e Espaço de Trabalho}
 
-As instalações da 20 Recolher, situadas na Zona Industrial de Cantanhede, funcionam essencialmente como um armazém de grande dimensão, no interior do qual se encontra um escritório. Foi nesse escritório que decorreu a maior parte do trabalho de desenvolvimento de \textit{software}. Numa fase inicial, o estagiário partilhou o espaço com a restante equipa administrativa da empresa. Posteriormente, foi disponibilizado um espaço de trabalho dedicado, permitindo uma organização mais focada e propícia ao desenvolvimento técnico.
+As instalações da 20 Recolher, situadas na Zona Industrial de Cantanhede, funcionam essencialmente como um armazém de grande dimensão, no interior do qual se encontra um escritório. Foi nesse escritório que decorreu a maior parte do trabalho de desenvolvimento de \textit{software}. Numa fase inicial, o estagiário partilhou o espaço com a restante equipa administrativa da empresa e com o colega de estágio. Posteriormente, foi disponibilizado um espaço de trabalho dedicado aos dois estagiários, permitindo uma organização mais focada e propícia ao desenvolvimento técnico.
 
 \subsection{Equipamentos Utilizados}
 
