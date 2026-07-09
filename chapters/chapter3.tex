@@ -29,7 +29,7 @@ Para concretizar o objetivo geral, definiram-se os seguintes objetivos específi
 
     \item \textbf{Desenvolvimento da \ac{API} Central:} Criar uma \textit{Application Programming Interface} (API) \textit{RESTful} que funcione como a única camada de acesso à base de dados, garantindo que todas as aplicações comuniquem com os dados de forma centralizada, segura e consistente. Este objetivo surgiu da necessidade de separar as duas aplicações Blazor (backoffice e terminal de pesagem) que inicialmente foram concebidas como uma única aplicação monolítica.
 
-    \item \textbf{Testes e Validação Funcional:} Realizar testes práticos de integração do software com os ecrãs táteis e a balança física nas instalações da empresa, assegurando a fiabilidade das operações.
+    \item \textbf{Testes e Validação Funcional:} Realizar testes práticos do software em ambiente real com os ecrãs táteis e validar o processo de registo com a balança industrial nas instalações da empresa. Devido a limitações de hardware e de comunicação direta com a balança, os valores medidos são lidos visualmente pelo operador e introduzidos manualmente na interface táctil do quiosque, sendo o foco dos testes a fiabilidade e rapidez desta inserção sob condições de armazém.
 \end{itemize}
 
 
@@ -82,15 +82,11 @@ Paralelamente, foi desenhado o modelo de dados relacional, identificando as enti
 
 \subsection{Fase 3: Desenvolvimento e Implementação}
 
-Esta foi a fase mais longa e correspondeu à implementação prática das soluções. Ao longo deste período, os dois estagiários colaboraram de forma contínua e transversal em todas as componentes do ecossistema, desde a modelação da base de dados à definição da arquitetura global, bem como o desenvolvimento das interfaces de utilizador e pela configuração da infraestrutura de nuvem.
-
-O desenvolvimento abrangeu as seguintes frentes principais, todas trabalhadas de forma colaborativa:
+Esta foi a fase mais longa e correspondeu à implementação prática das soluções. Ao longo deste período, os dois estagiários colaboraram de forma estreita e partilhada na conceção da arquitetura lógica comum do sistema, na modelação da base de dados central, na definição de contratos e endpoints da API central e no desenvolvimento de componentes reutilizáveis para a interface do Backoffice. A implementação das interfaces finais de utilizador foi dividida de forma a rentabilizar a produtividade individual de cada estagiário:
 \begin{itemize}
-    \item \textbf{Website Institucional} (\textit{Next.js} 15 e \textit{Tailwind CSS} v4): área pública, área reservada de clientes e integração com a \ac{API} central.
-    \item \textbf{Aplicação de Backoffice e Terminal Kiosk} (\textit{Blazor Server}, .NET 10): painel de gestão administrativa, módulos de controlo logístico e terminal de pesagem com autenticação por PIN e emparelhamento de dispositivos.
-    \item \textbf{API Central} (.NET 10, \textit{Clean Architecture}): definição de \textit{endpoints}, regras de negócio, integração com Supabase e sistema de autenticação com JWT.
-    \item \textbf{Modelação da Base de Dados}: desenho do esquema relacional em PostgreSQL, migrações com Entity Framework Core e decisões de integridade referencial e exclusão lógica.
-    \item \textbf{Ferramenta de Comparação de Toners} (React + Vite + Tauri): interface web/desktop para cruzamento de inventário e tabelas de clientes.
+    \item \textbf{Website Institucional e Portal de Cliente:} Desenvolvimento individual a meu cargo, recorrendo a \textit{Next.js} 15 e \textit{Tailwind CSS} v4, bem como a sua integração segura com a \ac{API}.
+    \item \textbf{Terminal Kiosk de Pesagens:} Desenvolvido individualmente pelo colega de estágio em \textit{Blazor Server} (.NET 10), garantindo a adaptação tátil e o login simplificado por PIN.
+    \item \textbf{API Central, Backoffice e Ferramenta de Toners:} Desenvolvidos de forma partilhada e colaborativa por ambos os estagiários, alinhando regras de segurança (CORS e autenticação) e processamento de ficheiros (Excel e Tauri).
 \end{itemize}
 
 A colaboração entre os dois estagiários estendeu-se igualmente à revisão cruzada de código, ao alinhamento de contratos de \ac{API} e à resolução conjunta de problemas de integração entre plataformas.
