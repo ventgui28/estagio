@@ -20,6 +20,32 @@ A infraestrutura é constituída por três camadas lógicas principais:
 
 O isolamento das regras de negócio na API central garante que as aplicações clientes (Web, Backoffice e Quiosque) não comuniquem diretamente com a base de dados, reduzindo o risco de acessos não autorizados e facilitando futuras integrações com outros sistemas da empresa.
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        layer/.style={rectangle, draw=black, thick, fill=blue!5, minimum width=8cm, minimum height=0.8cm, align=center, rounded corners},
+        api/.style={rectangle, draw=blue!80, thick, fill=blue!10, minimum width=8cm, minimum height=0.8cm, align=center, rounded corners},
+        infra/.style={rectangle, draw=black, thick, fill=gray!10, minimum width=8cm, minimum height=0.8cm, align=center, rounded corners},
+        db/.style={rectangle, draw=green!60!black, thick, fill=green!5, minimum width=4cm, minimum height=0.8cm, align=center, rounded corners},
+        line/.style={draw, <->, thick}
+    ]
+        % Nodes
+        \node[layer] (ui) {Camada de Apresentação (Next.js 15 / Blazor Server)};
+        \node[api, below=0.8cm of ui] (api) {Camada de Serviços (API Central .NET 10 REST)};
+        \node[infra, below=0.8cm of api] (core) {Núcleo do Domínio (RecolherApp.Core)};
+        \node[infra, below=0.8cm of core] (infra) {Infraestrutura (EF Core / Supabase Storage)};
+        \node[db, below=0.8cm of infra] (db) {Base de Dados PostgreSQL (Supabase)};
+
+        % Connections
+        \path[line] (ui) -- (api);
+        \path[line] (api) -- (core);
+        \path[line] (core) -- (infra);
+        \path[line] (infra) -- (db);
+    \end{tikzpicture}
+    \caption{Representação das camadas lógicas e fluxo de integração do ecossistema.}
+    \label{fig:arquitetura_camadas}
+\end{figure}
+
 \noindent\textbf{Fluxos Principais da Aplicação}
 
 Para assegurar a digitalização eficiente dos processos da empresa, foram modelados e implementados três fluxos fundamentais:
@@ -273,6 +299,42 @@ O assistente de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) or
 \section{Manutenção e Triagem de Hardware}
 
 Paralelamente às tarefas de desenvolvimento de software, foram realizadas diversas atividades práticas e manuais no departamento técnico da empresa, focadas no processamento, triagem e recondicionamento de REEE. Estas atividades visam a economia circular, procurando testar e recuperar componentes funcionais antes de os encaminhar para reciclagem de matérias-primas.
+
+\subsection{Fluxo de Triagem e Processamento de Hardware}
+
+De forma a garantir que todas as unidades de hardware recebidas na empresa são tratadas segundo um padrão de qualidade consistente e de acordo com as normas de sustentabilidade e segurança da economia circular, estabeleceu-se um fluxo lógico de processamento de resíduos elétricos e eletrónicos (REEE). Este processo manual sistemático está esquematizado no fluxograma da Figura~\ref{fig:fluxo_triagem}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        block/.style={rectangle, draw=black, fill=blue!5, thick, minimum width=3.5cm, minimum height=1cm, align=center, rounded corners},
+        decision/.style={diamond, aspect=1.5, draw=black, fill=yellow!15, thick, minimum width=3cm, minimum height=1cm, align=center},
+        recicla/.style={rectangle, draw=red!80, fill=red!5, thick, minimum width=3.5cm, minimum height=1cm, align=center, rounded corners},
+        line/.style={draw, -latex, thick}
+    ]
+        % Nodes
+        \node[block] (init) {Receção de REEE};
+        \node[block, below=0.6cm of init] (visual) {Inspeção Visual /\\Limpeza Física};
+        \node[decision, below=0.6cm of visual] (ok) {Danos Físicos?};
+        \node[recicla, right=1.5cm of ok] (recicla) {Descarte / Reciclagem\\de REEE (Cobre/Silício)};
+        \node[block, below=0.8cm of ok] (test) {Testes Práticos\\(RAM/SSD/Alim.)};
+        \node[decision, below=0.8cm of test] (testok) {Funcional?};
+        \node[block, below=0.8cm of testok] (recond) {Recondicionamento\\(Higienização / Windows)};
+        \node[block, below=0.6cm of recond] (fim) {Reintegração\\no Mercado};
+
+        % Paths
+        \path[line] (init) -- (visual);
+        \path[line] (visual) -- (ok);
+        \path[line] (ok) -- node[above, near start] {Sim} (recicla);
+        \path[line] (ok) -- node[left] {Não} (test);
+        \path[line] (test) -- (testok);
+        \path[line] (testok) -- node[right, near start] {Não} (recicla);
+        \path[line] (testok) -- node[left] {Sim} (recond);
+        \path[line] (recond) -- (fim);
+    \end{tikzpicture}
+    \caption{Fluxograma do processo sistemático de triagem e recondicionamento de hardware.}
+    \label{fig:fluxo_triagem}
+\end{figure}
 
 \subsection{Diagnóstico de RAM e Unidades de Armazenamento}
 

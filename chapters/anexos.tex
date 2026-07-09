@@ -1,0 +1,97 @@
+\chapter{Excertos de Código e Configurações}\label{ap:codigo}
+\thispagestyle{fancy}
+
+Neste anexo, apresentam-se alguns excertos de código e configurações críticas desenvolvidas para o ecossistema tecnológico, evidenciando as decisões de integração e segurança tomadas durante o projeto.
+
+\section{Configuração do Proxy Reversível em Next.js}\label{ap:proxy}
+
+De forma a mascarar a localização real da API central e permitir a transmissão segura de cookies com a diretiva \textit{HttpOnly}, configurou-se uma regra de reencaminhamento no ficheiro de configuração do Next.js. O trecho abaixo ilustra como os pedidos direcionados para \texttt{/api/v1/*} são mapeados internamente para a API em .NET:
+
+\begin{lstlisting}[language=HTML, caption={Configuração de rewrites de rede em Next.js.}]
+// next.config.mjs
+const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: '/api/v1/:path*',
+        destination: process.env.NEXT_PUBLIC_API_URL + '/api/v1/:path*',
+      },
+    ];
+  },
+};
+
+export default nextConfig;
+\end{lstlisting}
+
+\section{Configuração de Políticas CORS no .NET API}\label{ap:cors}
+
+Para garantir que apenas os clientes autorizados conseguem obter dados da API, implementou-se uma política de CORS estrita na inicialização do serviço .NET, limitando o acesso ao domínio do portal cliente:
+
+\begin{lstlisting}[language=HTML, caption={Configuração de políticas CORS na API em C\#.}]
+// Program.cs
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PortalClientePolicy", policy =>
+    {
+        policy.WithOrigins(builder.Configuration["AllowedOrigins:PortalCliente"] 
+                ?? "https://portal.20recolher.pt")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); // Permitir envio de tokens de cookies
+    });
+});
+
+var app = builder.Build();
+app.UseCors("PortalClientePolicy");
+\end{lstlisting}
+
+\section{Mecanismo de Filtro Global de Soft-Delete no EF Core}\label{ap:softdelete}
+
+Para automatizar a exclusão lógica ao nível da base de dados sem necessidade de adicionar cláusulas condicionais repetitivas nas consultas do Entity Framework Core, configurou-se um filtro de consulta global no contexto de dados:
+
+\begin{lstlisting}[language=HTML, caption={Configuração de filtro global de consulta para soft-delete no EF Core.}]
+// ApplicationDbContext.cs
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    base.OnModelCreating(modelBuilder);
+
+    // Aplicar filtro de eliminação lógica para todas as entidades que herdam de ISoftDeletable
+    foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+    {
+        if (typeof(ISoftDeletable).IsAssignableFrom(entityType.ClrType))
+        {
+            modelBuilder.Entity(entityType.ClrType)
+                .HasQueryFilter(ConvertFilterExpression(entityType.ClrType));
+        }
+    }
+}
+\end{lstlisting}
+
+\chapter{Registo Fotográfico do Lab de Hardware}\label{ap:fotos}
+\thispagestyle{fancy}
+
+Neste anexo, apresentam-se fotografias do espaço de trabalho e dos processos manuais de diagnóstico e manutenção efetuados no departamento de hardware da empresa.
+
+\begin{figure}[H]
+    \centering
+    \confidencial % Indica que as fotografias são de cariz operacional privado
+    \vspace{2cm}
+    \textbf{[FOTOGRAFIA 1: Área de Triage e Diagnóstico de REEE]} \\
+    \textit{Espaço reservado aos testes de RAM, discos e transformadores.}
+    \vspace{2cm}
+    \caption{Bancada de ensaio e computadores de teste utilizados no laboratório.}
+    \label{fig:foto_bancada}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \confidencial
+    \vspace{2cm}
+    \textbf{[FOTOGRAFIA 2: Processo de Recondicionamento de Equipamentos]} \\
+    \textit{Etapa de higienização interna e aplicação de composto térmico na CPU.}
+    \vspace{2cm}
+    \caption{Manutenção física e preparação estética de portátil recondicionado.}
+    \label{fig:foto_manutencao}
+\end{figure}

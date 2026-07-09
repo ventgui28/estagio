@@ -1,4 +1,4 @@
-﻿%Ficheiro Principal - Contem packages a usar e a definição do esqueleto do relatório.
+%Ficheiro Principal - Contem packages a usar e a definição do esqueleto do relatório.
 % Recursos usados durante a elaboração deste documento:
 % - https://www.overleaf.com/learn - Documentação do overleaf, serve de rampa de lançamento para aprender o LaTeX.
 % - https://www.tablesgenerator.com/ - Permite a criação de tabelas para LaTeX sem ter que lidar com a sintaxe do mesmo.
@@ -29,7 +29,7 @@
 \usepackage[open=true]{bookmark}
 \usepackage{xcolor}
 \usepackage{tikz} %para criar tarjas pretas em textos
-\usetikzlibrary{positioning}
+\usetikzlibrary{positioning, shapes.geometric}
 \usepackage{minitoc}
 
 
@@ -371,11 +371,8 @@ CEO, 20 Recolher - Gestão de Resíduos,  Lda}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                               ANEXOS
 
-% Descomenta e ajusta esta secção quando tiveres os teus próprios anexos (ex: Proposta de Estágio em PDF)
-% \appendix
-% \chapter{Proposta de Estágio}\label{ApeI}
-% \thispagestyle{fancy}
-% \includepdf[pages=-,scale=0.9]{annexs/teu-plano-de-trabalhos.pdf}
+\appendix
+\include{chapters/anexos}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                       ÚLTIMA PÁGINA
