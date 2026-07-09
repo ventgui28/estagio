@@ -313,11 +313,11 @@ De forma a garantir que todas as unidades de hardware recebidas na empresa são 
         line/.style={draw, -latex, thick}
     ]
         % Nodes
-        \node[block] (init) {Receção de REEE};
+        \node[block] (init) {Receção de \acs{REEE}};
         \node[block, below=0.6cm of init] (visual) {Inspeção Visual /\\Limpeza Física};
         \node[decision, below=0.6cm of visual] (ok) {Danos Físicos?};
-        \node[recicla, right=1.5cm of ok] (recicla) {Descarte / Reciclagem\\de REEE (Cobre/Silício)};
-        \node[block, below=0.8cm of ok] (test) {Testes Práticos\\(RAM/SSD/Alim.)};
+        \node[recicla, right=1.5cm of ok] (recicla) {Descarte / Reciclagem\\de \acs{REEE} (Cobre/Silício)};
+        \node[block, below=0.8cm of ok] (test) {Testes Práticos\\(\acs{RAM}/\acs{SSD}/Alim.)};
         \node[decision, below=0.8cm of test] (testok) {Funcional?};
         \node[block, below=0.8cm of testok] (recond) {Recondicionamento\\(Higienização / Windows)};
         \node[block, below=0.6cm of recond] (fim) {Reintegração\\no Mercado};
@@ -338,21 +338,21 @@ De forma a garantir que todas as unidades de hardware recebidas na empresa são 
 
 \subsection{Diagnóstico de RAM e Unidades de Armazenamento}
 
-A triagem de módulos de memória RAM constitui um passo essencial na recuperação de computadores obsoletos ou danificados que são entregues na empresa. Foram efetuados testes sistemáticos a memórias de tecnologia DDR3 e DDR4, tanto de formato DIMM (computadores de secretária) como SO-DIMM (portáteis). O processo estruturou-se da seguinte forma:
+A triagem de módulos de memória \ac{RAM} constitui um passo essencial na recuperação de computadores obsoletos ou danificados que são entregues na empresa. Foram efetuados testes sistemáticos a memórias de tecnologia DDR3 e DDR4, tanto de formato DIMM (computadores de secretária) como SO-DIMM (portáteis). O processo estruturou-se da seguinte forma:
 \begin{itemize}
     \item \textbf{Inspeção Visual Inicial e Limpeza:} Verificação de danos físicos no circuito impresso, contactos oxidados ou ausência de componentes passivos (como condensadores SMD). Os contactos dourados foram limpos de forma a remover qualquer oxidação.
     \item \textbf{Identificação da Tecnologia (DDR3 vs. DDR4):} A distinção entre módulos DDR3 e DDR4 foi realizada através de três critérios fundamentais: a posição do entalhe (\textit{notch}) na fila de contactos (DDR3 centrado, DDR4 deslocado para a lateral), a leitura das etiquetas do fabricante (identificando PC3 ou PC3L para DDR3, e PC4 para DDR4) e as diferenças de voltagem nominal (1,5\,V ou 1,35\,V para DDR3, e 1,2\,V para DDR4).
     \item \textbf{Verificação de Funcionamento Prático (POST):} Instalação de cada módulo individual numa placa-mãe de testes compatível com a respetiva tecnologia. O diagnóstico baseou-se na verificação do POST (Power-On Self-Test): se o sistema arrancasse, concluísse o POST e exibisse sinal de vídeo estável com as informações básicas do sistema, o módulo era considerado operacional.
-    \item \textbf{Classificação e Armazenamento:} Os módulos aprovados foram classificados de acordo com a sua capacidade (GB) e tecnologia (DDR3 ou DDR4) e organizados para reutilização em equipamentos recondicionados. Módulos que não geravam imagem foram descartados e encaminhados para reciclagem de REEE.
+    \item \textbf{Classificação e Armazenamento:} Os módulos aprovados foram classificados de acordo com a sua capacidade (GB) e tecnologia (DDR3 ou DDR4) e organizados para reutilização em equipamentos recondicionados. Módulos que não geravam imagem foram descartados e encaminhados para reciclagem de \ac{REEE}.
 \end{itemize}
 
-\noindent\textbf{Testes de Unidades de Armazenamento (SATA SSD e M.2)}
+\noindent\textbf{Testes de Unidades de Armazenamento (\ac{SATA} \ac{SSD} e M.2)}
 
-Com a crescente substituição de discos mecânicos por unidades de estado sólido, a empresa recebe volumes significativos de dispositivos de armazenamento SSD, tanto com interface SATA de 2,5 polegadas como no formato M.2 (SATA e NVMe). Para avaliar a sua viabilidade de reutilização, seguiu-se o seguinte protocolo:
+Com a crescente substituição de discos mecânicos por unidades de estado sólido, a empresa recebe volumes significativos de dispositivos de armazenamento \ac{SSD}, tanto com interface \ac{SATA} de 2,5 polegadas como no formato M.2 (\ac{SATA} e \ac{NVMe}). Para avaliar a sua viabilidade de reutilização, seguiu-se o seguinte protocolo:
 \begin{itemize}
     \item \textbf{Ligação e Apagamento de Dados:} Ligação das unidades a computadores de teste ou adaptadores dedicados. Efetuou-se uma formatação de baixo nível ou apagamento seguro para garantir a eliminação de dados anteriores e preservar a confidencialidade das informações de antigos utilizadores.
-    \item \textbf{Análise de Saúde S.M.A.R.T.:} Execução do software \textit{Hard Disk Sentinel} para leitura e avaliação dos dados de integridade SMART. Foram analisados a percentagem geral de saúde, a temperatura de funcionamento, o tempo acumulado de atividade (\textit{power-on time}) e parâmetros críticos como o contador de setores realocados (\textit{Reallocated Sectors Count} - ID 05) e contagem de setores incorrigíveis (\textit{Uncorrectable Sector Count} - ID 198).
-    \item \textbf{Destino das Unidades (Reutilização vs. Reciclagem):} Unidades com saúde superior a 50\% e temperatura estável foram aprovadas para recondicionamento. Discos com saúde inferior a 50\%, falhas graves de SMART, firmware corrompido/valores incoerentes ou que não comunicassem com o sistema de diagnóstico foram encaminhados para reciclagem. As unidades aprovadas foram formatadas na Gestão de Discos do Windows 10, higienizadas e marcadas fisicamente na carcaça com a respetiva percentagem de saúde antes do armazenamento por capacidade.
+    \item \textbf{Análise de Saúde \ac{SMART}:} Execução do software \textit{Hard Disk Sentinel} para leitura e avaliação dos dados de integridade \ac{SMART}. Foram analisados a percentagem geral de saúde, a temperatura de funcionamento, o tempo acumulado de atividade (\textit{power-on time}) e parâmetros críticos como o contador de setores realocados (\textit{Reallocated Sectors Count} - ID 05) e contagem de setores incorrigíveis (\textit{Uncorrectable Sector Count} - ID 198).
+    \item \textbf{Destino das Unidades (Reutilização vs. Reciclagem):} Unidades com saúde superior a 50\% e temperatura estável foram aprovadas para recondicionamento. Discos com saúde inferior a 50\%, falhas graves de \ac{SMART}, firmware corrompido/valores incoerentes ou que não comunicassem com o sistema de diagnóstico foram encaminhados para reciclagem. As unidades aprovadas foram formatadas na Gestão de Discos do Windows 10, higienizadas e marcadas fisicamente na carcaça com a respetiva percentagem de saúde antes do armazenamento por capacidade.
 \end{itemize}
 
 \subsection{Triagem de Baterias, Transformadores, Monitores e PCs All-in-One}
