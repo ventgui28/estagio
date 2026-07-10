@@ -1,29 +1,27 @@
-\chapter{Atividades Planeadas}\label{chap3}
+\chapter{Objetivos, Decisões Técnicas e Planeamento}\label{chap3}
 
-
-\section{Descrição de Objetivos}\label{sec:objetivos}
 
 O estágio curricular realizado na 20 Recolher --- Gestão de Resíduos, Lda. teve como ponto de partida um levantamento detalhado das necessidades tecnológicas da empresa.
 
-\subsection{Estado Inicial e Problema Identificado}
+\section{Estado Inicial e Problema Identificado}
 No início do período de estágio, constatou-se que os processos operacionais dependiam de métodos inteiramente manuais e descentralizados. Os pedidos de recolha de resíduos por parte dos clientes eram comunicados por canais informais, como telefonemas ou trocas de e-mail manuais, sem qualquer validação automática de dados ou agendamento estruturado.
 O registo físico das pesagens dependia de os operadores anotarem os valores medidos na balança industrial e, posteriormente, digitarem essa informação em folhas de cálculo locais. Este procedimento gerava frequentes erros de introdução, redundância de dados e lacunas de rastreabilidade. A empresa não possuía presença digital estruturada, o que impedia os seus clientes de consultar faturas, históricos de pesagem ou códigos legais de resíduos (LER) de forma autónoma.
 Esta dependência de tarefas manuais provocava atrasos nas operações logísticas, sobrecarga nos canais de comunicação interna e uma considerável exposição a perdas de dados.
 
 O objetivo central do estágio consistiu, assim, em conceber, desenvolver e implementar uma solução tecnológica integrada que automatizasse e digitalizasse estes processos, de forma a aumentar a eficiência operacional da empresa e a melhorar a experiência dos seus clientes.
 
-\subsection{Objetivo Geral}
+\section{Objetivo Geral}
 
 Desenvolver um ecossistema de software integrado para a 20 Recolher que automatize o ciclo completo de gestão de recolhas de resíduos --- desde a solicitação online por parte do cliente até ao registo físico das pesagens no armazém ---, para substituir processos manuais por fluxos digitais seguros, rastreáveis e escaláveis.
 
-\subsection{Objetivos Específicos}
+\section{Objetivos Específicos}
 
 Para concretizar o objetivo geral, definiram-se os seguintes objetivos específicos:
 
 \begin{itemize}
     \item \textbf{Desenvolvimento do Website Institucional:} Criar um novo website institucional moderno para a empresa, com duas vertentes distintas: uma área pública para apresentação dos serviços e captação de novos clientes, e uma área reservada para clientes registados. Esta área reservada permite que os clientes efetuem pedidos de recolha de forma autónoma, acompanhem o estado das suas recolhas e comuniquem diretamente com os operadores através de um sistema de mensagens diretas. A presença digital estruturada é fundamental para reduzir o volume de contactos telefónicos e e-mails manuais, de forma a centralizar a gestão de clientes numa plataforma digital segura.
     \item \textbf{Desenvolvimento da Aplicação de \textit{Backoffice}:} Construir uma aplicação de gestão interna para os operadores da empresa, que centralize o controlo de clientes, a triagem e agendamento de pedidos de recolha, a visualização de pesagens e a administração de utilizadores e permissões. O objetivo é substituir o uso de folhas de cálculo e comunicações manuais.
-    \item \textbf{Desenvolvimento do Terminal de Pesagem (\textit{Kiosk}):} Desenvolver uma aplicação dedicada à zona física de pesagens, concebida para operar em ecrãs táteis. O terminal simplifica a introdução de valores de peso, para automatizar a recolha de dados de pesagem e associando-as à recolha em curso e ao material pesado.
+    \item \textbf{Desenvolvimento do Terminal de Pesagem (\textit{Kiosk}):} Desenvolver uma aplicação dedicada à zona física de pesagens, concebida para operar em ecrãs táteis. O terminal simplifica a introdução dos valores de peso, permitindo automatizar o registo dos dados de pesagem e associá-los à recolha em curso e ao respetivo material.
 
     \item \textbf{Modelação e Implementação da Base de Dados Centralizada:} Conceber e implementar o modelo de dados relacional que suporte de forma unificada todas as aplicações do ecossistema. O modelo deve garantir a integridade referencial dos dados, manter um histórico completo de operações (através de exclusão lógica) e ser alojado numa infraestrutura de nuvem fiável e escalável.
 
@@ -39,7 +37,7 @@ A escolha das tecnologias baseou-se em critérios como a adequação técnica ao
 
 \subsection{Desenvolvimento Frontend e Presença Web}
 \begin{itemize}
-    \item \textbf{\textit{Next.js} 15 (Website Institucional):} Escolhido para o website por ser um \textit{framework} React moderno com suporte nativo a renderização do lado do servidor (\ac{SSR}), o que garante tempos de carregamento inicial reduzidos e uma indexação eficaz em motores de busca (\ac{SEO}). Para uma empresa de serviços ambientais como a 20 Recolher, com pouca presença digital estruturada antes do estágio, um bom posicionamento nos motores de busca traduz-se diretamente numa maior visibilidade e numa captação mais fácil de novos clientes sem custos de publicidade. Além disso, a versão 15 com \textit{App Router} simplifica o roteamento e o consumo de dados, reduzindo o volume de código necessário e tornando o projeto mais fácil de manter e evoluir no futuro.
+    \item \textbf{\textit{Next.js} 16 (Website Institucional):} Escolhido para o website por ser um \textit{framework} React moderno que suporta múltiplas estratégias de renderização, incluindo a geração estática de páginas (\ac{SSG}) e a renderização do lado do cliente (\ac{CSR}), o que permite combinar páginas institucionais estáticas com elevado desempenho e boa indexação em motores de busca (\ac{SEO}) com áreas dinâmicas reservadas. Para uma empresa de serviços ambientais como a 20 Recolher, com pouca presença digital estruturada antes do estágio, um bom posicionamento nos motores de busca traduz-se diretamente numa maior visibilidade e numa captação mais fácil de novos clientes sem custos de publicidade. Além disso, a arquitetura \textit{App Router} simplifica o roteamento e o consumo de dados, reduzindo o volume de código necessário e tornando o projeto mais fácil de manter e evoluir no futuro.
     \item \textbf{\textit{Tailwind \ac{CSS}} v4 (Estilização):} Adotado para acelerar o desenho da interface e garantir um visual fluido e responsivo em smartphones, tablets e computadores. A abordagem de utilitários elimina a necessidade de escrever folhas de estilos personalizadas extensas, resultando em menos código \ac{CSS} para manter e num design consistente em todo o website. Sendo os clientes da empresa maioritariamente entidades empresariais que consultam os seus dados em múltiplos dispositivos, a responsividade não é uma opção mas um requisito operacional fundamental.
 \end{itemize}
 
@@ -93,7 +91,7 @@ Paralelamente, foi desenhado o modelo de dados relacional, identificando as enti
 
 Esta foi a fase mais longa e correspondeu à implementação prática das soluções. O desenvolvimento foi realizado em entreajuda entre os dois estagiários, com a continúa revisão e alinhamento de decisões técnicas ao longo do processo. As componentes desenvolvidas abrangem:
 \begin{itemize}
-    \item \textbf{Website Institucional e Portal de Cliente:} Desenvolvido em \textit{Next.js} 15 e \textit{Tailwind \ac{CSS}} v4, com integração segura com a \ac{API}.
+    \item \textbf{Website Institucional e Portal de Cliente:} Desenvolvido em \textit{Next.js} 16 e \textit{Tailwind \ac{CSS}} v4, com integração segura com a \ac{API}.
     \item \textbf{Terminal Kiosk de Pesagens:} Desenvolvido em \textit{Photino.Blazor} (.NET 10), com adaptação tátil e \textit{login} simplificado por PIN.
     \item \textbf{API Central, Backoffice e Ferramenta de Toners:} Desenvolvidos garantindo a segurança (\ac{CORS} e autenticação) e o processamento de ficheiros (Excel e Tauri).
 \end{itemize}
