@@ -45,7 +45,7 @@ A escolha das tecnologias baseou-se em critérios como a adequação técnica ao
 
 \subsection{Aplicações Empresariais Internas}
 \begin{itemize}
-    \item \textbf{\textit{Blazor Server} com .NET 10 (Backoffice e Kiosk):} Escolhido por permitir a criação de interfaces de utilizador ricas em tempo real usando C\# em vez de JavaScript, a linguagem já dominada no contexto do estágio. Isto eliminou a necessidade de manter dois ecossistemas de linguagens distintos e permitiu a partilha direta de modelos de dados, validações e regras de negócio entre a API e as interfaces, reduzindo a duplicação de código e a probabilidade de erros de integração. Para o terminal de pesagem em ambiente de armazém, o Blazor Server mostrou-se igualmente adequado por manter toda a lógica no servidor, diminuindo a carga computacional no dispositivo físico do quiosque.
+    \item \textbf{\textit{Photino.Blazor} com .NET 10 (Backoffice e Kiosk):} Escolhido para as aplicações nativas de desktop por permitir a criação de interfaces de utilizador nativas leves usando C\# e HTML, aproveitando as competências em C\# já dominadas no contexto do estágio. Ao contrário do Blazor Hybrid tradicional baseado em MAUI, o Photino é extremamente leve, multiplataforma e não requer dependências pesadas de runtime para correr, gerando executáveis pequenos. Isto eliminou a necessidade de manter dois ecossistemas de linguagens distintos para as aplicações desktop e permitiu a partilha direta de modelos de dados, validações e regras de negócio com a API central, reduzindo a duplicação de código.
     \item \textbf{\textit{Tauri} (Ferramenta de Toners):} Utilizado para empacotar a ferramenta de comparação de preços de toners como aplicação nativa de ambiente de trabalho (\textit{desktop}), de uso interno exclusivo na 20 Recolher. O Tauri foi preferido ao \textit{Electron} por gerar executáveis significativamente mais leves e com menor consumo de memória, permitindo instalar e executar a ferramenta diretamente no computador de secretária do escritório sem necessidade de configurar ou manter um servidor web dedicado para esta utilidade.
 \end{itemize}
 
@@ -71,7 +71,7 @@ A escolha das tecnologias baseou-se em critérios como a adequação técnica ao
 
 \section{Plano de Trabalhos}\label{sec:plano-trabalhos}
 
-O plano de trabalhos foi estruturado em cinco fases, que se sobrepõem temporalmente de forma natural. As fases de análise e modelação ocorreram essencialmente no início do estágio, enquanto o desenvolvimento e os testes decorreram de forma contínua ao longo de todo o período. O estágio decorreu entre 4 de março e 14 de julho de 2026.
+O plano de trabalhos foi estruturado em cinco fases, que se sobrepõem temporalmente de forma natural. As fases de análise e modelação ocorreram essencialmente no início do estágio, enquanto o desenvolvimento e os testes decorreram de forma contínua ao longo do período. O estágio decorreu entre 4 de março e 14 de julho de 2026.
 
 \subsection{Fase 1: Levantamento de Requisitos e Análise}
 
@@ -85,7 +85,7 @@ Foram levantados e documentados requisitos de dois tipos:
 
 \subsection{Fase 2: Desenho da Arquitetura e Modelação da Base de Dados}
 
-Com base nos requisitos levantados, procedeu-se ao desenho da arquitetura global do sistema. Esta fase culminou na decisão de adotar uma \textit{Clean Architecture}, com uma \ac{API} central como único ponto de acesso à base de dados, consumida pelas aplicações \textit{Blazor} e pelo website.
+Com base nos requisitos levantados, procedeu-se ao desenho da arquitetura global do sistema. Esta fase culminou na decisão de adotar uma \textit{Clean Architecture}, com uma \ac{API} central como único ponto de acesso à base de dados, consumida pelas aplicações nativas \textit{Photino.Blazor} e pelo website.
 
 Paralelamente, foi desenhado o modelo de dados relacional, identificando as entidades principais, as suas relações de cardinalidade e as restrições de integridade referencial. O modelo foi implementado em \textit{PostgreSQL} através de uma abordagem \textit{Code-First} com \textit{Entity Framework Core}, sendo o esquema gerado e versionado através do mecanismo de migrações.
 
@@ -94,7 +94,7 @@ Paralelamente, foi desenhado o modelo de dados relacional, identificando as enti
 Esta foi a fase mais longa e correspondeu à implementação prática das soluções. O desenvolvimento foi realizado em entreajuda entre os dois estagiários, com a continúa revisão e alinhamento de decisões técnicas ao longo do processo. As componentes desenvolvidas abrangem:
 \begin{itemize}
     \item \textbf{Website Institucional e Portal de Cliente:} Desenvolvido em \textit{Next.js} 15 e \textit{Tailwind \ac{CSS}} v4, com integração segura com a \ac{API}.
-    \item \textbf{Terminal Kiosk de Pesagens:} Desenvolvido em \textit{Blazor Server} (.NET 10), com adaptação tátil e \textit{login} simplificado por PIN.
+    \item \textbf{Terminal Kiosk de Pesagens:} Desenvolvido em \textit{Photino.Blazor} (.NET 10), com adaptação tátil e \textit{login} simplificado por PIN.
     \item \textbf{API Central, Backoffice e Ferramenta de Toners:} Desenvolvidos garantindo a segurança (\ac{CORS} e autenticação) e o processamento de ficheiros (Excel e Tauri).
 \end{itemize}
 

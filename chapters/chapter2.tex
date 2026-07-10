@@ -43,12 +43,12 @@ Por ser uma equipa pequena, a estrutura de trabalho é direta e informal. As dec
 \section{Enquadramento Pessoal na Equipa}
 Ao longo do estágio, o desenvolvimento do ecossistema tecnológico foi realizado em entreajuda entre os dois estagiários, respondendo às necessidades da 20 Recolher e com o apoio do supervisor.
 
-Numa fase inicial, procedeu-se ao levantamento de requisitos, ao desenho da arquitetura e à modelação da base de dados da plataforma de pesagens e gestão de recolhas (desenvolvida em \texttt{.NET 10.0} e \texttt{Blazor Server}), que centraliza a gestão das recolhas e a integração com os terminais de pesagem instalados no armazém.
+Numa fase inicial, procedeu-se ao levantamento de requisitos, ao desenho da arquitetura e à modelação da base de dados da plataforma de pesagens e gestão de recolhas (desenvolvida em \texttt{.NET 10.0} e baseada em \texttt{Photino.Blazor} para as interfaces de utilizador nativas), que centraliza a gestão das recolhas e a integração com os terminais de pesagem instalados no armazém.
 
 Posteriormente, o desenvolvimento foi estruturado de forma modular, abrangendo:
 \begin{itemize}
     \item O novo \textit{website} institucional da empresa, em \texttt{Next.js 15} e \texttt{Tailwind \ac{CSS} v4}, com área pública e portal de cliente;
-    \item A aplicação de \textit{backoffice} administrativo e o terminal de pesagem (\textit{Kiosk}), em \texttt{Blazor Server} (.NET 10);
+    \item A aplicação de \textit{backoffice} administrativo e o terminal de pesagem (\textit{Kiosk}), desenvolvidos com \texttt{Photino.Blazor} (.NET 10) como aplicações nativas de desktop;
     \item A \ac{API} central em \texttt{.NET 10}, como ponto único de acesso à base de dados.
 \end{itemize}
 

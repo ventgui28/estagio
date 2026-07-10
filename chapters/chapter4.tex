@@ -13,7 +13,7 @@ O ecossistema tecnológico foi desenhado sob uma arquitetura distribuída e modu
 
 A infraestrutura é constituída por três camadas lógicas principais:
 \begin{itemize}
-    \item \textbf{Camada de Apresentação (Frontend/Clientes):} constituída pelo Website Institucional em Next.js 15, pela aplicação de Backoffice e pelo Terminal de Pesagem (Kiosk), ambos desenvolvidos em Blazor Server no ecossistema .NET 10.
+    \item \textbf{Camada de Apresentação (Frontend/Clientes):} constituída pelo Website Institucional em Next.js 15, pela aplicação de Backoffice e pelo Terminal de Pesagem (Kiosk), ambos desenvolvidos em Photino.Blazor no ecossistema .NET 10.
     \item \textbf{Camada de Serviços (API Central):} uma API RESTful em .NET 10 que expõe os \textit{endpoints} de negócio necessários e assegura que todas as validações, regras e acessos à base de dados ocorrem sob uma mesma lógica corporativa.
     \item \textbf{Camada de Dados e Infraestrutura (Supabase/PostgreSQL):} alojamento na nuvem da base de dados PostgreSQL e do serviço de armazenamento de ficheiros do Supabase.
 \end{itemize}
@@ -30,7 +30,7 @@ O isolamento das regras de negócio na API central garante que as aplicações c
         line/.style={draw, <->, thick}
     ]
         % Nodes
-        \node[layer] (ui) {Camada de Apresentação (Next.js 15 / Blazor Server)};
+        \node[layer] (ui) {Camada de Apresentação (Next.js 15 / Photino.Blazor Desktop)};
         \node[api, below=0.8cm of ui] (api) {Camada de Serviços (API Central .NET 10 REST)};
         \node[infra, below=0.8cm of api] (core) {Núcleo do Domínio (RecolherApp.Core)};
         \node[infra, below=0.8cm of core] (infra) {Infraestrutura (EF Core / Supabase Storage)};
@@ -146,7 +146,7 @@ Do ponto de vista operacional, o fluxo de utilização da ferramenta estrutura-s
 
 \noindent\textbf{App de Backoffice Administrativo}
 
-Para além do portal de clientes, o ecossistema tecnológico integra a aplicação de gestão interna (Backoffice), desenvolvida em .NET 10 sob a tecnologia Blazor Server. A escolha do Blazor Server justifica-se por permitir construir interfaces ricas em C\#, eliminando a necessidade de introduzir JavaScript no ecossistema .NET e possibilitando a reutilização direta de modelos, validações e lógica de negócio já definidos na API central. Esta aplicação destina-se ao controlo administrativo global da atividade e é utilizada pelos operadores e administradores da empresa para gerir e monitorizar todo o fluxo logístico e de pesagens.
+Para além do portal de clientes, o ecossistema tecnológico integra a aplicação de gestão interna (Backoffice), desenvolvida em .NET 10 sob a tecnologia Photino.Blazor. A escolha desta tecnologia nativa híbrida desktop justifica-se por permitir construir interfaces ricas em C\# e HTML/CSS, executando de forma leve localmente sem a sobrecarga de runtimes pesados (como o Electron), ao utilizar as WebViews do sistema operativo. Isso viabiliza a reutilização direta de modelos, validações e lógica de negócio já definidos na API central e partilhados em C\#. Esta aplicação destina-se ao controlo administrativo global da atividade e é utilizada pelos operadores e administradores da empresa para gerir e monitorizar todo o fluxo logístico e de pesagens.
 
 A aplicação encontra-se estruturada nos seguintes módulos funcionais principais:
 \begin{itemize}
@@ -162,7 +162,7 @@ Em termos de usabilidade, a interface foi desenhada para se adaptar a diferentes
 
 
 
-Para além do backoffice administrativo, o sistema dispõe de um módulo dedicado especificamente à zona física de pesagens, designado por Terminal Kiosk. Trata-se de uma aplicação desenvolvida em .NET 10 sob a tecnologia Blazor Server, com uma interface otimizada para interação tátil (\textit{touchscreen}), concebida para ser operada de forma rápida e intuitiva por funcionários no terreno.
+Para além do backoffice administrativo, o sistema dispõe de um módulo dedicado especificamente à zona física de pesagens, designado por Terminal Kiosk. Trata-se de uma aplicação desenvolvida em .NET 10 sob a tecnologia Photino.Blazor, com uma interface nativa otimizada para interação tátil (\textit{touchscreen}), concebida para ser executada localmente no terminal do quiosque de pesagens.
 
 As características estruturais e operacionais deste terminal incluem:
 \begin{itemize}
@@ -177,8 +177,6 @@ A aplicação partilha componentes reutilizáveis através do módulo comum do p
 
 \noindent\textbf{API Central e Integração de Sistemas}
 
-
-
 Inicialmente, as aplicações de backoffice administrativo e o terminal de pesagem física (Kiosk) foram concebidos e implementados de forma acoplada numa única aplicação. No entanto, a evolução do projeto e a necessidade de isolar os ambientes físico e de escritório exigiram a separação destas ferramentas em duas aplicações independentes. Para suportar esta nova topologia sem comprometer a consistência dos dados, foi desenvolvida a API Central (\texttt{RecolherApp.Api}) na plataforma .NET. A centralização do acesso à base de dados nesta única camada foi uma decisão deliberada: garante que qualquer validação ou regra de negócio é aplicada uma só vez, evitando inconsistências entre aplicações e facilitando a manutenção e evolução futura do sistema --- um critério especialmente relevante para uma empresa que poderá querer integrar novos sistemas no futuro.
 
 Esta API funciona como a única interface de comunicação com a base de dados relacional e expõe um conjunto de serviços RESTful consumidos por todos os componentes do ecossistema, incluindo o website institucional. A arquitetura global do sistema segue os princípios da \textit{Clean Architecture}, dividindo-se em seis camadas estruturais:
@@ -186,9 +184,9 @@ Esta API funciona como a única interface de comunicação com a base de dados r
     \item \textbf{\texttt{RecolherApp.Api}:} Camada de exposição que gere os pontos de entrada (\textit{endpoints}), tratamento de pedidos \ac{HTTP} e serialização de dados.
     \item \textbf{\texttt{RecolherApp.Core}:} Núcleo do domínio que contém a definição das entidades de negócio, validações estruturais e interfaces de repositórios.
     \item \textbf{\texttt{RecolherApp.Infrastructure}:} Implementação de acessos estruturais a bases de dados (via EF Core) e integrações com o serviço de armazenamento de objetos (Supabase Storage).
-    \item \textbf{\texttt{RecolherApp.UI}:} Interface de utilizador do painel de backoffice (Blazor Server).
-    \item \textbf{\texttt{RecolherApp.UI.Pesagens}:} Interface de utilizador do quiosque de balança (Blazor Server).
-    \item \textbf{\texttt{RecolherApp.UI.Shared}:} Biblioteca partilhada contendo componentes de interface reutilizáveis (como assistentes, menus e inputs táteis) e tipos de dados comuns às duas aplicações Blazor.
+    \item \textbf{\texttt{RecolherApp.UI}:} Interface de utilizador do painel de backoffice (Photino.Blazor).
+    \item \textbf{\texttt{RecolherApp.UI.Pesagens}:} Interface de utilizador do quiosque de balança (Photino.Blazor).
+    \item \textbf{\texttt{RecolherApp.UI.Shared}:} Biblioteca partilhada contendo componentes de interface reutilizáveis (como assistentes, menus e inputs táteis) e tipos de dados comuns às duas aplicações desktop.
 \end{itemize}
 
 O website institucional em Next.js também comunica de forma estrita com esta API central, sem nunca aceder diretamente à base de dados PostgreSQL. O fluxo de integração de pedidos de recolha funciona da seguinte forma:
