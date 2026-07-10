@@ -1,19 +1,15 @@
 \chapter{Desenvolvimento de Software e Soluções Digitais}\label{chap4}
 \thispagestyle{fancy}
 
-Neste capítulo, são descritas em pormenor as atividades e resultados associados à componente de engenharia e desenvolvimento de software realizadas ao longo do período de estágio (que engloba a modelação de base de dados, o desenvolvimento da API central, o website institucional e as aplicações empresariais). As atividades manuais de diagnóstico, triagem e recondicionamento de hardware informático encontram-se descritas no Capítulo~\ref{chap5}.
+Neste capítulo, são descritas em pormenor as atividades e resultados associados à componente de engenharia e desenvolvimento de software realizadas ao longo do período de estágio, que engloba a modelação de base de dados, o desenvolvimento da API central, o website institucional e as aplicações empresariais. As atividades manuais de diagnóstico, triagem e recondicionamento de hardware informático encontram-se descritas no Capítulo~\ref{chap5}.
 
-\section{Desenvolvimento de Software e Aplicações}
-
-Esta secção descreve a conceção, arquitetura e implementação das soluções de software que compõem o ecossistema tecnológico desenvolvido para a empresa.
-
-\subsection{Arquitetura do Sistema e API Central}
+\section{Arquitetura do Sistema e API Central}\label{sec:arquitetura}
 
 O ecossistema tecnológico foi desenhado sob uma arquitetura distribuída e modular, com o objetivo de garantir a separação de conceitos, a escalabilidade das aplicações e a facilidade de manutenção a longo prazo. O núcleo da solução assenta num modelo de \textit{Clean Architecture} (ou Arquitetura Cebola) implementado no backoffice, complementado por uma API centralizada que funciona como o único ponto de contacto com a base de dados.
 
 A infraestrutura é constituída por três camadas lógicas principais:
 \begin{itemize}
-    \item \textbf{Camada de Apresentação (Frontend/Clientes):} constituída pelo Website Institucional em Next.js 15, pela aplicação de Backoffice e pelo Terminal de Pesagem (Kiosk), ambos desenvolvidos em Photino.Blazor no ecossistema .NET 10.
+    \item \textbf{Camada de Apresentação (Frontend/Clientes):} constituída pelo Website Institucional em Next.js 16, pela aplicação de Backoffice e pelo Terminal de Pesagem (Kiosk), ambos desenvolvidos em Photino.Blazor no ecossistema .NET 10.
     \item \textbf{Camada de Serviços (API Central):} uma API RESTful em .NET 10 que expõe os \textit{endpoints} de negócio necessários e assegura que todas as validações, regras e acessos à base de dados ocorrem sob uma mesma lógica corporativa.
     \item \textbf{Camada de Dados e Infraestrutura (Supabase/PostgreSQL):} alojamento na nuvem da base de dados PostgreSQL e do serviço de armazenamento de ficheiros do Supabase.
 \end{itemize}
@@ -30,7 +26,7 @@ O isolamento das regras de negócio na API central garante que as aplicações c
         line/.style={draw, <->, thick}
     ]
         % Nodes
-        \node[layer] (ui) {Camada de Apresentação (Next.js 15 / Photino.Blazor Desktop)};
+        \node[layer] (ui) {Camada de Apresentação (Next.js 16 / Photino.Blazor Desktop)};
         \node[api, below=0.8cm of ui] (api) {Camada de Serviços (API Central .NET 10 REST)};
         \node[infra, below=0.8cm of api] (core) {Núcleo do Domínio (RecolherApp.Core)};
         \node[infra, below=0.8cm of core] (infra) {Infraestrutura (EF Core / Supabase Storage)};
@@ -55,9 +51,19 @@ Para assegurar a digitalização eficiente dos processos da empresa, foram model
     \item \textbf{Fluxo de Alteração Cadastral e Auditoria de Segurança:} De forma a impedir fraudes e dados cadastrais incorretos na faturação, sempre que o cliente edita os seus dados fiscais ou morada na área reservada do website, a atualização não é imediata. A alteração entra numa tabela de propostas temporárias. O operador de backoffice analisa o pedido e valida. Se aprovar, a API executa a persistência na tabela central de Clientes e cria um registo de auditoria (\textit{audit log}).
 \end{enumerate}
 
-\subsection{Modelação de Dados e Segurança}
+Inicialmente, as aplicações de backoffice administrativo e o terminal de pesagem física (Kiosk) foram concebidos e implementados de forma acoplada numa única aplicação. No entanto, a evolução do projeto e a necessidade de isolar os ambientes físico e de escritório exigiram a separação destas ferramentas em duas aplicações independentes. Para suportar esta nova topologia sem comprometer a consistência dos dados, foi desenvolvida a API Central (\texttt{RecolherApp.Api}) na plataforma .NET. A centralização do acesso à base de dados nesta única camada garante que qualquer validação ou regra de negócio é aplicada uma só vez, evitando inconsistências entre aplicações e facilitando a manutenção e evolução futura do sistema.
 
-\noindent\textbf{Modelação da Base de Dados}
+A arquitetura global do sistema segue os princípios da \textit{Clean Architecture}, dividindo-se em seis camadas estruturais:
+\begin{itemize}
+    \item \textbf{\texttt{RecolherApp.Api}:} Camada de exposição que gere os pontos de entrada (\textit{endpoints}), tratamento de pedidos \ac{HTTP} e serialização de dados.
+    \item \textbf{\texttt{RecolherApp.Core}:} Núcleo do domínio que contém a definição das entidades de negócio, validações estruturais e interfaces de repositórios.
+    \item \textbf{\texttt{RecolherApp.Infrastructure}:} Implementação de acessos estruturais a bases de dados (via EF Core) e integrações com o serviço de armazenamento de objetos (Supabase Storage).
+    \item \textbf{\texttt{RecolherApp.UI}:} Interface de utilizador do painel de backoffice (Photino.Blazor).
+    \item \textbf{\texttt{RecolherApp.UI.Pesagens}:} Interface de utilizador do quiosque de balança (Photino.Blazor).
+    \item \textbf{\texttt{RecolherApp.UI.Shared}:} Biblioteca partilhada contendo componentes de interface reutilizáveis (como assistentes, menus e inputs táteis) e tipos de dados comuns às duas aplicações desktop.
+\end{itemize}
+
+\section{Modelação de Dados}\label{sec:modelacao-dados}
 
 A base de dados centraliza o armazenamento de informação do website institucional (incluindo a área de cliente e a gestão de conteúdos) e das aplicações de backoffice e quiosque. Optou-se pelo sistema de gestão de bases de dados relacional PostgreSQL, gerido e alojado na nuvem através da plataforma Supabase, o que garante a disponibilidade dos dados e simplifica a monitorização e a realização de cópias de segurança.
 
@@ -68,7 +74,7 @@ A arquitetura de dados divide-se nas seguintes entidades principais:
     \item \textbf{Cliente:} Armazena os dados de contacto, localização e de identificação necessários para a faturação e conformidade legal das entidades clientes. Esta entidade está associada ao utilizador registado no serviço de autenticação central do Supabase através de um identificador único de utilizador.
     \item \textbf{CodigoLer e Material:} Representam a catalogação regulamentar e comercial de resíduos. A tabela \textit{CodigoLer} armazena os códigos oficiais estabelecidos na Lista Europeia de Resíduos (LER) e a respetiva descrição. A tabela \textit{Material} associa um nome operacional e a informação tarifária aplicável a cada tipo de resíduo sob um código LER.
     \item \textbf{PedidoRecolha:} Regista as solicitações de recolha submetidas pelos clientes através do website ou inseridas manualmente pelos operadores. Guarda o estado de processamento do pedido, notas adicionais, informações de contacto e dados geográficos da recolha. Associa-se aos materiais pretendidos através da tabela de junção \textit{PedidoMaterialPretendido}.
-    \item \textbf{Recolha:} Modela o evento logístico de recolha de resíduos. Contém a data programada, o estado de execução, dados geográficos e de contacto para a operation. Relaciona-se com os materiais selecionados para a recolha através da tabela de junção \textit{RecolhaMaterialPreSelecionado}.
+    \item \textbf{Recolha:} Modela o evento logístico de recolha de resíduos. Contém a data programada, o estado de execução, dados geográficos e de contacto para a operação. Relaciona-se com os materiais selecionados para a recolha através da tabela de junção \textit{RecolhaMaterialPreSelecionado}.
     \item \textbf{Pesagem:} Regista as pesagens efetuadas na balança física. Guarda a quantidade líquida pesada, o valor calculado da transação, o material correspondente, o operador que validou a pesagem e a recolha associada.
     \item \textbf{Utilizador e Cargo:} Representam os utilizadores internos do sistema (como operadores de balança, funcionários de armazém e administradores). Cada conta está associada a um cargo, cujas permissões de acesso a funcionalidades do sistema são configuradas de forma granular através de um campo estruturado em formato \ac{JSON}.
     \item \textbf{KioskDevice e KioskPairingCode:} Suportam a segurança dos quiosques físicos de pesagem. Registam os identificadores exclusivos dos terminais autorizados e gerem os códigos temporários utilizados para emparelhar em segurança novos dispositivos quiosque à infraestrutura central.
@@ -96,11 +102,9 @@ O diagrama relacional simplificado da base de dados, detalhando as tabelas e as 
     \label{fig:erd}
 \end{figure}
 
-\subsection{Aplicações do Ecossistema}
+\section{Website Institucional e Portal de Cliente}\label{sec:website}
 
-\noindent\textbf{Website Institucional e Área de Cliente}
-
-O website institucional e portal de cliente foi desenvolvido com o framework \texttt{Next.js 15} sob a arquitetura \textit{App Router}. Esta escolha estrutural permitiu combinar renderização estática (\ac{SSG}) para as páginas institucionais públicas (maximizando o desempenho e \ac{SEO}) com renderização dinâmica do lado do cliente (\ac{CSR}) para a área reservada. A estilização responsiva utiliza o \texttt{Tailwind CSS v4}, otimizando a folha de estilo final compilada.
+A plataforma, composta pelo website institucional e pelo portal de cliente, foi desenvolvida com o framework \texttt{Next.js 16} sob a arquitetura \textit{App Router}. Esta escolha estrutural permitiu combinar renderização estática (\ac{SSG}) para as páginas institucionais públicas (maximizando o desempenho e \ac{SEO}) com renderização dinâmica do lado do cliente (\ac{CSR}) para a área reservada. A estilização responsiva utiliza o \texttt{Tailwind CSS v4}, otimizando a folha de estilo final compilada.
 
 A plataforma implementa uma arquitetura técnica robusta assente em quatro componentes de engenharia web:
 
@@ -119,116 +123,22 @@ Para garantir acessibilidade e estabilidade em ecrãs industriais ou de menor po
 \end{itemize}
 
 \paragraph{Mecanismo de Resiliência e Retentativas Automáticas em API}
-As rotas de API do servidor Next.js que consomem a API centralizada (como a obtenção de agendamentos em \texttt{src/app/api/cliente/pedidos/route.js}) incluem uma lógica nativa de tolerância a falhas. Como a instância gratuita da API externa no Render entra em suspensão após períodos de inatividade, o primeiro pedido do utilizador sofre uma latência elevada ou \textit{timeout}. Para resolver este problema, implementou-se:
+As rotas de API do servidor Next.js que consomem a API centralizada incluem uma lógica nativa de tolerância a falhas. Como a instância gratuita da API externa no Render entra em suspensão após períodos de inatividade, o primeiro pedido do utilizador sofre uma latência elevada ou \textit{timeout}. Para resolver este problema, implementou-se:
 \begin{itemize}
     \item \textbf{Retentativas com Recuo Temporal:} Um ciclo \texttt{while} que executa até 3 tentativas automáticas de \texttt{fetch} com um intervalo fixo de 1 segundo em caso de erro HTTP de servidor (código $\ge 500$) ou exceções de ligação.
     \item \textbf{Timeout Controlled:} O pedido de servidor é associado a um sinal de terminação \texttt{AbortSignal.timeout(10000)} para evitar ligações abertas infinitamente que degradariam a performance do servidor Next.js.
 \end{itemize}
 
 \paragraph{Gestão de Propostas Cadastrais no Perfil}
-A interface de alteração de dados de utilizador (\texttt{perfil/page.js}) não executa mutações diretas na tabela de clientes. O formulário compara dinamicamente o estado atual do ecrã com a ficha do cliente obtida do endpoint \texttt{/api/cliente/me} (através da validação da constante \texttt{hasChanges}). Quando submetido, o payload é enviado para o endpoint de propostas temporárias, isolando as atualizações sensíveis de identificação fiscal (NIF) e moradas de faturação para validação humana.
+A interface de alteração de dados de utilizador não executa mutações diretas na tabela de clientes. O formulário compara dinamicamente o estado atual do ecrã com a ficha do cliente obtida do endpoint \texttt{/api/cliente/me}. Quando submetido, o payload é enviado para o endpoint de propostas temporárias, isolando as atualizações sensíveis de identificação fiscal (NIF) e moradas de faturação para validação humana.
 
 \noindent\textbf{Organização de Páginas e Módulos do Website}
 O website está estruturado em três eixos principais:
 \begin{itemize}
     \item \textbf{Área Pública:} Composta pela Homepage (apresentação e dados do impacto ecológico), Serviços, Notícias (artigos publicados com slugs dinâmicos) e Contactos (com mapa dinâmico de geolocalização e envio de e-mails via Brevo).
     \item \textbf{Área Reservada de Cliente:} Dashboard consolidado para acompanhar recolhas efetuadas, pedidos em curso e acesso a chat de suporte em tempo real (que comunica com a API REST .NET).
-    \item \textbf{Painel de Administração:} Gestão de notícias e controlo de revisões de artigos editoriais com histórico de edições passadas.
+    \item \textbf{Painel de Administração:} Gestão de notícias com editor de texto estruturado (TipTap) que suporta formatação de texto, títulos, listas, ligações, imagens e controlo de histórico de edições. O painel inclui ainda controlo de revisões de artigos com histórico de edições passadas.
 \end{itemize}
-
-\noindent\textbf{Alojamento e Publicação}
-O website foi alojado na plataforma cloud Vercel durante o desenvolvimento. A integração nativa com o GitHub permite a compilação contínua (CI/CD) in cada \textit{push} de código, correndo validações automáticas sobre o build estático e permitindo a rápida auditoria de usabilidade e responsividade da interface em múltiplos dispositivos físicos (computadores desktop e smartphones) antes da sua implementação final.
-
-\noindent\textbf{Ferramenta de Comparação de Preços de Toners}
-
-Para otimizar o processo de vendas de consumíveis da empresa, desenvolveu-se uma ferramenta utilitária dedicada à comparação de preços de toners. Esta ferramenta permite carregar tabelas tarifárias e propostas de compra de múltiplos clientes corporativos e parceiros, fornecidas em folhas de cálculo com diferentes estruturas de colunas, e efetuar o mapeamento e a normalização de referências de produto. Com isto, a 20 Recolher cruza a informação do seu inventário de toners com a procura do mercado e com as tabelas de preços da concorrência, identificando a proposta de venda comercialmente mais vantajosa para os seus compradores.
-
-A aplicação foi construída com a biblioteca React e a ferramenta de compilação Vite para a interface web. O processamento dos ficheiros locais é assegurado pela biblioteca XLSX, enquanto o armazenamento do histórico de tendências de preços é gerido no navegador através de IndexedDB. Implementou-se uma camada de empacotamento nativo com o Tauri para possibilitar a sua distribuição como aplicação de ambiente de trabalho (\textit{desktop}), permitindo que o operador a execute localmente no computador do escritório sem necessidade de aceder a um servidor web ou instalar dependências adicionais no sistema. Os testes unitários do motor de normalização de dados foram implementados com a biblioteca Vitest.
-
-Do ponto de vista operacional, o fluxo de utilização da ferramenta estrutura-se da seguinte forma: o utilizador abre a aplicação e importa um ficheiro Excel fornecido pelo cliente ou parceiro comercial, recorrendo à opção dedicada na interface. A ferramenta apresenta de seguida uma pré-visualização do conteúdo do ficheiro, onde o utilizador define manualmente o ponto de início de cada campo relevante --- referência do produto, nome e preço --- adaptando-se assim a qualquer estrutura de colunas, independentemente do formato do ficheiro recebido. Com os campos devidamente mapeados, a ferramenta executa automaticamente o cruzamento com o inventário da empresa, identificando as referências comuns e calculando as margens para determinar a proposta comercialmente mais vantajosa para cada comprador.
-
-\noindent\textbf{App de Backoffice Administrativo}
-
-Para além do portal de clientes, o ecossistema tecnológico integra a aplicação de gestão interna (Backoffice), desenvolvida em .NET 10 sob a tecnologia Photino.Blazor. A escolha desta tecnologia nativa híbrida desktop justifica-se por permitir construir interfaces ricas em C\# e HTML/CSS, executando de forma leve localmente sem a sobrecarga de runtimes pesados (como o Electron), ao utilizar as WebViews do sistema operativo. Isso viabiliza a reutilização direta de modelos, validações e lógica de negócio já definidos na API central e partilhados em C\#. Esta aplicação destina-se ao controlo administrativo global da atividade e é utilizada pelos operadores e administradores da empresa para gerir e monitorizar todo o fluxo logístico e de pesagens.
-
-A aplicação encontra-se estruturada nos seguintes módulos funcionais principais:
-\begin{itemize}
-    \item \textbf{Gestão de Entidades:} Permite o controlo de registos cadastrais de clientes e utilizadores do sistema, bem como a definição e atribuição de cargos e permissões de acesso estruturadas de forma granular para garantir a segurança lógica do sistema.
-    \item \textbf{Controlo Logístico:} Módulo dedicado à triagem e agendamento de pedidos de recolha de resíduos, planeamento de recolhas e visualização dos dados consolidados de pesagens e quantidades processadas.
-    \item \textbf{Auditoria de Segurança:} Regista e expõe os diários de atividade (\textit{audit logs}), detalhando todas as operações estruturais realizadas na base de dados (como criação, modificação ou inativação lógica de registos), identificando o utilizador responsável e o método de autenticação utilizado.
-    \item \textbf{Validação de Alterações Cadastrais:} Canal onde os operadores analisam e validam ou rejeitam as solicitações de alteração de dados de identificação e faturação submetidas pelos clientes através da área reservada do website.
-\end{itemize}
-
-Em termos de usabilidade, a interface foi desenhada para se adaptar a diferentes cenários de trabalho, incluindo a utilização em dispositivos móveis e tablets no terreno. Para tal, implementaram-se tabelas de dados dinâmicas com colunas configuráveis e persistidas localmente para cada operador, além de menus de ações acionados por toque longo (\textit{long press}), adequados a ecrãs táteis. A aplicação disponibiliza ainda a exportação de relatórios de atividade em formato \ac{PDF} e um painel dedicado à recuperação de registos inativos através do mecanismo de exclusão lógica (\textit{Soft-Delete}).
-
-\noindent\textbf{Terminal de Pesagem (Quiosque de Balança)}
-
-
-
-Para além do backoffice administrativo, o sistema dispõe de um módulo dedicado especificamente à zona física de pesagens, designado por Terminal Kiosk. Trata-se de uma aplicação desenvolvida em .NET 10 sob a tecnologia Photino.Blazor, com uma interface nativa otimizada para interação tátil (\textit{touchscreen}), concebida para ser executada localmente no terminal do quiosque de pesagens.
-
-As características estruturais e operacionais deste terminal incluem:
-\begin{itemize}
-    \item \textbf{Registo de Pesagem Simplificado:} O sistema disponibiliza uma interface rápida para o operador introduzir e validar manualmente o peso medido na balança industrial, associando-o instantaneamente ao material e recolha correspondentes.
-    \item \textbf{Autenticação Simplificada:} A autenticação no quiosque é baseada na introdução de um código numérico pessoal (PIN) através de um teclado virtual sobredimensionado no ecrã. Isto evita a necessidade de introduzir palavras-passe complexas em ecrãs táteis expostos a poeira e condições operacionais de armazém.
-    \item \textbf{Processo Guiado de Pesagem (Wizard):} O registo de pesagens é estruturado na forma de um assistente passo-a-passo (\textit{Wizard}). O operador seleciona a recolha em curso, o material que está a ser pesado, introduz o peso medido e submete o registo de forma sequencial e validada estruturalmente pelas regras de negócio.
-    \item \textbf{Emparelhamento de Terminais (Pairing Code):} Para garantir que apenas quiosques físicos autorizados comunicam com a base de dados central, implementou-se um fluxo de emparelhamento obrigatório. O administrador gera um código de autorização temporário no backoffice e introduz este código no novo terminal para estabelecer a ligação encriptada definitiva.
-    \item \textbf{Visibilidade no Portal de Cliente:} Após o operador submeter o peso no terminal, a pesagem é registada e associada à recolha em curso na base de dados. No portal de cliente, as pesagens individuais --- com o material, o peso e o valor calculado --- ficam visíveis na página de recolhas apenas quando o estado da recolha transita para \textit{Concluída}, assegurando que o cliente apenas acede a dados completos e validados.
-\end{itemize}
-
-A aplicação partilha componentes reutilizáveis através do módulo comum do projeto e foi desenhada com foco na usabilidade e fiabilidade das operações sob condições de armazém.
-
-\noindent\textbf{API Central e Integração de Sistemas}
-
-Inicialmente, as aplicações de backoffice administrativo e o terminal de pesagem física (Kiosk) foram concebidos e implementados de forma acoplada numa única aplicação. No entanto, a evolução do projeto e a necessidade de isolar os ambientes físico e de escritório exigiram a separação destas ferramentas em duas aplicações independentes. Para suportar esta nova topologia sem comprometer a consistência dos dados, foi desenvolvida a API Central (\texttt{RecolherApp.Api}) na plataforma .NET. A centralização do acesso à base de dados nesta única camada foi uma decisão deliberada: garante que qualquer validação ou regra de negócio é aplicada uma só vez, evitando inconsistências entre aplicações e facilitando a manutenção e evolução futura do sistema --- um critério especialmente relevante para uma empresa que poderá querer integrar novos sistemas no futuro.
-
-Esta API funciona como a única interface de comunicação com a base de dados relacional e expõe um conjunto de serviços RESTful consumidos por todos os componentes do ecossistema, incluindo o website institucional. A arquitetura global do sistema segue os princípios da \textit{Clean Architecture}, dividindo-se em seis camadas estruturais:
-\begin{itemize}
-    \item \textbf{\texttt{RecolherApp.Api}:} Camada de exposição que gere os pontos de entrada (\textit{endpoints}), tratamento de pedidos \ac{HTTP} e serialização de dados.
-    \item \textbf{\texttt{RecolherApp.Core}:} Núcleo do domínio que contém a definição das entidades de negócio, validações estruturais e interfaces de repositórios.
-    \item \textbf{\texttt{RecolherApp.Infrastructure}:} Implementação de acessos estruturais a bases de dados (via EF Core) e integrações com o serviço de armazenamento de objetos (Supabase Storage).
-    \item \textbf{\texttt{RecolherApp.UI}:} Interface de utilizador do painel de backoffice (Photino.Blazor).
-    \item \textbf{\texttt{RecolherApp.UI.Pesagens}:} Interface de utilizador do quiosque de balança (Photino.Blazor).
-    \item \textbf{\texttt{RecolherApp.UI.Shared}:} Biblioteca partilhada contendo componentes de interface reutilizáveis (como assistentes, menus e inputs táteis) e tipos de dados comuns às duas aplicações desktop.
-\end{itemize}
-
-O website institucional em Next.js também comunica de forma estrita com esta API central, sem nunca aceder diretamente à base de dados PostgreSQL. O fluxo de integração de pedidos de recolha funciona da seguinte forma:
-\begin{enumerate}
-    \item O cliente preenche e submete o formulário de recolha na área reservada do website.
-    \item O servidor Next.js recebe o pedido e utiliza uma camada de proxy interna (\texttt{src/proxy.js}) para reencaminhar a solicitação para a API .NET, anexando de forma segura o token \ac{JWT} de autenticação do cliente.
-    \item A API central valida os dados estruturais do pedido, atualiza a base de dados relacional e aciona a fila de processamento assíncrono para o envio automático de e-mails cadastrais.
-    \item O novo pedido passa imediatamente a estar visível no painel administrativo de backoffice para fins de agendamento logístico.
-\end{enumerate}
-
-Adicionalmente, a API disponibiliza o catálogo de materiais regulamentares para popular as seleções de formulários no website, integrando um mecanismo de salvaguarda local (\textit{local fallback}) para manter o formulário de pedidos funcional em caso de instabilidade temporária na ligação de rede. O envio de ficheiros e comprovativos no website é reencaminhado pelo proxy para a API .NET, que executa tarefas automáticas de compressão e conversão de imagem para o formato WebP antes de submeter os ficheiros para o armazenamento permanente no Supabase Storage.
-
-\noindent\textbf{Segurança e Autenticação}
-
-
-
-Para proteger os dados cadastrais, comerciais e operacionais geridos pelas diferentes aplicações, foi implementado um modelo de segurança e autenticação estruturado em duas vertentes principais: uma destinada ao portal web público e de clientes, e outra direcionada às ferramentas internas da empresa (Backoffice e quiosque de pesagens).
-
-\paragraph{Segurança no Website e Área de Cliente}
-A autenticação e autorização na área de cliente e no painel administrativo do website são geridas através da integração com o serviço centralizado Supabase Auth, estruturando-se da seguinte forma:
-\begin{itemize}
-    \item \textbf{Criação de Conta via Convite:} O processo de registo de um novo cliente é acionado automaticamente aquando da submissão do seu primeiro pedido de recolha de resíduos. O sistema regista os dados na base de dados e insere uma tarefa na fila de envio de e-mails, disparando um convite seguro contendo um link de ativação único. O utilizador utiliza esse link para definir a sua palavra-passe e ativar a sua área reservada.
-    \item \textbf{Gestão de Sessões com Tokens \ac{JWT}:} Após a autenticação com sucesso, o sistema emite tokens \ac{JWT} que atestam a identidade e perfil do utilizador. Estes tokens são transmitidos e armazenados de forma segura utilizando cookies configurados com a propriedade \textit{HttpOnly}, garantindo que o código JavaScript do lado do cliente não tem acesso aos dados de sessão e prevenindo vulnerabilidades de roubo de credenciais.
-    \item \textbf{Proteção de Rotas via Middleware:} O acesso às páginas privadas (tanto da área reservada de cliente como da administração) é interceptado por um componente de filtragem do Next.js (Middleware). Este componente valida a integridade do token, o seu prazo de validade e o perfil associado ao utilizador antes de permitir a renderização das páginas.
-\end{itemize}
-
-\paragraph{Segurança nas Aplicações .NET (Backoffice e Quiosque)}
-As ferramentas administrativas internas e de pesagem utilizam um modelo de autenticação adaptado às condições do ambiente onde são utilizadas:
-\begin{itemize}
-    \item \textbf{Autenticação por Código de Acesso (PIN):} No terminal quiosque de pesagem física, os operadores autenticam-se através de um código numérico pessoal. O sistema armazena este código encriptado recorrendo a algoritmos de dispersão (\textit{hashing}) seguros, impedindo a sua extração direta em caso de acesso indevido à base de dados estrutural.
-    \item \textbf{Autorização de Quiosques (Pairing Code):} Para prevenir acessos não autorizados a partir de dispositivos físicos desconhecidos, a comunicação de novos quiosques com a API exige um processo de emparelhamento estruturado. O administrador gera um código temporário no backoffice e introduz este código no novo terminal para associar permanentemente o identificador do quiosque à lista de dispositivos autorizados.
-    \item \textbf{Controlo de Acesso Baseado em Perfis:} A autorização interna baseia-se num sistema de controlo de acessos baseado em permissões granulares. Cada cargo profissional possui um conjunto de permissões ativas estruturado em formato \ac{JSON}. Após a autenticação, a API central emite um token de sessão interno que transporta estas permissões e que é validado em cada pedido efetuado pelas aplicações Blazor.
-\end{itemize}
-
-\subsection{Resultados Operacionais e Interfaces}
-
-\noindent\textbf{Resultados do Website Institucional}
-
-Nesta secção, apresentam-se os resultados visuais e operacionais obtidos com a implementação do website institucional da empresa, ilustrando o estado final das principais interfaces e fluxos disponíveis.
 
 A página principal do website (Figura~\ref{fig:homepage}) constitui a face pública da empresa. O seu desenho foca-se na facilidade de navegação e na promoção visual da marca, estruturando-se com um cabeçalho fixo com efeito de transparência, secções informativas de serviços e estatísticas gerais sobre o impacto ecológico das atividades de gestão de resíduos da empresa.
 
@@ -257,7 +167,7 @@ O formulário de submissão de pedidos de recolha (Figura~\ref{fig:novopedido}) 
     \label{fig:novopedido}
 \end{figure}
 
-Por fim, o painel de administração de notícias (Figura~\ref{fig:adminnews}) é acessível a utilizadores administrativos e disponibiliza uma interface para gerir os conteúdos editoriais do site. O ecrã exibe a tabela de publicações, estatísticas básicas de leitura e botões de ação para abrir o editor de texto estruturado ou o histórico de revisões de artigos.
+O painel de administração de notícias (Figura~\ref{fig:adminnews}) é acessível a utilizadores administrativos e disponibiliza uma interface para gerir os conteúdos editoriais do site. O ecrã exibe a tabela de publicações, estatísticas básicas de leitura e botões de ação para abrir o editor de texto estruturado TipTap ou o histórico de revisões de artigos.
 
 \begin{figure}[H]
     \centering
@@ -266,9 +176,22 @@ Por fim, o painel de administração de notícias (Figura~\ref{fig:adminnews}) �
     \label{fig:adminnews}
 \end{figure}
 
-\noindent\textbf{Resultados das Aplicações .NET}
+\noindent\textbf{Alojamento e Publicação}
+O website foi alojado na plataforma cloud Vercel durante o desenvolvimento. A integração nativa com o GitHub permite a compilação contínua em cada \textit{push} de código, correndo validações automáticas sobre o build estático e permitindo a rápida auditoria de usabilidade e responsividade da interface em múltiplos dispositivos físicos (computadores desktop e smartphones) antes da sua implementação final.
 
-Abaixo são descritos os ecrãs e resultados operacionais desenvolvidos para as aplicações em .NET 10 (Backoffice administrativo e quiosque tátil de balança), que suportam a gestão operacional interna.
+\section{Aplicação de Backoffice Administrativo}\label{sec:backoffice}
+
+Para além do portal de clientes, o ecossistema tecnológico integra a aplicação de gestão interna (Backoffice), desenvolvida em .NET 10 sob a tecnologia Photino.Blazor. A escolha desta tecnologia nativa híbrida desktop justifica-se por permitir construir interfaces ricas em C\# e HTML/CSS, executando de forma leve localmente sem a sobrecarga de runtimes pesados (como o Electron), ao utilizar as WebViews do sistema operativo. Isso viabiliza a reutilização direta de modelos, validações e lógica de negócio já definidos na API central e partilhados em C\#. Esta aplicação destina-se ao controlo administrativo global da atividade e é utilizada pelos operadores e administradores da empresa para gerir e monitorizar todo o fluxo logístico e de pesagens.
+
+A aplicação encontra-se estruturada nos seguintes módulos funcionais principais:
+\begin{itemize}
+    \item \textbf{Gestão de Entidades:} Permite o controlo de registos cadastrais de clientes e utilizadores do sistema, bem como a definição e atribuição de cargos e permissões de acesso estruturadas de forma granular para garantir a segurança lógica do sistema.
+    \item \textbf{Controlo Logístico:} Módulo dedicado à triagem e agendamento de pedidos de recolha de resíduos, planeamento de recolhas e visualização dos dados consolidados de pesagens e quantidades processadas.
+    \item \textbf{Auditoria de Segurança:} Regista e expõe os diários de atividade (\textit{audit logs}), detalhando todas as operações estruturais realizadas na base de dados (como criação, modificação ou inativação lógica de registos), identificando o utilizador responsável e o método de autenticação utilizado.
+    \item \textbf{Validação de Alterações Cadastrais:} Canal onde os operadores analisam e validam ou rejeitam as solicitações de alteração de dados de identificação e faturação submetidas pelos clientes através da área reservada do website.
+\end{itemize}
+
+Em termos de usabilidade, a interface foi desenhada para se adaptar a diferentes cenários de trabalho, incluindo a utilização em dispositivos móveis e tablets no terreno. Para tal, implementaram-se tabelas de dados dinâmicas com colunas configuráveis e persistidas localmente para cada operador, além de menus de ações acionados por toque longo (\textit{long press}), adequados a ecrãs táteis. A aplicação disponibiliza ainda a exportação de relatórios de atividade em formato \ac{PDF} e um painel dedicado à recuperação de registos inativos através do mecanismo de exclusão lógica (\textit{Soft-Delete}).
 
 O dashboard central da aplicação de Backoffice (Figura~\ref{fig:backoffice}) concentra as listagens de clientes e agendamentos logísticos. A interface exibe tabelas com dados dinâmicos e ordenáveis, contendo menus de ação contextual ativados por toque longo, que facilitam a edição e o processamento de recolhas e a visualização do histórico de auditoria.
 
@@ -278,6 +201,25 @@ O dashboard central da aplicação de Backoffice (Figura~\ref{fig:backoffice}) c
     \caption{Interface principal de gestão de recolhas no painel de Backoffice.}
     \label{fig:backoffice}
 \end{figure}
+
+\section{Terminal de Pesagem (Quiosque de Balança)}\label{sec:kiosk}
+
+Para além do backoffice administrativo, o sistema dispõe de um módulo dedicado especificamente à zona física de pesagens, designado por Terminal Kiosk. Trata-se de uma aplicação desenvolvida em .NET 10 sob a tecnologia Photino.Blazor, com uma interface nativa otimizada para interação tátil (\textit{touchscreen}), concebida para ser executada localmente no terminal do quiosque de pesagens.
+
+As características estruturais e operacionais deste terminal incluem:
+\begin{itemize}
+    \item \textbf{Registo de Pesagem Simplificado:} O sistema disponibiliza uma interface rápida para o operador introduzir e validar manualmente o peso medido na balança industrial, associando-o instantaneamente ao material e recolha correspondentes.
+    \item \textbf{Autenticação Simplificada:} A autenticação no quiosque é baseada na introdução de um código numérico pessoal (PIN) através de um teclado virtual sobredimensionado no ecrã. Isto evita a necessidade de introduzir palavras-passe complexas em ecrãs táteis expostos a poeira e condições operacionais de armazém.
+    \item \textbf{Processo Guiado de Pesagem (Wizard):} O registo de pesagens é estruturado na forma de um assistente passo-a-passo (\textit{Wizard}). O operador seleciona a recolha em curso, o material que está a ser pesado, introduz o peso medido e submete o registo de forma sequencial e validada estruturalmente pelas regras de negócio.
+    \item \textbf{Emparelhamento de Terminais (Pairing Code):} Para garantir que apenas quiosques físicos autorizados comunicam com a base de dados central, implementou-se um fluxo de emparelhamento obrigatório. O administrador gera um código de autorização temporário no backoffice e introduz este código no novo terminal para estabelecer a ligação encriptada definitiva.
+    \item \textbf{Visibilidade no Portal de Cliente:} Após o operador submeter o peso no terminal, a pesagem é registada e associada à recolha em curso na base de dados. No portal de cliente, as pesagens individuais --- com o material, o peso e o valor calculated --- ficam visíveis na página de recolhas apenas quando o estado da recolha transita para \textit{Concluída}, assegurando que o cliente apenas acede a dados completos e validados.
+\end{itemize}
+
+A aplicação partilha componentes reutilizáveis através do módulo comum do projeto e foi desenhada com foco na usabilidade e fiabilidade das operações sob condições de armazém.
+
+\noindent\textbf{Integração com Balança Industrial}
+
+No âmbito do desenvolvimento do terminal, foi implementado um serviço de integração com a balança industrial por porta série (\texttt{SerialScaleService}). O serviço suporta o protocolo de comunicação da balança Baxtran e encontra-se registado na aplicação como serviço singleton. A ativação da leitura automática de peso é controlada por uma \textit{feature flag} (\texttt{PhysicalScaleEnabled}) que se encontra desativada na configuração de produção. Durante o período de estágio, a integração não foi validada com a balança física, pelo que a introdução manual do peso pelo operador continua a ser o modo operacional utilizado.
 
 O ecrã de entrada do quiosque tátil de balança (Figura~\ref{fig:kiosklogin}) é otimizado para ecrãs táteis em ambiente industrial. Apresenta botões sobredimensionados e um teclado numérico virtual que permite aos operadores introduzir o seu código de acesso pessoal PIN sem necessidade de periféricos físicos, garantindo a proteção e o controlo de acessos.
 
@@ -297,4 +239,68 @@ O assistente de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) or
     \label{fig:kioskweigh}
 \end{figure}
 
+\section{Ferramenta de Comparação de Preços de Toners}\label{sec:toners}
 
+Para otimizar o processo de vendas de consumíveis da empresa, desenvolveu-se uma ferramenta utilitária dedicada à comparação de preços de toners. Esta ferramenta permite carregar tabelas tarifárias e propostas de compra de múltiplos clientes corporativos e parceiros, fornecidas em folhas de cálculo com diferentes estruturas de colunas, e efetuar o mapeamento e a normalização de referências de produto. Com isto, a 20 Recolher cruza a informação do seu inventário de toners com a procura do mercado e com as tabelas de preços da concorrência, identificando a proposta de venda comercialmente mais vantajosa para os seus compradores.
+
+A aplicação foi construída com a biblioteca React e a ferramenta de compilação Vite para a interface web. O processamento dos ficheiros locais é assegurado pela biblioteca XLSX, enquanto o armazenamento do histórico de tendências de preços é gerido no navegador através de IndexedDB. Implementou-se uma camada de empacotamento nativo com o Tauri para possibilitar a sua distribuição como aplicação de ambiente de trabalho (\textit{desktop}), permitindo que o operador a execute localmente no computador do escritório sem necessidade de aceder a um servidor web ou instalar dependências adicionais no sistema.
+
+Do ponto de vista operacional, o fluxo de utilização da ferramenta estrutura-se da seguinte forma: o utilizador abre a aplicação e importa um ficheiro Excel fornecido pelo cliente ou parceiro comercial, recorrendo à opção dedicada na interface. A ferramenta apresenta de seguida uma pré-visualização do conteúdo do ficheiro, onde o utilizador define manualmente o ponto de início de cada campo relevante --- referência do produto, nome e preço --- adaptando-se assim a qualquer estrutura de colunas, independentemente do formato do ficheiro recebido. Com os campos devidamente mapeados, a ferramenta executa automaticamente o cruzamento com o inventário da empresa, identificando as referências comuns e calculando as margens para determinar a proposta comercialmente mais vantajosa para cada comprador.
+
+\section{Segurança e Autenticação}\label{sec:seguranca}
+
+Para proteger os dados cadastrais, comerciais e operacionais geridos pelas diferentes aplicações, foi implementado um modelo de segurança e autenticação estruturado em duas vertentes principais: uma destinada ao portal web público e de clientes, e outra direcionada às ferramentas internas da empresa (Backoffice e quiosque de pesagens).
+
+\paragraph{Segurança no Website e Área de Cliente}
+A autenticação e autorização na área de cliente e no painel administrativo do website são geridas através da integração com o serviço centralizado Supabase Auth, estruturando-se da seguinte forma:
+\begin{itemize}
+    \item \textbf{Criação de Conta via Convite:} O processo de registo de um novo cliente é acionado automaticamente aquando da submissão do seu primeiro pedido de recolha de resíduos. O sistema regista os dados na base de dados e insere uma tarefa na fila de envio de e-mails, disparando um convite seguro contendo um link de ativação único. O utilizador utiliza esse link para definir a sua palavra-passe e ativar a sua área reservada.
+    \item \textbf{Gestão de Sessões com Tokens \ac{JWT}:} Após a autenticação com sucesso, o sistema emite tokens \ac{JWT} que atestam a identidade e perfil do utilizador. Estes tokens são transmitidos e armazenados de forma segura utilizando cookies configurados com a propriedade \textit{HttpOnly}, garantindo que o código JavaScript do lado do cliente não tem acesso aos dados de sessão e prevenindo vulnerabilidades de roubo de credenciais.
+    \item \textbf{Proteção de Rotas via Middleware:} O acesso às páginas privadas (tanto da área reservada de cliente como da administração) é interceptado por um componente de filtragem do Next.js (Middleware). Este componente valida a integridade do token, o seu prazo de validade e o perfil associado ao utilizador antes de permitir a renderização das páginas.
+\end{itemize}
+
+\paragraph{Segurança nas Aplicações .NET (Backoffice e Quiosque)}
+As ferramentas administrativas internas e de pesagem utilizam um modelo de autenticação adaptado às condições do ambiente onde são utilizadas:
+\begin{itemize}
+    \item \textbf{Autenticação por Código de Acesso (PIN):} No terminal quiosque de pesagem física, os operadores autenticam-se através de um código numérico pessoal. O sistema armazena este código encriptado recorrendo a algoritmos de dispersão (\textit{hashing}) seguros, impedindo a sua extração direta em caso de acesso indevido à base de dados estrutural.
+    \item \textbf{Autorização de Quiosques (Pairing Code):} Para prevenir acessos não autorizados a partir de dispositivos físicos desconhecidos, a comunicação de novos quiosques com a API exige um processo de emparelhamento estruturado. O administrador gera um código temporário no backoffice e introduz este código no novo terminal para associar permanentemente o identificador do quiosque à lista de dispositivos autorizados.
+    \item \textbf{Controlo de Acesso Baseado em Perfis:} A autorização interna baseia-se num sistema de controlo de acessos baseado em permissões granulares. Cada cargo profissional possui um conjunto de permissões ativas estruturado em formato \ac{JSON}. Após a autenticação, a API central emite um token de sessão interno que transporta estas permissões e que é validado em cada pedido efetuado pelas aplicações Blazor.
+\end{itemize}
+
+\section{Testes e Validação}\label{sec:testes}
+
+O projeto incluiu duas abordagens complementares de verificação da qualidade: testes automatizados e validação funcional em ambiente real.
+
+\noindent\textbf{Testes Automatizados}
+
+Os projetos .NET do ecossistema incluem testes automatizados implementados com as frameworks xUnit e bUnit. O xUnit foi utilizado para testes de integração da API e para testes unitários das camadas de domínio e infraestrutura. O bUnit, uma framework de testes para componentes Blazor, foi utilizado para verificar o comportamento de componentes da interface de utilizador do backoffice e do terminal de pesagem, cobrindo fluxos como o registo de pesagens, a autenticação por PIN e a gestão de recolhas.
+
+A ferramenta de comparação de preços de toners inclui testes automatizados implementados com a framework Vitest e a biblioteca Testing Library. Estes testes cobrem o motor de normalização de dados, o processamento de ficheiros Excel, os fluxos de comparação de preços e os componentes de interface da ferramenta.
+
+O website institucional não dispõe de testes automatizados identificados no repositório.
+
+\noindent\textbf{Testes Manuais e Validação Funcional}
+
+Em paralelo com os testes automatizados, foram realizados testes de usabilidade e integração em ambiente real, nas instalações da empresa. A aplicação de pesagens foi testada num ecrã tátil instalado na zona operacional do armazém, o que revelou a importância de validar o software em contexto real de utilização. Durante esses testes, identificou-se e corrigiu-se um problema no teclado numérico personalizado que não fornecia \textit{feedback} visual ao operador durante a introdução de dados.
+
+A verificação abrangeu as seguintes vertentes:
+\begin{itemize}
+    \item \textbf{Testes de Usabilidade no Ecrã Tátil:} verificação da facilidade de introdução de dados por toque e login por PIN sob condições de poeira e luz no armazém;
+    \item \textbf{Testes de Integração com a API:} confirmação de que os dados submetidos pelo quiosque e pelo website eram corretamente processados e persistidos na base de dados central;
+    \item \textbf{Validação de Responsividade:} o website institucional foi validado em computador e dispositivo móvel, garantindo a funcionalidade e coerência visual em diferentes resoluções;
+    \item \textbf{Testes da Ferramenta de Toners:} a aplicação foi testada no computador do escritório com ficheiros Excel reais fornecidos por parceiros comerciais da empresa.
+\end{itemize}
+
+\section{Resultados e Impacto Operacional}\label{sec:resultados}
+
+A implementação do ecossistema tecnológico na 20 Recolher permitiu estruturar fluxos digitais integrados e seguros, destinados a substituir diversos procedimentos manuais e descentralizados. A centralização dos dados na API central em .NET 10 estabilizou e unificou o acesso à informação, garantindo que todas as regras de negócio e validações fossem controladas de forma centralizada.
+
+Os principais impactos operacionais identificados e os resultados das funcionalidades implementadas incluem:
+\begin{itemize}
+    \item \textbf{Website e Portal de Cliente:} O website e o portal de cliente foram desenvolvidos para centralizar as solicitações de recolha e a gestão cadastral de perfil, fornecendo aos clientes um canal autónomo para acompanhar as suas pesagens.
+    \item \textbf{Aplicação de Backoffice:} A aplicação de Backoffice permite a triagem, o agendamento de recolhas e a validação de propostas de alteração cadastral por parte dos operadores, promovendo a rastreabilidade estruturada.
+    \item \textbf{Terminal de Pesagem:} O terminal de pesagem foi concebido para facilitar a introdução estruturada das pesagens no armazém pelos operadores através de uma interface tátil guiada (Wizard) e autenticação simplificada por PIN.
+    \item \textbf{Ferramenta de Comparação de Toners:} A ferramenta de comparação de toners permite normalizar as tabelas de preços de consumíveis, agilizando o processo de cruzamento de inventários e propostas comerciais.
+\end{itemize}
+
+Apesar dos benefícios operacionais esperados no aumento da eficiência administrativa e rastreabilidade, o sistema apresenta algumas limitações na sua implementação atual, nomeadamente a introdução do peso no terminal que continua a ser realizada manualmente pelo operador devido à desativação da integração automática via hardware de balança, e a ausência de testes formais de usabilidade com os utilizadores finais em ambiente real de produção.

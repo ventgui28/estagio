@@ -1,13 +1,9 @@
-\chapter{Sugestões, Comentários e Propostas de Melhoria}\label{chap6}
+\chapter{Análise Crítica e Trabalho Futuro}\label{chap6}
 \thispagestyle{fancy}
 
-Neste capítulo é realizada uma análise reflexiva e crítica sobre o decorrer do estágio curricular, integrando as sugestões organizacionais, comentários sobre a experiência de trabalho, as dificuldades enfrentadas, as limitações identificadas no sistema e as propostas de trabalho futuro.
+Neste capítulo é realizada uma análise reflexiva e crítica sobre o decorrer do estágio curricular, integrando a avaliação da experiência de trabalho, as dificuldades enfrentadas, as limitações identificadas nas soluções desenvolvidas, as sugestões organizacionais e as propostas de trabalho futuro.
 
-\section{Sugestões}
-
-Relativamente ao funcionamento do estágio e à sua articulação académica, sugere-se à coordenação do curso do ISEC uma maior flexibilidade na definição inicial de cronogramas e prazos de entrega para projetos complexos que integrem múltiplos módulos e aplicações independentes. Projetos que envolvem o desenvolvimento simultâneo de websites institucionais, aplicações internas de backoffice, quiosques táteis industriais e APIs centralizadas estão sujeitos a frequentes adaptações e necessidades de reestruturação de bases de dados locais e remotas. A alocação oficial de um período de margem especificamente dedicado a testes de integração prática no ambiente físico da empresa de acolhimento contribuiria significativamente para mitigar riscos de planeamento e garantir uma transição mais fluida e segura para o ambiente de produção.
-
-\section{Comentários}
+\section{Avaliação Crítica da Experiência de Estágio}
 
 A integração na equipa técnica da 20 Recolher -- Gestão de Resíduos, Lda. representou uma oportunidade única e altamente enriquecedora de crescimento profissional e pessoal. A vivência diária no armazém permitiu compreender com clareza o impacto direto que a automação e a digitalização de processos exercem na produtividade operacional de uma empresa. A articulação contínua e a tutoria de Fernando Oliveira, supervisor e CEO da empresa, foram fundamentais ao longo de todo o percurso. O supervisor prestou suporte na definição de prioridades e no esclarecimento de dúvidas do quotidiano operacional, tais como as especificações técnicas da triagem de componentes de hardware (identificando quais as marcas e transformadores a guardar para reintegração em portáteis recondicionados ou a destinar para corte e reciclagem), promovendo um equilíbrio saudável entre autonomia no desenvolvimento do software e orientação prática nas atividades manuais.
 
@@ -18,20 +14,24 @@ Durante o ciclo de desenvolvimento, a equipa enfrentou as seguintes dificuldades
     \item \textbf{Gestão de Estados Concorrentes nos Pedidos:} A existência de múltiplos acessos simultâneos por parte de clientes e operadores gerava inconsistências temporárias no estado das recolhas (por exemplo, dois operadores a tentarem aprovar o mesmo pedido). Para resolver isto, foi implementada uma validação ao nível da API baseada em controlo de concorrência otimista e tratamento de exceções no EF Core.
     \item \textbf{Migração de Arquitetura Monolítica para Distribuída:} Numa fase inicial, o backoffice e o terminal de pesagem foram idealizados numa única aplicação Blazor. Contudo, isso gerava duplicação de acessos à base de dados. Adotou-se como solução isolar o acesso aos dados numa API central baseada em \textit{controllers} RESTful. Esta mudança exigiu a refatoração da comunicação para chamadas \ac{HTTP} assíncronas em \ac{JSON}, o que estabilizou o sistema.
     \item \textbf{Gestão de Cache no Supabase e Atualizações Realtime:} Garantir que as notificações de chat e o estado dos pedidos fossem atualizados sem sobrecarregar a base de dados com consultas repetitivas (\textit{polling}) foi complexo. A solução consistiu em configurar o cliente Realtime do Supabase baseado em WebSockets apenas para eventos específicos (mensagens de chat), mantendo o restante fluxo sob pedidos REST padrão.
-    \item \textbf{Erros de Hidratação em Next.js 15 (Hydration Mismatch):} Detetaram-se incoerências de renderização entre o servidor e o cliente ao carregar a data/hora dos pedidos de recolha, causadas pelas diferenças de fuso horário local dos navegadores em relação ao servidor. A resolução passou por isolar a renderização de carimbos temporais, utilizando efeitos do React (\texttt{useEffect}) para garantir que os dados dependentes do cliente só são renderizados após o componente estar totalmente montado no browser.
+    \item \textbf{Erros de Hidratação em Next.js 16 (Hydration Mismatch):} Detetaram-se incoerências de renderização entre o servidor e o cliente ao carregar a data/hora dos pedidos de recolha, causadas pelas diferenças de fuso horário local dos navegadores em relação ao servidor. A resolução passou por isolar a renderização de carimbos temporais, utilizando efeitos do React (\texttt{useEffect}) para garantir que os dados dependentes do cliente só são renderizados após o componente estar totalmente montado no browser.
     \item \textbf{Políticas \ac{CORS} e Partilha de Cookies HttpOnly:} A comunicação entre o website (Vercel) e a API C\# (Render) falhava inicialmente devido à rejeição de cabeçalhos de autenticação e cookies em pedidos cruzados de domínios diferentes. Resolveu-se este problema definindo políticas explícitas de \ac{CORS} na API .NET que permitem credenciais (\texttt{AllowCredentials()}) e especificando detalhadamente as origens permitidas, sem recorrer a \textit{wildcards} (*), além do alinhamento das diretivas \textit{SameSite} e \textit{Secure} dos cookies.
     \item \textbf{Instabilidade de Ligação de Rede e Chamadas à API no Armazém:} No ambiente físico do armazém, quebras pontuais na cobertura Wi-Fi causavam falhas nas requisições HTTP enviadas pelas aplicações nativas Photino para a API alojada na nuvem. Contornou-se este problema implementando políticas de resiliência e novas tentativas automáticas (\textit{retry policies}) nas chamadas HTTP das aplicações cliente, em conjunto com o armazenamento local temporário dos estados de listagem e filtragem ativa.
 \end{itemize}
 
-\section{Limitações do Projeto}
+\section{Limitações das Soluções Desenvolvidas}
 
-Apesar de o ecossistema tecnológico ter atingido os objetivos estipulados, persistem algumas limitações:
+Apesar de o ecossistema tecnológico ter atingido os objetivos estipulados, persistem algumas limitações nas soluções desenvolvidas:
 \begin{itemize}
     \item \textbf{Dependência de Alojamento Cloud (Supabase/Vercel):} Dado que a base de dados centralizada e o website estão alojados em infraestruturas cloud externas, o ecossistema necessita de ligação permanente à Internet. No caso de uma falha de rede física no armazém da empresa, o quiosque de pesagem não conseguirá registar novas pesagens de forma automática na API.
     \item \textbf{Falta de Módulo de Faturação Direta Integrado:} Atualmente, o sistema extrai listagens em formatos estruturados (\ac{CSV}/\ac{PDF}) para permitir a faturação manual. O ecossistema não possui uma integração direta via Web Services com o software de faturação certificado da empresa (ex: Primavera ou Sage).
 \end{itemize}
 
-\section{Propostas de Melhoria (Trabalho Futuro)}
+\section{Sugestões Organizacionais e Técnicas}
+
+Relativamente ao funcionamento do estágio e à sua articulação académica, sugere-se à coordenação do curso do ISEC uma maior flexibilidade na definição inicial de cronogramas e prazos de entrega para projetos complexos que integrem múltiplos módulos e aplicações independentes. Projetos que envolvem o desenvolvimento simultâneo de websites institucionais, aplicações internas de backoffice, quiosques táteis industriais e APIs centralizadas estão sujeitos a frequentes adaptações e necessidades de reestruturação de bases de dados locais e remotas. A alocação oficial de um período de margem especificamente dedicado a testes de integração prática no ambiente físico da empresa de acolhimento contribuiria significativamente para mitigar riscos de planeamento e garantir uma transição mais fluida e segura para o ambiente de produção.
+
+\section{Propostas de Melhoria e Trabalho Futuro}
 
 Para futuros desenvolvimentos e evolução contínua da plataforma, propõem-se as seguintes melhorias técnicas:
 \begin{itemize}
