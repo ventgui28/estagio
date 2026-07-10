@@ -27,7 +27,7 @@ Para concretizar o objetivo geral, definiram-se os seguintes objetivos específi
 
     \item \textbf{Desenvolvimento da \ac{API} Central:} Criar uma \textit{Application Programming Interface} (API) \textit{RESTful} que funcione como a única camada de acesso à base de dados, garantindo que todas as aplicações comuniquem com os dados de forma centralizada, segura e consistente. Este objetivo surgiu da necessidade de separar as duas aplicações Blazor (backoffice e terminal de pesagem) que inicialmente foram concebidas como uma única aplicação monolítica.
 
-    \item \textbf{Testes e Validação Funcional:} Realizar testes práticos do software em ambiente real com os ecrãs táteis e validar o processo de registo com a balança industrial nas instalações da empresa. Devido a limitações de hardware e de comunicação direta com a balança, os valores medidos são lidos visualmente pelo operador e introduzidos manualmente na interface táctil do quiosque, sendo o foco dos testes a fiabilidade e rapidez desta inserção sob condições de armazém.
+    \item \textbf{Testes e Validação Funcional:} Realizar testes práticos do software em ambiente real com os ecrãs táteis e validar o processo de registo com a balança industrial nas instalações da empresa. Devido a limitações de hardware e de comunicação direta com a balança, os valores medidos são lidos visualmente pelo operador e introduzidos manualmente na interface tátil do quiosque, sendo o foco dos testes a fiabilidade e rapidez desta inserção sob condições de armazém.
 \end{itemize}
 
 
@@ -50,7 +50,7 @@ A escolha das tecnologias baseou-se em critérios como a adequação técnica ao
 \subsection{Persistência e Infraestrutura de Dados}
 \begin{itemize}
     \item \textbf{\textit{PostgreSQL} com \textit{Supabase}:} O PostgreSQL foi adotado pela sua fiabilidade relacional e suporte nativo a transações ACID complexas, garantindo a consistência dos dados mesmo em cenários de escrita concorrente --- como múltiplos operadores a registar pesagens simultaneamente. A sua relevância no mercado é amplamente reconhecida: segundo o \textit{Stack Overflow Developer Survey 2024} \autocite{SOSurvey2024}, o PostgreSQL é a base de dados mais utilizada a nível global, com \textbf{49\%} dos programadores a reportarem a sua utilização. A plataforma \textit{Supabase} foi escolhida porque disponibiliza PostgreSQL gerido na nuvem sem custos de infraestrutura inicial, juntamente com buckets de armazenamento compatíveis com S3 para ficheiros e um serviço de autenticação integrado --- eliminando a necessidade de configurar e manter servidores dedicados, o que seria tecnicamente exigente e oneroso para uma empresa de pequena dimensão.
-    \item \textbf{Base de Dados Centralizada (API Central):} Em vez de cada aplicação aceder diretamente à base de dados, optou-se por concentrar todo o acesso numa única \ac{API} RESTful em .NET 10. Esta decisão arquitectural foi determinante para a segurança e mantenabilidade do sistema: qualquer regra de negócio, validação ou alteração de esquema é implementada uma única vez na API e propagada automaticamente a todas as aplicações. Sem esta camada, seria necessário replicar validações em múltiplos projetos, aumentando o risco de inconsistências de dados e tornando a evolução do sistema progressivamente mais complexa.
+    \item \textbf{Base de Dados Centralizada (API Central):} Em vez de cada aplicação aceder diretamente à base de dados, optou-se por concentrar todo o acesso numa única \ac{API} RESTful em .NET 10. Esta decisão arquitetural foi determinante para a segurança e mantenabilidade do sistema: qualquer regra de negócio, validação ou alteração de esquema é implementada uma única vez na API e propagada automaticamente a todas as aplicações. Sem esta camada, seria necessário replicar validações em múltiplos projetos, aumentando o risco de inconsistências de dados e tornando a evolução do sistema progressivamente mais complexa.
     \item \textbf{\textit{Entity Framework Core} (\ac{ORM}):} O acesso aos dados é mediado pelo EF Core sob a abordagem \textit{Code-First}. Esta decisão garantiu que as alterações de base de dados fossem versionadas e rastreadas como código C\# estruturado, permitindo auditorias fáceis em ambiente Git e uma reprodução fácil do esquema em novos ambientes de desenvolvimento ou produção.
 \end{itemize}
 
@@ -63,7 +63,7 @@ A escolha das tecnologias baseou-se em critérios como a adequação técnica ao
 
 \subsection{Validação Funcional e de Integração}
 \begin{itemize}
-    \item \textbf{Testes em Ambiente Real:} Validação da usabilidade e fluxo de trabalho do terminal quiosque táctil sob condições reais de armazém.
+    \item \textbf{Testes em Ambiente Real:} Validação da usabilidade e fluxo de trabalho do terminal quiosque tátil sob condições reais de armazém.
 \end{itemize}
 
 
@@ -89,7 +89,7 @@ Paralelamente, foi desenhado o modelo de dados relacional, identificando as enti
 
 \subsection{Fase 3: Desenvolvimento e Implementação}
 
-Esta foi a fase mais longa e correspondeu à implementação prática das soluções. O desenvolvimento foi realizado em entreajuda entre os dois estagiários, com a continúa revisão e alinhamento de decisões técnicas ao longo do processo. As componentes desenvolvidas abrangem:
+Esta foi a fase mais longa e correspondeu à implementação prática das soluções. O desenvolvimento foi realizado em entreajuda entre os dois estagiários, com a contínua revisão e alinhamento de decisões técnicas ao longo do processo. As componentes desenvolvidas abrangem:
 \begin{itemize}
     \item \textbf{Website Institucional e Portal de Cliente:} Desenvolvido em \textit{Next.js} 16 e \textit{Tailwind \ac{CSS}} v4, com integração segura com a \ac{API}.
     \item \textbf{Terminal Kiosk de Pesagens:} Desenvolvido em \textit{Photino.Blazor} (.NET 10), com adaptação tátil e \textit{login} simplificado por PIN.
