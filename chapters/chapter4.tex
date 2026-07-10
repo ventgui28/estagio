@@ -87,7 +87,6 @@ O modelo de dados implementado reflete ainda diversas decisões de design conceb
     \item \textbf{Índices de Performance Direcionados:} Foram desenhados índices compostos personalizados para acelerar consultas cruciais. Na tabela de pesagens, por exemplo, desenhou-se um índice composto pelas colunas frequentemente consultadas em conjunto, como datas, identificadores de materiais e o estado lógico do registo, de modo a maximizar a eficiência de processamento na geração de relatórios e análises de desempenho.
 \end{itemize}
 
-
 O diagrama relacional simplificado da base de dados, detalhando as tabelas e as respetivas relações de cardinalidade, encontra-se representado na Figura~\ref{fig:erd}.
 
 \begin{figure}[H]
@@ -101,40 +100,44 @@ O diagrama relacional simplificado da base de dados, detalhando as tabelas e as 
 
 \noindent\textbf{Website Institucional e Área de Cliente}
 
-O website institucional foi desenvolvido utilizando a versão 15 do Next.js com a arquitetura App Router. Esta estrutura possibilita a renderização do lado do servidor (\ac{SSR}) e a geração estática de páginas, o que reduz o tempo de resposta inicial e melhora a indexação em motores de busca (\ac{SEO}) --- um fator crítico para aumentar a visibilidade digital da empresa e facilitar a captação de novos clientes sem dependência de publicidade paga. A estilização responsiva da interface foi concebida com a versão 4 do Tailwind \ac{CSS}, permitindo construir um design consistente e adaptado a qualquer dispositivo com menor volume de código \ac{CSS} a manter, o que se traduz em desenvolvimento mais rápido e interfaces mais fáceis de atualizar.
+O website institucional e portal de cliente foi desenvolvido com o framework \texttt{Next.js 15} sob a arquitetura \textit{App Router}. Esta escolha estrutural permitiu combinar renderização estática (\ac{SSG}) para as páginas institucionais públicas (maximizando o desempenho e \ac{SEO}) com renderização dinâmica do lado do cliente (\ac{CSR}) para a área reservada. A estilização responsiva utiliza o \texttt{Tailwind CSS v4}, otimizando a folha de estilo final compilada.
 
-A plataforma está organizada em três áreas funcionais e de acesso regulado: a área pública de informação e captação de clientes, a área reservada de clientes e o painel de administração de conteúdos.
+A plataforma implementa uma arquitetura técnica robusta assente em quatro componentes de engenharia web:
 
-\paragraph{Área Pública}
-A secção pública do website destina-se a apresentar os serviços da empresa e a estabelecer canais de comunicação com a comunidade e potenciais parceiros de negócio, sendo composta pelas seguintes páginas:
+\paragraph{Middleware de Segurança e Proxy de API}
+Toda a comunicação do website com a base de dados é mediada por um componente de proxy local (\texttt{src/proxy.js}) e interceptada pelo middleware do Next.js. O utilizador final nunca interage diretamente com o endereço externo da API .NET no Render. Em vez disso, envia pedidos para rotas locais (ex: \texttt{/api/cliente/recolhas}), onde o middleware executa o seguinte fluxo:
 \begin{itemize}
-    \item \textbf{Página Inicial:} Apresenta uma secção introdutória, um resumo dos serviços principais de recolha de resíduos, estatísticas gerais sobre o impacto ecológico da atividade e uma secção de perguntas frequentes (FAQs) para responder a dúvidas recorrentes dos utilizadores.
-    \item \textbf{Serviços e Institucional:} Páginas dedicadas a detalhar os procedimentos regulamentares da empresa, os tipos de resíduos recolhidos e a história da organização.
-    \item \textbf{Notícias:} Apresenta uma listagem de artigos publicados pela empresa, com paginação e filtros de pesquisa por categorias, com redirecionamento para artigos de leitura individual.
-    \item \textbf{Contactos:} Disponibiliza um canal de envio de mensagens com validação de dados e a integração de um mapa interativo para localização física das instalações da empresa. Esta página serve igualmente como ponto de entrada para novos clientes que pretendam submeter um pedido de recolha sem conta registada, permitindo iniciar o contacto com a empresa de forma direta e sem necessidade de autenticação prévia.
-    \item \textbf{Política de Privacidade:} Documento regulamentar para assegurar a conformidade da recolha e tratamento de dados dos utilizadores face à legislação em vigor.
+    \item \textbf{Validação de Sessão com Cookies HttpOnly:} O middleware utiliza a biblioteca \texttt{@supabase/ssr} com \texttt{createServerClient} para inspecionar os cookies de sessão (\texttt{20recolher\_session} e \texttt{20recolher\_admin\_session}) e o cargo do utilizador (\texttt{20recolher\_role}). Os tokens \ac{JWT} são armazenados como cookies seguros com a flag \textit{HttpOnly}, bloqueando qualquer acesso via JavaScript no browser e eliminando a classe de ataques \ac{XSS}.
+    \item \textbf{Encaminhamento e Desativação de Cache Pós-Logout:} Para rotas privadas da área de cliente ou administração, o proxy insere cabeçalhos \texttt{Cache-Control: no-store} dinamicamente na resposta \texttt{NextResponse}. Isto impede que o histórico de navegação local exiba dados privados em memória após o logout.
 \end{itemize}
 
-\paragraph{Área Reservada de Cliente}
-Acedida através de mecanismos de autenticação segura, a área de cliente faculta aos parceiros comerciais ferramentas para gerir as suas operações diárias com a empresa, dividindo-se nos seguintes módulos funcionais:
+\paragraph{Controlo Dinâmico de Animações e Acessibilidade}
+Para garantir acessibilidade e estabilidade em ecrãs industriais ou de menor potência de cálculo, implementou-se o \texttt{AnimationProvider.js}. Este provider gere um contexto global de animações em \texttt{Framer Motion} com o componente \texttt{MotionConfig}:
 \begin{itemize}
-    \item \textbf{Painel de Controlo:} Mostra um resumo dinâmico das recolhas efetuadas, pedidos ativos e alertas de suporte pendentes.
-    \item \textbf{Pedidos de Recolha:} Permite a submissão de solicitações de recolha mediante um formulário onde o cliente indica os materiais de resíduos que deseja recolher, dados de contacto e anexa documentos ou fotografias de suporte. Note-se que a submissão de um pedido de recolha pode ser iniciada por duas vias distintas: através desta área reservada (por clientes já registados) ou através da página pública de Contactos (por novos clientes sem conta). Em ambos os casos, o pedido é registado na base de dados e encaminhado para o operador de backoffice. Esta página disponibiliza ainda a consulta, cancelamento e reativação de pedidos em curso.
-    \item \textbf{Histórico de Recolhas:} Regista os eventos logísticos concluídos e agendados, divididos em duas páginas distintas: uma para pedidos de recolha e outra para as recolhas propriamente ditas. Enquanto uma recolha se encontra em curso, o cliente pode acompanhar as informações do pedido e da recolha associada. Quando o operador marca a recolha como \textit{Concluída} após o registo de todas as pesagens no terminal de balança, os detalhes das pesagens individuais --- material, peso e valor correspondente --- ficam imediatamente visíveis nesta página. A página permite ainda a exportação dos dados em formato \ac{PDF} e tabelas \ac{CSV}.
-    \item \textbf{Catálogo de Materiais:} Listagem de todos os resíduos autorizados e geridos pela empresa, permitindo a exportação rápida dos dados tarifários vigentes para formato \ac{CSV}.
-    \item \textbf{Perfil de Cliente:} Permite ao parceiro solicitar atualizações aos seus dados cadastrais e fiscais. Estas alterações são submetidas a um fluxo de controlo interno, exigindo a aprovação manual de um operador no backoffice antes de serem integradas na base de dados, prevenindo dados incorretos e tentativas de fraude.
-    \item \textbf{Suporte Técnico (Chat):} Canal de mensagens direto com a equipa da empresa, concebido para acelerar a resolução de litígios ou o esclarecimento de dúvidas sobre agendamentos de recolha. Do ponto de vista técnico, cada mensagem submetida pelo cliente é enviada via pedido \ac{HTTP} à API central (alojada no serviço Render), que valida os dados e os persiste na base de dados PostgreSQL, tornando-os disponíveis para leitura pelo operador de backoffice.
+    \item \textbf{Respeito à Preferência do Sistema (Reduced Motion):} Permite forçar o estado do motor de animações dinâmicas para \texttt{reducedMotion="always"} em utilizadores que configuraram essa preferência.
+    \item \textbf{Persistência de Estado e Classe Root CSS:} A preferência do utilizador é gravada em \texttt{localStorage} (\texttt{disable-animations}) no browser. O provider injeta a classe \texttt{no-animations} na raiz da árvore \ac{HTML}, que inibe instantaneamente a execução de estilos transitórios e de micro-interações, otimizando o consumo de bateria e processamento no cliente.
 \end{itemize}
 
-\paragraph{Painel de Administração}
-O painel administrativo é uma secção restrita e protegida por perfis de acesso elevados (administrador e super-administrador do website), que permite a gestão direta dos conteúdos editoriais do website:
+\paragraph{Mecanismo de Resiliência e Retentativas Automáticas em API}
+As rotas de API do servidor Next.js que consomem a API centralizada (como a obtenção de agendamentos em \texttt{src/app/api/cliente/pedidos/route.js}) incluem uma lógica nativa de tolerância a falhas. Como a instância gratuita da API externa no Render entra em suspensão após períodos de inatividade, o primeiro pedido do utilizador sofre uma latência elevada ou \textit{timeout}. Para resolver este problema, implementou-se:
 \begin{itemize}
-    \item \textbf{Módulo de Notícias:} Permite a criação, edição e eliminação lógica de publicações utilizando um editor visual de texto estruturado. Inclui campos dedicados para a configuração de títulos, slugs de URL e meta-descrições para a otimização em motores de busca (SEO).
-    \item \textbf{Controlo e RevisoeseNoticias:} Possibilita a visualização do histórico de revisões dos artigos, permitindo comparar alterações estruturais e reverter edições antes da sua publicação definitiva no website.
+    \item \textbf{Retentativas com Recuo Temporal:} Um ciclo \texttt{while} que executa até 3 tentativas automáticas de \texttt{fetch} com um intervalo fixo de 1 segundo em caso de erro HTTP de servidor (código $\ge 500$) ou exceções de ligação.
+    \item \textbf{Timeout Controlled:} O pedido de servidor é associado a um sinal de terminação \texttt{AbortSignal.timeout(10000)} para evitar ligações abertas infinitamente que degradariam a performance do servidor Next.js.
 \end{itemize}
 
-\paragraph{Alojamento e Publicação}
-Durante as fases de desenvolvimento e testes de validação com a equipa da empresa, o website institucional foi alojado na plataforma Vercel. A escolha da Vercel justifica-se pela sua integração nativa com o GitHub: a cada \textit{commit} enviado para o repositório, a plataforma executa automaticamente a compilação e a publicação da nova versão, eliminando qualquer configuração manual de servidores e acelerando significativamente os ciclos de validação com o supervisor. O fluxo de desenvolvimento foi estruturado com recurso ao editor de código \textit{VS Code} e controlo de versões com \textit{Git}, o que permitiu manter um histórico completo de todas as alterações e reverter mudanças de forma segura sempre que necessário. Note-se que o alojamento no Vercel serviu como um ambiente de testes dinâmico, facilitando a validação em tempo real das funcionalidades e da usabilidade responsiva da interface em múltiplos dispositivos físicos, incluindo computadores de secretária (\textit{desktop}) e smartphones (\textit{Android}), antes da transição para os servidores corporativos permanentes da empresa.
+\paragraph{Gestão de Propostas Cadastrais no Perfil}
+A interface de alteração de dados de utilizador (\texttt{perfil/page.js}) não executa mutações diretas na tabela de clientes. O formulário compara dinamicamente o estado atual do ecrã com a ficha do cliente obtida do endpoint \texttt{/api/cliente/me} (através da validação da constante \texttt{hasChanges}). Quando submetido, o payload é enviado para o endpoint de propostas temporárias, isolando as atualizações sensíveis de identificação fiscal (NIF) e moradas de faturação para validação humana.
+
+\noindent\textbf{Organização de Páginas e Módulos do Website}
+O website está estruturado em três eixos principais:
+\begin{itemize}
+    \item \textbf{Área Pública:} Composta pela Homepage (apresentação e dados do impacto ecológico), Serviços, Notícias (artigos publicados com slugs dinâmicos) e Contactos (com mapa dinâmico de geolocalização e envio de e-mails via Brevo).
+    \item \textbf{Área Reservada de Cliente:} Dashboard consolidado para acompanhar recolhas efetuadas, pedidos em curso e acesso a chat de suporte em tempo real (que comunica com a API REST .NET).
+    \item \textbf{Painel de Administração:} Gestão de notícias e controlo de revisões de artigos editoriais com histórico de edições passadas.
+\end{itemize}
+
+\noindent\textbf{Alojamento e Publicação}
+O website foi alojado na plataforma cloud Vercel durante o desenvolvimento. A integração nativa com o GitHub permite a compilação contínua (CI/CD) in cada \textit{push} de código, correndo validações automáticas sobre o build estático e permitindo a rápida auditoria de usabilidade e responsividade da interface em múltiplos dispositivos físicos (computadores desktop e smartphones) antes da sua implementação final.
 
 \noindent\textbf{Ferramenta de Comparação de Preços de Toners}
 
