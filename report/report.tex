@@ -93,6 +93,14 @@
       %\addtocounter{page}{-1}% Rui - comentei para evitar abstract em página par
       \null%
       \clearpage}
+
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+    \clearpage
+    \thispagestyle{empty}
+    \null
+    \clearpage\fi\fi}
+\makeatother
 \usepackage{caption}
 %\DeclareCaptionType{equ}[Fórmula][]
 \usepackage{acronym}
