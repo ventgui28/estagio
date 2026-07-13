@@ -5,7 +5,7 @@
 % - https://app.diagrams.net/ - Permite criar figuras e diagramas de forma fácil. Permite a exportação das figuras criadas para PDF o que preserva a qualidade da mesma.
 % - https://www.google.com/ - Para tudo o resto.
 
-\documentclass[12pt,twoside,a4paper,openany]{book}
+\documentclass[12pt,twoside,a4paper,openright]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,top=4.0cm,bottom=3.0cm,left=2.54cm,right=2.54cm,headheight=80pt,headsep=0.5cm,footskip=1.2cm]{geometry}
 
@@ -260,7 +260,7 @@ Tecnologias e Programação de Sistemas de Informação}
 \thispagestyle{semNumero} % Aplica o estilo
 %\fancyfoot[CO]{\includegraphics[height=1cm]{imagens/Barra_PRR2.png}} 
 
-\clearpage
+\cleardoublepage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                           INÍCIO DA CONTRA CAPA
@@ -304,6 +304,7 @@ CEO, 20 Recolher - Gestão de Resíduos,  Lda}
 
 
 
+\cleardoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                          AGRADECIMENTOS
 
@@ -377,13 +378,14 @@ CEO, 20 Recolher - Gestão de Resíduos,  Lda}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                               ANEXOS
 
+\cleardoublepage
 \appendix
 \include{chapters/anexos}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                       ÚLTIMA PÁGINA
 
-\blankpage{}
+\cleardoublepage
 \input{report/ultima_pagina}
 %\blankpage{}
 
