@@ -67,9 +67,11 @@
   numbered, 
 }
 %APAGA A LINHA DO INÍCIO DAS PGs
-\usepackage{ragged2e}
+\usepackage{mathptmx}
 \usepackage{titlesec}
-\titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter.~}{0pt}{}
+\titleformat{\chapter}[hang]{\fontfamily{ptm}\fontsize{20}{24}\bfseries\filright}{\thechapter.~}{0pt}{}
+\titleformat{\section}{\fontfamily{ptm}\fontsize{15}{18}\bfseries\filright}{\thesection~}{0pt}{}
+\titleformat{\subsection}{\fontfamily{ptm}\fontsize{14}{17}\bfseries\filright}{\thesubsection~}{0pt}{}
 \titlespacing*{\chapter}{0pt}{-20pt}{20pt}
 \titlespacing{\subsection}{0pt}{*1.5}{*0.8}
 
