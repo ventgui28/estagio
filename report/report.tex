@@ -67,9 +67,11 @@
   numbered, 
 }
 %APAGA A LINHA DO INÍCIO DAS PGs
-\usepackage{ragged2e}
+\usepackage{mathptmx}
 \usepackage{titlesec}
-\titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter.~}{0pt}{}
+\titleformat{\chapter}[hang]{\fontfamily{ptm}\fontsize{20}{24}\bfseries\filright}{\thechapter.~}{0pt}{}
+\titleformat{\section}{\fontfamily{ptm}\fontsize{15}{18}\bfseries\filright}{\thesection~}{0pt}{}
+\titleformat{\subsection}{\fontfamily{ptm}\fontsize{14}{17}\bfseries\filright}{\thesubsection~}{0pt}{}
 \titlespacing*{\chapter}{0pt}{-20pt}{20pt}
 \titlespacing{\subsection}{0pt}{*1.5}{*0.8}
 
@@ -176,8 +178,8 @@
 \pagestyle{fancy}
 
 
-\fancyhead[L]{\includegraphics[height=2.4cm]{imagens/LOGO-ISEC.png}}
-\fancyhead[LE,RO]{}
+\fancyhead[LO,LE]{\includegraphics[height=2.4cm]{imagens/LOGO-ISEC.png}}
+\fancyhead[RO,RE]{}
 \fancyfoot[L]{\raisebox{2.2ex}{\tiny\parbox{10cm}{Mod6\_243.01\\Modelo C.27\_2.0\\SISTEMA INTERNO DE GARANTIA DE QUALIDADE}}}
 \fancyfoot[C]{\hspace*{6cm}\includegraphics[height=1.1cm]{imagens/barra_centro2030.png}} 
 \fancyfoot[R]{\thepage}
@@ -193,7 +195,7 @@
 % CRIA: plain - footnote
 \fancypagestyle{plain}{
   \fancyhf{} % limpa o cabeçalho e rodapé padrão do plain
-  \fancyhead[L]{\includegraphics[height=2.4cm]{imagens/LOGO-ISEC.png}}
+  \fancyhead[LO,LE]{\includegraphics[height=2.4cm]{imagens/LOGO-ISEC.png}}
   \fancyfoot[L]{\raisebox{2.2ex}{\tiny\parbox{10cm}{Mod6\_243.01\\Modelo C.27\_2.0\\SISTEMA INTERNO DE GARANTIA DE QUALIDADE}}}
   \fancyfoot[C]{\hspace*{6cm}\includegraphics[height=1cm]{imagens/barra_centro2030.png}}
   \fancyfoot[R]{\thepage}
@@ -260,6 +262,7 @@ Tecnologias e Programação de Sistemas de Informação}
 \thispagestyle{semNumero} % Aplica o estilo
 %\fancyfoot[CO]{\includegraphics[height=1cm]{imagens/Barra_PRR2.png}} 
 
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                           INÍCIO DA CONTRA CAPA
@@ -337,8 +340,8 @@ CEO, 20 Recolher - Gestão de Resíduos,  Lda}
 
 %Acronimos
 \include{report/acronyms}
-\fancyhead{} % limpa cabeçalho
-\renewcommand{\headrulewidth}{0pt} % remove linha horizontal
+%\fancyhead{} % limpa cabeçalho
+%\renewcommand{\headrulewidth}{0pt} % remove linha horizontal
 \blankpage{}
 
 

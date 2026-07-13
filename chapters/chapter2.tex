@@ -18,30 +18,51 @@ O foco da 20 Recolher está no mercado empresarial e em entidades do Estado (com
 \section{Equipa onde se insere o estagiário}
 A equipa de desenvolvimento técnico da empresa é composta por dois estagiários, ambos alunos do \ac{CTeSP} de \ac{TPSI} no \ac{ISEC}, integrados numa estrutura de apoio técnico coordenada por Fernando Oliveira, CEO e supervisor de estágio na 20 Recolher. A estrutura organizacional desta equipa é ilustrada no organograma representado na Figura~\ref{fig:organograma}.
 
-Por ser uma equipa pequena, a estrutura de trabalho é direta e informal. As decisões sobre a arquitetura do software, a escolha das tecnologias e a priorização de tarefas foram tomadas em conjunto pelos dois estagiários, com a validação final do supervisor de estágio.
+Por ser uma equipa pequena, a estrutura de trabalho é direta e informal. As decisões sobre a arquitetura do software, a escolha das tecnologias e a priorização de tarefas foram tomadas em conjunto pelos dois estagiários.
 
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[
         node distance = 1.2cm and 1cm,
-        every node/.style = {draw, rectangle, rounded corners, minimum width=3cm, minimum height=1cm, align=center, fill=gray!10},
-        line/.style = {draw, ->, thick}
+        every node/.style = {
+            draw,
+            rectangle,
+            rounded corners,
+            minimum width=3cm,
+            minimum height=1cm,
+            align=center,
+            fill=gray!10
+        },
+        line/.style = {draw, ->, thick},
+        collaboration/.style = {draw, <->, thick, dashed}
     ]
-        % Nodes
+        % Nós
         \node (ceo) {\textbf{Fernando Oliveira} \\ \small Supervisor / CEO};
-        \node (intern1) [below left=of ceo] {\textbf{Estagiário (Autor)} \\ \small Desenvolvimento de Software};
-        \node (intern2) [below right=of ceo] {\textbf{Colega de Estágio} \\ \small Desenvolvimento de Software};
-        
-        % Connections
+
+        \node (intern1) [below left=of ceo]
+        {\textbf{Estagiário (Autor)} \\ \small Desenvolvimento de Software};
+
+        \node (intern2) [below right=of ceo]
+        {\textbf{Colega de Estágio} \\ \small Desenvolvimento de Software};
+
+        % Ligações ao supervisor
         \path [line] (ceo.south) -- ++(0,-0.5) -| (intern1.north);
         \path [line] (ceo.south) -- ++(0,-0.5) -| (intern2.north);
+
+        % Ligação entre os estagiários
+        \path [collaboration]
+        (intern1.east) --
+        node[above, draw=none, fill=none, font=\small]
+        {Decisões em conjunto}
+        (intern2.west);
     \end{tikzpicture}
-    \caption{Organograma da Equipa Técnica.}
+
+    \caption{Organograma da equipa técnica e colaboração entre os estagiários.}
     \label{fig:organograma}
 \end{figure}
 
 \section{Enquadramento Pessoal na Equipa}
-Ao longo do estágio, o desenvolvimento do ecossistema tecnológico foi realizado em entreajuda entre os dois estagiários, respondendo às necessidades da 20 Recolher e com o apoio do supervisor.
+Ao longo do estágio, o desenvolvimento do ecossistema tecnológico foi realizado em entreajuda entre os dois estagiários, respondendo às necessidades da 20 Recolher.
 
 Numa fase inicial, procedeu-se ao levantamento de requisitos, ao desenho da arquitetura e à modelação da base de dados da plataforma de pesagens e gestão de recolhas (desenvolvida em \texttt{.NET 10.0} e baseada em \texttt{Photino.Blazor} para as interfaces de utilizador nativas), que centraliza a gestão das recolhas e a integração com os terminais de pesagem instalados no armazém.
 
@@ -52,12 +73,12 @@ Posteriormente, o desenvolvimento foi estruturado de forma modular, abrangendo:
     \item A \ac{API} central em \texttt{.NET 10}, como ponto único de acesso à base de dados.
 \end{itemize}
 
-As decisões de design, arquitetura e otimização de \ac{SEO} foram tomadas em conjunto, com a validação final do supervisor de estágio.
+As decisões de design e arquitetura foram tomadas em conjunto pelos dois estagiários.
 
 
 \section{Infraestrutura e Espaço de Trabalho}
 
-As instalações da 20 Recolher, situadas na Zona Industrial de Cantanhede, funcionam essencialmente como um armazém de grande dimensão (Figura~\ref{fig:foto_armazem}), no interior do qual se encontra um escritório. Foi nesse escritório que decorreu a maior parte do trabalho de desenvolvimento de \textit{software}. Numa fase inicial, o estagiário partilhou o espaço com a restante equipa administrativa da empresa e com o colega de estágio. Posteriormente, foi disponibilizado um espaço de trabalho dedicado aos dois estagiários, permitindo uma organização mais focada e propícia ao desenvolvimento técnico.
+As instalações da 20 Recolher, situadas na Zona Industrial de Cantanhede, funcionam essencialmente como um armazém de grande dimensão (Figura~\ref{fig:foto_armazem}), no interior do qual se encontra um escritório. Foi nesse escritório que decorreu a maior parte do trabalho de desenvolvimento de \textit{software}. Numa fase inicial, foi partilhado o espaço com a restante equipa administrativa da empresa e com o colega de estágio. Posteriormente, foi disponibilizado um espaço de trabalho dedicado aos dois estagiários, permitindo uma organização mais focada e propícia ao desenvolvimento técnico.
 
 \begin{figure}[H]
     \centering
@@ -68,17 +89,17 @@ As instalações da 20 Recolher, situadas na Zona Industrial de Cantanhede, func
 
 \subsection{Equipamentos Utilizados}
 
-Para o desenvolvimento do \textit{software}, o estagiário recorreu ao seu computador pessoal, assegurando um ambiente de trabalho familiar e configurado de acordo com as necessidades do projeto. A empresa disponibilizou, adicionalmente, computadores dedicados à realização de testes, localizados numa sala própria para o efeito, situada por cima do escritório, ainda dentro do espaço do armazém.
+O desenvolvimento das soluções de \textit{software} foi realizado com recurso a um computador pessoal, previamente configurado com as ferramentas e dependências necessárias à execução dos projetos. A empresa disponibilizou equipamentos informáticos destinados às atividades de teste e validação tanto das aplicações desenvolvidas, como das \ac{REEE}, instalados numa sala própria para esse efeito, localizada no piso superior ao escritório e integrada nas instalações do armazém.
 
-Para além das tarefas de desenvolvimento, foram também atribuídas ao estagiário responsabilidades de carácter técnico relacionadas com a atividade principal da empresa. Concretamente, procedeu-se ao diagnóstico e teste de computadores recebidos de clientes no âmbito da recolha de \ac{REEE}, à verificação do funcionamento de componentes de \textit{hardware} (como memória \ac{RAM} e discos de armazenamento) antes do seu encaminhamento para reciclagem, e ainda à instalação ou reinstalação de sistemas operativos e \textit{software} nos equipamentos recebidos. Estas tarefas, embora paralelas ao desenvolvimento das aplicações, proporcionaram um contacto direto com o fluxo operacional da empresa e com o tipo de equipamento que esta gere quotidianamente.
+Para além das tarefas de desenvolvimento, foram também atribuídas responsabilidades de carácter técnico relacionadas com a atividade principal da empresa. Concretamente, procedeu-se ao diagnóstico e teste de computadores recebidos de clientes no âmbito da recolha de \ac{REEE}, à verificação do funcionamento de componentes de \textit{hardware} (como memória \ac{RAM} e discos de armazenamento) antes do seu encaminhamento para reciclagem, e ainda à instalação ou reinstalação de sistemas operativos e \textit{software} nos equipamentos recebidos. Estas tarefas, embora paralelas ao desenvolvimento das aplicações, proporcionaram um contacto direto com o fluxo operacional da empresa e com o tipo de equipamento que esta gere quotidianamente.
 
 \subsection{Testes de Software em Dispositivos Reais}
 
-Uma das etapas essenciais no processo de desenvolvimento foi a validação das interfaces em dispositivos reais disponibilizados pela empresa, incluindo o ecrã tátil instalado na zona operacional do armazém e computadores de secretária para as aplicações de backoffice e comparação de toners. O website institucional foi igualmente verificado em computadores e dispositivos móveis para garantir a usabilidade da área pública e do portal de cliente em múltiplos contextos. A realização destes testes no contexto físico da empresa permitiu analisar as condições reais de utilização operacional das aplicações. As conclusões funcionais e as correções resultantes deste processo estão descritas em detalhe na Secção~\ref{sec:testes}.
+Uma das etapas essenciais do processo de desenvolvimento consistiu na validação das aplicações em diferentes ambientes de utilização. A aplicação de pesagens foi testada num ecrã tátil disponibilizado pela empresa e destinado à futura utilização na zona operacional do armazém, embora este ainda não se encontrasse instalado no local. As restantes aplicações, nomeadamente o \textit{backoffice}, a aplicação de comparação de toners e o \textit{website} institucional, foram testadas em computadores pessoais. O \textit{website} foi ainda verificado em dispositivos móveis, com o objetivo de avaliar a usabilidade da área pública e do portal de cliente em diferentes dimensões de ecrã. Este processo permitiu identificar problemas de funcionamento e melhorar a qualidade das soluções desenvolvidas.
 
 \subsection{Ambiente Empresarial versus Ambiente Académico}
 
-A realização do estágio num ambiente empresarial real revelou diferenças substanciais face ao contexto académico. No âmbito escolar, as tarefas de desenvolvimento assumem geralmente um carácter controlado e bem delimitado, com requisitos fixos e sem impacto direto em processos reais. No contexto da 20 Recolher, o \textit{software} desenvolvido estava diretamente ligado à operação da empresa, o que implicou um maior nível de responsabilidade e autonomia na tomada de decisões técnicas.
+A realização do estágio num ambiente empresarial real revelou grandes diferenças em relação ao contexto académico. No âmbito escolar, as tarefas de desenvolvimento assumem geralmente um carácter controlado e bem delimitado, com requisitos fixos e sem impacto direto em processos reais. No contexto da 20 Recolher, o \textit{software} desenvolvido estava diretamente ligado à operação da empresa, o que implicou um maior nível de responsabilidade e autonomia na tomada de decisões técnicas.
 
 O facto de trabalhar fisicamente dentro do armazém da empresa, em contacto com os processos reais de recolha, pesagem e triagem de resíduos eletrónicos, permitiu uma compreensão mais aprofundada dos fluxos operacionais que o \textit{software} tinha de suportar. Esta proximidade com o ambiente real de utilização foi determinante para que as decisões de desenvolvimento fossem tomadas com maior consciência das necessidades concretas dos utilizadores finais.
 

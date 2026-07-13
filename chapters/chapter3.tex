@@ -4,15 +4,18 @@
 O estágio curricular realizado na 20 Recolher --- Gestão de Resíduos, Lda. teve como ponto de partida um levantamento detalhado das necessidades tecnológicas da empresa.
 
 \section{Estado Inicial e Problema Identificado}
-No início do período de estágio, constatou-se que os processos operacionais dependiam de métodos inteiramente manuais e descentralizados. Os pedidos de recolha de resíduos por parte dos clientes eram comunicados por canais informais, como telefonemas ou trocas de e-mail manuais, sem qualquer validação automática de dados ou agendamento estruturado.
-O registo físico das pesagens dependia de os operadores anotarem os valores medidos na balança industrial e, posteriormente, digitarem essa informação em folhas de cálculo locais. Este procedimento gerava frequentes erros de introdução, redundância de dados e lacunas de rastreabilidade. A empresa não possuía presença digital estruturada, o que impedia os seus clientes de consultar faturas, históricos de pesagem ou códigos legais de resíduos (LER) de forma autónoma.
-Esta dependência de tarefas manuais provocava atrasos nas operações logísticas, sobrecarga nos canais de comunicação interna e uma considerável exposição a perdas de dados.
 
-O objetivo central do estágio consistiu, assim, em conceber, desenvolver e implementar uma solução tecnológica integrada que automatizasse e digitalizasse estes processos, de forma a aumentar a eficiência operacional da empresa e a melhorar a experiência dos seus clientes.
+No início do período de estágio, verificou-se que uma parte significativa dos processos operacionais dependia de procedimentos manuais e de informação distribuída por diferentes canais. Os pedidos de recolha eram, geralmente, comunicados através de telefone ou correio eletrónico, sem uma plataforma centralizada que permitisse a sua submissão, validação e acompanhamento estruturado.
+
+O registo das pesagens implicava a leitura visual dos valores apresentados pela balança industrial e a sua posterior introdução em suportes digitais. Este procedimento aumentava a possibilidade de ocorrência de erros de introdução, duplicação de informação e dificuldades na consulta do histórico das operações.
+
+A presença digital da empresa também não disponibilizava uma área reservada através da qual os clientes pudessem submeter pedidos de recolha, acompanhar o respetivo estado ou consultar documentação associada de forma autónoma. Esta situação resultava numa maior dependência dos contactos telefónicos e das trocas de correio eletrónico.
+
+Neste contexto, o estágio teve como principal finalidade a conceção e o desenvolvimento de um conjunto integrado de soluções tecnológicas destinado a centralizar a informação, apoiar os processos operacionais e melhorar a interação entre a empresa e os seus clientes.
 
 \section{Objetivo Geral}
 
-Desenvolver um ecossistema de software integrado para a 20 Recolher que automatize o ciclo completo de gestão de recolhas de resíduos --- desde a solicitação online por parte do cliente até ao registo físico das pesagens no armazém ---, para substituir processos manuais por fluxos digitais seguros, rastreáveis e escaláveis.
+Conceber e desenvolver um ecossistema integrado de soluções de \textit{software} para apoiar e digitalizar os principais processos da 20 Recolher, desde a submissão de pedidos de recolha por parte dos clientes até ao registo das pesagens realizadas no armazém, promovendo a centralização da informação, a rastreabilidade das operações e a redução da dependência de procedimentos manuais.
 
 \section{Objetivos Específicos}
 
@@ -21,13 +24,13 @@ Para concretizar o objetivo geral, definiram-se os seguintes objetivos específi
 \begin{itemize}
     \item \textbf{Desenvolvimento do Website Institucional:} Criar um novo website institucional moderno para a empresa, com duas vertentes distintas: uma área pública para apresentação dos serviços e captação de novos clientes, e uma área reservada para clientes registados. Esta área reservada permite que os clientes efetuem pedidos de recolha de forma autónoma, acompanhem o estado das suas recolhas e comuniquem diretamente com os operadores através de um sistema de mensagens diretas. A presença digital estruturada é fundamental para reduzir o volume de contactos telefónicos e e-mails manuais, de forma a centralizar a gestão de clientes numa plataforma digital segura.
     \item \textbf{Desenvolvimento da Aplicação de \textit{Backoffice}:} Construir uma aplicação de gestão interna para os operadores da empresa, que centralize o controlo de clientes, a triagem e agendamento de pedidos de recolha, a visualização de pesagens e a administração de utilizadores e permissões. O objetivo é substituir o uso de folhas de cálculo e comunicações manuais.
-    \item \textbf{Desenvolvimento do Terminal de Pesagem (\textit{Kiosk}):} Desenvolver uma aplicação dedicada à zona física de pesagens, concebida para operar em ecrãs táteis. O terminal simplifica a introdução dos valores de peso, permitindo automatizar o registo dos dados de pesagem e associá-los à recolha em curso e ao respetivo material.
+    \item \textbf{Desenvolvimento do Terminal de Pesagem (\textit{Kiosk}):} Desenvolver uma aplicação destinada ao apoio das operações de pesagem e concebida para utilização através de um ecrã tátil. A aplicação permite ao operador introduzir manualmente os valores apresentados pela balança industrial e associá-los à recolha e ao respetivo tipo de material, reduzindo a necessidade de registos dispersos e facilitando a centralização da informação.
 
-    \item \textbf{Modelação e Implementação da Base de Dados Centralizada:} Conceber e implementar o modelo de dados relacional que suporte de forma unificada todas as aplicações do ecossistema. O modelo deve garantir a integridade referencial dos dados, manter um histórico completo de operações (através de exclusão lógica) e ser alojado numa infraestrutura de nuvem fiável e escalável.
+    \item \textbf{Modelação e Implementação da Base de Dados Centralizada:} Conceber e implementar um modelo de dados relacional capaz de suportar as diferentes aplicações do ecossistema, garantindo a integridade referencial e a centralização da informação. Sempre que aplicável, foi utilizada exclusão lógica, de forma a evitar a eliminação física imediata de registos relevantes e a preservar a sua disponibilidade para consulta.
 
     \item \textbf{Desenvolvimento da \ac{API} Central:} Criar uma \textit{Application Programming Interface} (API) \textit{RESTful} que funcione como a única camada de acesso à base de dados, garantindo que todas as aplicações comuniquem com os dados de forma centralizada, segura e consistente. Este objetivo surgiu da necessidade de separar as duas aplicações Blazor (backoffice e terminal de pesagem) que inicialmente foram concebidas como uma única aplicação monolítica.
 
-    \item \textbf{Testes e Validação Funcional:} Realizar testes práticos do software em ambiente real com os ecrãs táteis e validar o processo de registo com a balança industrial nas instalações da empresa. Devido a limitações de hardware e de comunicação direta com a balança, os valores medidos são lidos visualmente pelo operador e introduzidos manualmente na interface tátil do quiosque, sendo o foco dos testes a fiabilidade e rapidez desta inserção sob condições de armazém.
+    \item \textbf{Testes e Validação Funcional:} Validar o funcionamento das aplicações através de testes manuais realizados em computadores pessoais e num ecrã tátil disponibilizado pela empresa para futura utilização na zona operacional do armazém. Embora o equipamento ainda não se encontrasse instalado no local previsto, foi possível testar a interação por toque e simular o processo de introdução dos valores apresentados pela balança industrial. A integração direta com a balança não foi implementada, pelo que os valores continuaram a ser introduzidos manualmente pelo operador.
 \end{itemize}
 
 
@@ -37,28 +40,28 @@ A escolha das tecnologias baseou-se em critérios como a adequação técnica ao
 
 \subsection{Desenvolvimento Frontend e Presença Web}
 \begin{itemize}
-    \item \textbf{\textit{Next.js} 16 (Website Institucional):} Escolhido para o website por ser um \textit{framework} React moderno que suporta múltiplas estratégias de renderização, incluindo a geração estática de páginas (\ac{SSG}) e a renderização do lado do cliente (\ac{CSR}), o que permite combinar páginas institucionais estáticas com elevado desempenho e boa indexação em motores de busca (\ac{SEO}) com áreas dinâmicas reservadas. Para uma empresa de serviços ambientais como a 20 Recolher, com pouca presença digital estruturada antes do estágio, um bom posicionamento nos motores de busca traduz-se diretamente numa maior visibilidade e numa captação mais fácil de novos clientes sem custos de publicidade. Além disso, a arquitetura \textit{App Router} simplifica o roteamento e o consumo de dados, reduzindo o volume de código necessário e tornando o projeto mais fácil de manter e evoluir no futuro.
+    \item \textbf{\textit{Next.js} 16 (\textit{Website} Institucional):} O \textit{Next.js} foi escolhido por permitir o desenvolvimento de páginas institucionais e áreas interativas dentro do mesmo projeto, recorrendo a componentes de servidor e de cliente consoante as necessidades de cada funcionalidade. A possibilidade de pré-renderizar conteúdo institucional contribui para o desempenho, a acessibilidade e a indexação por motores de busca, enquanto os componentes de cliente permitem implementar as funcionalidades interativas do portal. A arquitetura baseada no \textit{App Router} permitiu ainda organizar o projeto através de rotas, páginas e componentes reutilizáveis.
     \item \textbf{\textit{Tailwind \ac{CSS}} v4 (Estilização):} Adotado para acelerar o desenho da interface e garantir um visual fluido e responsivo em smartphones, tablets e computadores. A abordagem de utilitários elimina a necessidade de escrever folhas de estilos personalizadas extensas, resultando em menos código \ac{CSS} para manter e num design consistente em todo o website. Sendo os clientes da empresa maioritariamente entidades empresariais que consultam os seus dados em múltiplos dispositivos, a responsividade não é uma opção mas um requisito operacional fundamental.
 \end{itemize}
 
 \subsection{Aplicações Empresariais Internas}
 \begin{itemize}
-    \item \textbf{\textit{Photino.Blazor} com .NET 10 (Backoffice e Kiosk):} Escolhido para as aplicações nativas de desktop por permitir a criação de interfaces de utilizador nativas leves usando C\# e HTML, aproveitando as competências em C\# já dominadas no contexto do estágio. Ao contrário do Blazor Hybrid tradicional baseado em MAUI, o Photino é extremamente leve, multiplataforma e não requer dependências pesadas de runtime para correr, gerando executáveis pequenos. Isto eliminou a necessidade de manter dois ecossistemas de linguagens distintos para as aplicações desktop e permitiu a partilha direta de modelos de dados, validações e regras de negócio com a API central, reduzindo a duplicação de código.
-    \item \textbf{\textit{Tauri} (Ferramenta de Toners):} Utilizado para empacotar a ferramenta de comparação de preços de toners como aplicação nativa de ambiente de trabalho (\textit{desktop}), de uso interno exclusivo na 20 Recolher. O Tauri foi preferido ao \textit{Electron} por gerar executáveis significativamente mais leves e com menor consumo de memória, permitindo instalar e executar a ferramenta diretamente no computador de secretária do escritório sem necessidade de configurar ou manter um servidor web dedicado para esta utilidade.
+    \item \textbf{\textit{Photino.Blazor} com .NET 10 (\textit{Backoffice} e \textit{Kiosk}):} O \textit{Photino.Blazor} foi utilizado no desenvolvimento das aplicações de ambiente de trabalho por permitir integrar interfaces construídas com Blazor numa janela nativa, recorrendo às tecnologias C\#, HTML e CSS. Esta opção possibilitou o aproveitamento das competências previamente adquiridas em C\# e a manutenção de uma base tecnológica próxima da utilizada na \ac{API}. A utilização do componente de visualização web disponibilizado pelo sistema operativo contribuiu ainda para uma solução de ambiente de trabalho relativamente leve e adequada aos equipamentos existentes na empresa.
+    \item \textbf{\textit{Tauri} (Ferramenta de Toners):} O \textit{Tauri} foi utilizado para disponibilizar a ferramenta de comparação de preços de toners como uma aplicação de ambiente de trabalho destinada a uso interno. A sua arquitetura, baseada na utilização do componente WebView do sistema operativo, adequava-se ao objetivo de produzir uma aplicação simples e com reduzida necessidade de recursos, sem exigir a manutenção de um servidor web dedicado.
 \end{itemize}
 
 \subsection{Persistência e Infraestrutura de Dados}
 \begin{itemize}
     \item \textbf{\textit{PostgreSQL} com \textit{Supabase}:} O PostgreSQL foi adotado pela sua fiabilidade relacional e suporte nativo a transações ACID complexas, garantindo a consistência dos dados mesmo em cenários de escrita concorrente --- como múltiplos operadores a registar pesagens simultaneamente. A sua relevância no mercado é amplamente reconhecida: segundo o \textit{Stack Overflow Developer Survey 2024} \autocite{SOSurvey2024}, o PostgreSQL é a base de dados mais utilizada a nível global, com \textbf{49\%} dos programadores a reportarem a sua utilização. A plataforma \textit{Supabase} foi escolhida porque disponibiliza PostgreSQL gerido na nuvem sem custos de infraestrutura inicial, juntamente com buckets de armazenamento compatíveis com S3 para ficheiros e um serviço de autenticação integrado --- eliminando a necessidade de configurar e manter servidores dedicados, o que seria tecnicamente exigente e oneroso para uma empresa de pequena dimensão.
-    \item \textbf{Base de Dados Centralizada (API Central):} Em vez de cada aplicação aceder diretamente à base de dados, optou-se por concentrar todo o acesso numa única \ac{API} RESTful em .NET 10. Esta decisão arquitetural foi determinante para a segurança e mantenabilidade do sistema: qualquer regra de negócio, validação ou alteração de esquema é implementada uma única vez na API e propagada automaticamente a todas as aplicações. Sem esta camada, seria necessário replicar validações em múltiplos projetos, aumentando o risco de inconsistências de dados e tornando a evolução do sistema progressivamente mais complexa.
-    \item \textbf{\textit{Entity Framework Core} (\ac{ORM}):} O acesso aos dados é mediado pelo EF Core sob a abordagem \textit{Code-First}. Esta decisão garantiu que as alterações de base de dados fossem versionadas e rastreadas como código C\# estruturado, permitindo auditorias fáceis em ambiente Git e uma reprodução fácil do esquema em novos ambientes de desenvolvimento ou produção.
+    \item \textbf{Base de Dados Centralizada e \ac{API} Central:} Optou-se por concentrar o acesso aos dados numa \ac{API} desenvolvida em .NET 10, evitando que cada aplicação comunicasse diretamente com a base de dados. Esta abordagem permitiu centralizar regras de negócio, validações e operações de persistência, reduzindo a duplicação de lógica entre as diferentes aplicações e facilitando a manutenção do sistema.
+    \item \textbf{\textit{Entity Framework Core} (\ac{ORM}):} O acesso aos dados foi realizado através do \textit{Entity Framework Core}, seguindo uma abordagem baseada na definição do modelo através de código. O mecanismo de migrações permitiu registar e versionar as alterações efetuadas ao esquema da base de dados, facilitando a sua reprodução nos diferentes ambientes do projeto.
 \end{itemize}
 
 \subsection{Fluxo de Trabalho e Publicação}
 \begin{itemize}
     \item \textbf{\textit{Git} e \textit{GitHub}:} O controlo de versões com Git e o alojamento no GitHub foram adotados desde o primeiro dia de desenvolvimento. Esta decisão justifica-se pela necessidade de manter um histórico completo de todas as alterações ao código, possibilitar a reversão segura de mudanças problemáticas e garantir que o projeto não dependia de uma única máquina. Além disso, o Git permitiu que o desenvolvimento de novas funcionalidades ocorresse em ramos (\textit{branches}) isolados, sem perturbar a versão estável em produção.
     \item \textbf{\textit{Vercel} (Publicação Contínua do Website):} A plataforma Vercel foi escolhida para alojar o website institucional durante o desenvolvimento e os testes. A sua integração direta com o GitHub permite que cada \textit{commit} resulte automaticamente numa nova versão publicada e acessível, o que acelerou significativamente os ciclos de validação com o supervisor e permitiu testar a responsividade da interface em dispositivos reais (computadores e smartphones) sem requerer configuração de servidores.
-    \item \textbf{Autenticação (Supabase Auth + \ac{JWT}):} A autenticação dos utilizadores foi implementada com base no serviço \textit{Supabase Auth}, complementado por tokens \ac{JWT} geridos através de cookies \textit{HttpOnly}. Esta abordagem foi escolhida porque elimina a necessidade de desenvolver e manter um sistema de autenticação personalizado do zero, reduzindo significativamente o risco de vulnerabilidades de segurança. Os cookies \textit{HttpOnly} impedem que código JavaScript aceda aos tokens de sessão, protegendo os utilizadores contra ataques de roubo de credenciais (\ac{XSS}). Esta combinação garante que os dados de clientes empresariais e operações logísticas da empresa estão protegidos segundo as melhores práticas da indústria.
+    \item \textbf{Autenticação com \textit{Supabase Auth}:} O serviço \textit{Supabase Auth} foi utilizado para gerir o registo, a autenticação e as sessões dos utilizadores do portal. Esta opção permitiu recorrer a um serviço especializado, evitando o desenvolvimento integral de um mecanismo próprio de autenticação. O acesso às funcionalidades reservadas foi condicionado pela validação da sessão e das permissões associadas a cada utilizador.
 \end{itemize}
 
 \subsection{Validação Funcional e de Integração}
@@ -83,7 +86,7 @@ Foram levantados e documentados requisitos de dois tipos:
 
 \subsection{Fase 2: Desenho da Arquitetura e Modelação da Base de Dados}
 
-Com base nos requisitos levantados, procedeu-se ao desenho da arquitetura global do sistema. Esta fase culminou na decisão de adotar uma \textit{Clean Architecture}, com uma \ac{API} central como único ponto de acesso à base de dados, consumida pelas aplicações nativas \textit{Photino.Blazor} e pelo website.
+Com base nos requisitos identificados, procedeu-se ao desenho da arquitetura global do sistema. A solução foi organizada em diferentes componentes, incluindo uma \ac{API} central, uma base de dados relacional, aplicações de ambiente de trabalho e um \textit{website}. A \ac{API} foi definida como a principal camada de comunicação com a base de dados, centralizando as operações de acesso e persistência da informação.
 
 Paralelamente, foi desenhado o modelo de dados relacional, identificando as entidades principais, as suas relações de cardinalidade e as restrições de integridade referencial. O modelo foi implementado em \textit{PostgreSQL} através de uma abordagem \textit{Code-First} com \textit{Entity Framework Core}, sendo o esquema gerado e versionado através do mecanismo de migrações.
 
@@ -91,22 +94,26 @@ Paralelamente, foi desenhado o modelo de dados relacional, identificando as enti
 
 Esta foi a fase mais longa e correspondeu à implementação prática das soluções. O desenvolvimento foi realizado em entreajuda entre os dois estagiários, com a contínua revisão e alinhamento de decisões técnicas ao longo do processo. As componentes desenvolvidas abrangem:
 \begin{itemize}
-    \item \textbf{Website Institucional e Portal de Cliente:} Desenvolvido em \textit{Next.js} 16 e \textit{Tailwind \ac{CSS}} v4, com integração segura com a \ac{API}.
-    \item \textbf{Terminal Kiosk de Pesagens:} Desenvolvido em \textit{Photino.Blazor} (.NET 10), com adaptação tátil e \textit{login} simplificado por PIN.
-    \item \textbf{API Central, Backoffice e Ferramenta de Toners:} Desenvolvidos garantindo a segurança (\ac{CORS} e autenticação) e o processamento de ficheiros (Excel e Tauri).
+    \item \textbf{\textit{Website} Institucional e Portal de Cliente:} desenvolvimento em \textit{Next.js} 16 e \textit{Tailwind \ac{CSS}} v4, com integração com a \ac{API} central;
+    \item \textbf{Terminal de Pesagens (\textit{Kiosk}):} desenvolvimento em \textit{Photino.Blazor} e .NET 10, com interface adaptada à utilização tátil e autenticação simplificada através de PIN;
+    \item \textbf{\textit{Backoffice}:} desenvolvimento da aplicação interna para gestão de clientes, pedidos, recolhas, pesagens e utilizadores;
+    \item \textbf{\ac{API} Central:} implementação das operações de acesso aos dados, autenticação, validação e comunicação entre as diferentes aplicações;
+    \item \textbf{Ferramenta de Comparação de Toners:} desenvolvimento de uma aplicação interna, posteriormente disponibilizada em formato de aplicação de ambiente de trabalho através do \textit{Tauri}.
 \end{itemize}
+
 
 \subsection{Fase 4: Testes e Validação}
 
-Em paralelo com o desenvolvimento, foram realizados testes funcionais e de aceitação para verificar a conformidade dos fluxos de trabalho implementados. Esta fase focou-se em garantir que a integração entre as diferentes aplicações do ecossistema ocorria de forma estável e que a usabilidade da interface tátil respondia às necessidades dos operadores.
+Em paralelo com o desenvolvimento, foram realizados testes manuais e funcionais destinados a verificar os principais fluxos das aplicações e a comunicação entre as diferentes componentes do sistema.
 
 A verificação abrangeu duas vertentes:
 \begin{itemize}
-    \item \textbf{Testes de Usabilidade e Interface:} verificação da facilidade de introdução de dados por toque e login por PIN sob condições de poeira e luz no armazém;
-    \item \textbf{Testes de Integração de Dados:} confirmação de que os dados submetidos pelo quiosque e pelo website eram corretamente processados e persistidos na base de dados central.
+    \item \textbf{Testes de Interface e Usabilidade:} verificação da navegação, da introdução de dados e da adaptação da interface do terminal a um ecrã tátil disponibilizado pela empresa;
+    \item \textbf{Testes de Integração de Dados:} confirmação de que os dados submetidos através das diferentes aplicações eram corretamente enviados para a \ac{API} e persistidos na base de dados.
 \end{itemize}
 
-Os testes permitiram identificar e corrigir desvios de usabilidade antes da entrega final.
+Estes testes permitiram identificar e corrigir problemas funcionais e de apresentação ao longo do processo de desenvolvimento. Não foram realizados testes formais com utilizadores finais, constituindo esta uma limitação do trabalho desenvolvido.
+
 
 \subsection{Fase 5: Documentação e Entrega}
 
