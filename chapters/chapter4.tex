@@ -5,13 +5,13 @@ Neste capítulo, são descritas em pormenor as atividades e resultados associado
 
 \section{Arquitetura do Sistema e API Central}\label{sec:arquitetura}
 
-O ecossistema tecnológico foi desenhado sob uma arquitetura distribuída e modular, com o objetivo de garantir a separação de conceitos, a escalabilidade das aplicações e a facilidade de manutenção a longo prazo. O núcleo da solução assenta num modelo de \textit{Clean Architecture} (ou Arquitetura Cebola) implementado no backoffice, complementado por uma API centralizada que funciona como o único ponto de contacto com a base de dados.
+O ecossistema tecnológico foi desenhado sob uma arquitetura distribuída e modular, com o objetivo de garantir a separação de conceitos, a escalabilidade das aplicações e a facilidade de manutenção a longo prazo. O núcleo da solução .NET foi organizado segundo princípios de \textit{Clean Architecture}, através da separação entre o domínio, a infraestrutura, a \ac{API} e as interfaces das aplicações de \textit{Backoffice} e de pesagens. A \ac{API} central funciona como a camada responsável pela comunicação com a base de dados.
 
 A infraestrutura é constituída por três camadas lógicas principais:
 \begin{itemize}
-    \item \textbf{Camada de Apresentação (Frontend/Clientes):} constituída pelo Website Institucional em Next.js 16, pela aplicação de Backoffice e pelo Terminal de Pesagem (Kiosk), ambos desenvolvidos em Photino.Blazor no ecossistema .NET 10.
-    \item \textbf{Camada de Serviços (API Central):} uma API RESTful em .NET 10 que expõe os \textit{endpoints} de negócio necessários e assegura que todas as validações, regras e acessos à base de dados ocorrem sob uma mesma lógica corporativa.
-    \item \textbf{Camada de Dados e Infraestrutura (Supabase/PostgreSQL):} alojamento na nuvem da base de dados PostgreSQL e do serviço de armazenamento de ficheiros do Supabase.
+    \item \textbf{Camada de Apresentação (Frontend/Clientes):} Constituída pelo Website Institucional em Next.js 16, pela aplicação de Backoffice e pelo Terminal de Pesagem (Kiosk), ambos desenvolvidos em Photino.Blazor no ecossistema .NET 10.
+    \item \textbf{Camada de Serviços (API Central):} Uma API RESTful em .NET 10 que expõe os \textit{endpoints} de negócio necessários e assegura que todas as validações, regras e acessos à base de dados ocorrem sob uma mesma lógica corporativa.
+    \item \textbf{Camada de Dados e Infraestrutura (Supabase/PostgreSQL):} Alojamento na nuvem da base de dados PostgreSQL e do serviço de armazenamento de ficheiros do Supabase.
 \end{itemize}
 
 O isolamento das regras de negócio na API central garante que as aplicações clientes (Web, Backoffice e Quiosque) não comuniquem diretamente com a base de dados, reduzindo o risco de acessos não autorizados e facilitando futuras integrações com outros sistemas da empresa, conforme ilustrado no esquema de camadas da Figura~\ref{fig:arquitetura_camadas}.
@@ -48,12 +48,14 @@ Para assegurar a digitalização eficiente dos processos da empresa, foram model
 \begin{enumerate}
     \item \textbf{Fluxo de Submissão e Triagem de Pedidos de Recolha:} O cliente acede à área reservada do website e submete um formulário indicando os materiais a recolher, anexando fotografias de suporte. O pedido entra na base de dados com o estado \textit{Pendente}. O operador, na app de Backoffice, recebe o alerta e analisa os dados e as fotografias submetidas. Nesta fase, o operador pode aceitar ou recusar o pedido, editar os seus dados ou eliminá-lo. Em caso de aceitação, o operador cria o registo do cliente na aplicação e na base de dados, o que desencadeia automaticamente o envio de um e-mail de convite que permite ao cliente aceder e gerir a sua área reservada no portal web.
     \item \textbf{Fluxo de Pesagem e Integração Física:} No armazém, o motorista descarrega os resíduos. O operador no terminal de pesagem (Kiosk) seleciona a recolha ativa e o material correspondente, introduz o peso medido na balança industrial e submete o registo. Os dados são enviados para a API central, que persiste a pesagem na base de dados e a associa à recolha em curso. Quando todas as pesagens são registadas e o estado da recolha transita para \textit{Concluída}, a informação fica imediatamente disponível na área reservada do portal de cliente.
-    \item \textbf{Fluxo de Alteração Cadastral e Auditoria de Segurança:} De forma a impedir fraudes e dados cadastrais incorretos na faturação, sempre que o cliente edita os seus dados fiscais ou morada na área reservada do website, a atualização não é imediata. A alteração entra numa tabela de propostas temporárias. O operador de backoffice analisa o pedido e valida. Se aprovar, a API executa a persistência na tabela central de Clientes e cria um registo de auditoria (\textit{audit log}).
+    \item \textbf{Fluxo de Alteração Cadastral e Auditoria de Segurança:} De forma a reduzir o risco de alterações indevidas e de dados cadastrais incorretos na faturação, sempre que o cliente edita os seus dados fiscais ou morada na área reservada do website, a atualização não é imediata. A alteração entra numa tabela de propostas temporárias. O operador de backoffice analisa o pedido e valida. Se aprovar, a API executa a persistência na tabela central de Clientes e cria um registo de auditoria (\textit{audit log}).
 \end{enumerate}
 
-Inicialmente, as aplicações de backoffice administrativo e o terminal de pesagem física (Kiosk) foram concebidos e implementados de forma acoplada numa única aplicação. No entanto, a evolução do projeto e a necessidade de isolar os ambientes físico e de escritório exigiram a separação destas ferramentas em duas aplicações independentes. Para suportar esta nova topologia sem comprometer a consistência dos dados, foi desenvolvida a API Central (\texttt{RecolherApp.Api}) na plataforma .NET. A centralização do acesso à base de dados nesta única camada garante que qualquer validação ou regra de negócio é aplicada uma só vez, evitando inconsistências entre aplicações e facilitando a manutenção e evolução futura do sistema.
+Inicialmente, as aplicações de backoffice administrativo e o terminal de pesagem física (Kiosk) foram concebidos e implementados de forma acoplada numa única aplicação. No entanto, a evolução do projeto e a necessidade de isolar os ambientes físico e de escritório exigiram a separação destas ferramentas em duas aplicações independentes. Para suportar esta nova topologia sem comprometer a consistência dos dados, foi desenvolvida a API Central (\texttt{RecolherApp.Api}). A centralização do acesso à base de dados nesta única camada garante que qualquer validação ou regra de negócio é aplicada uma só vez, evitando inconsistências entre aplicações e facilitando a manutenção e evolução futura do sistema.
 
-A arquitetura global do sistema segue os princípios da \textit{Clean Architecture}, dividindo-se em seis camadas estruturais:
+As três camadas apresentadas anteriormente correspondem a uma visão lógica simplificada do funcionamento global do sistema. Na implementação concreta da solução .NET, estas responsabilidades encontram-se distribuídas por seis projetos:
+
+A organização concreta da solução .NET é composta pelos seguintes projetos:
 \begin{itemize}
     \item \textbf{\texttt{RecolherApp.Api}:} Camada de exposição que gere os pontos de entrada (\textit{endpoints}), tratamento de pedidos \ac{HTTP} e serialização de dados.
     \item \textbf{\texttt{RecolherApp.Core}:} Núcleo do domínio que contém a definição das entidades de negócio, validações estruturais e interfaces de repositórios.
@@ -67,7 +69,7 @@ A arquitetura global do sistema segue os princípios da \textit{Clean Architectu
 
 A base de dados centraliza o armazenamento de informação do website institucional (incluindo a área de cliente e a gestão de conteúdos) e das aplicações de backoffice e quiosque. Optou-se pelo sistema de gestão de bases de dados relacional PostgreSQL, gerido e alojado na nuvem através da plataforma Supabase, o que garante a disponibilidade dos dados e simplifica a monitorização e a realização de cópias de segurança.
 
-A modelação física e a comunicação com o motor de base de dados foram estruturadas através de uma abordagem \textit{Code-First} com o Entity Framework Core (EF Core), o mapeador objeto-relacional (\ac{ORM}) da plataforma .NET. Sob esta metodologia, o esquema de tabelas, chaves primárias, chaves estrangeiras e restrições de integridade foi definido em classes C\#. As atualizações estruturais e a sincronização do esquema com o servidor PostgreSQL foram aplicadas através das migrações (\textit{migrations}) do EF Core, mantendo a reprodutibilidade do esquema em desenvolvimento e produção.
+A estrutura da base de dados foi definida através de classes C\# utilizando a abordagem \textit{Code-First} do Entity Framework Core. As classes representavam as tabelas, as propriedades correspondiam às colunas e as relações entre classes definiam as chaves estrangeiras. Sempre que o modelo era alterado, eram criadas migrações para atualizar de forma controlada o esquema da base de dados PostgreSQL nos diferentes ambientes do projeto.
 
 A arquitetura de dados divide-se nas seguintes entidades principais:
 \begin{itemize}
@@ -112,7 +114,7 @@ A plataforma implementa uma arquitetura técnica robusta assente em quatro compo
 Toda a comunicação do website com a base de dados é mediada por um componente de proxy local (\texttt{src/proxy.js}) e interceptada pelo middleware do Next.js. O utilizador final nunca interage diretamente com o endereço externo da API .NET no Render. Em vez disso, envia pedidos para rotas locais (ex: \texttt{/api/cliente/recolhas}), onde o middleware executa o seguinte fluxo:
 \begin{itemize}
     \item \textbf{Validação de Sessão com Cookies HttpOnly:} O middleware utiliza a biblioteca \texttt{@supabase/ssr} com \texttt{createServerClient} para inspecionar os cookies de sessão (\texttt{20recolher\_session} e \texttt{20recolher\_admin\_session}) e o cargo do utilizador (\texttt{20recolher\_role}). Os tokens \ac{JWT} são armazenados como cookies seguros com a flag \textit{HttpOnly}. Os cookies HttpOnly impedem que o JavaScript no navegador leia diretamente os tokens de sessão, reduzindo o risco de roubo desses tokens através de ataques XSS. Esta medida não elimina, por si só, todas as vulnerabilidades de XSS.
-    \item \textbf{Encaminhamento e Desativação de Cache Pós-Logout:} Para rotas privadas da área de cliente ou administração, o proxy insere cabeçalhos \texttt{Cache-Control: no-store} dinamicamente na resposta \texttt{NextResponse}. Isto impede que o histórico de navegação local exiba dados privados em memória após o logout.
+    \item \textbf{Encaminhamento e Desativação de Cache Pós-Logout:} Para rotas privadas da área de cliente ou administração, o proxy insere cabeçalhos \texttt{Cache-Control: no-store} dinamicamente na resposta \texttt{NextResponse}. Isto impede que o histórico de navegação local mostre dados privados em memória após o logout.
 \end{itemize}
 
 \paragraph{Controlo Dinâmico de Animações e Acessibilidade}
@@ -144,7 +146,7 @@ A página principal do website (Figura~\ref{fig:homepage}) constitui a face púb
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{imagens/homepage.png}
+    \includegraphics[width=0.5\textwidth]{imagens/homepage.png}
     \caption{Interface pública da Página Inicial (Homepage) do website institucional.}
     \label{fig:homepage}
 \end{figure}
@@ -153,7 +155,7 @@ A interface da área reservada de cliente (Figura~\ref{fig:dashboard}) oferece a
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{imagens/dashboard-cliente.png}
+    \includegraphics[width=0.5\textwidth]{imagens/dashboard-cliente.png}
     \caption{Ecrã do Painel de Controlo (Dashboard) na área reservada de cliente.}
     \label{fig:dashboard}
 \end{figure}
@@ -162,22 +164,22 @@ O formulário de submissão de pedidos de recolha (Figura~\ref{fig:novopedido}) 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{imagens/pedido-recolha-website.png}
+    \includegraphics[width=0.5\textwidth]{imagens/pedido-recolha-website.png}
     \caption{Formulário de submissão de um novo pedido de recolha de resíduos.}
     \label{fig:novopedido}
 \end{figure}
 
-O painel de administração de notícias (Figura~\ref{fig:adminnews}) é acessível a utilizadores administrativos e disponibiliza uma interface para gerir os conteúdos editoriais do site. O ecrã exibe a tabela de publicações, estatísticas básicas de leitura e botões de ação para abrir o editor de texto estruturado TipTap ou o histórico de revisões de artigos.
+O painel de administração de notícias (Figura~\ref{fig:adminnews}) é acessível a utilizadores administrativos e disponibiliza uma interface para gerir os conteúdos editoriais do site. O ecrã mostra a tabela de publicações, estatísticas básicas de leitura e botões de ação para abrir o editor de texto estruturado TipTap ou o histórico de revisões de artigos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{imagens/dashboard-noticias.png}
+    \includegraphics[width=0.5\textwidth]{imagens/dashboard-noticias.png}
     \caption{Painel administrativo de gestão de publicações e notícias do website.}
     \label{fig:adminnews}
 \end{figure}
 
 \noindent\textbf{Alojamento e Publicação}
-O website foi alojado na plataforma cloud Vercel durante o desenvolvimento. A integração nativa com o GitHub permite a compilação contínua em cada \textit{push} de código, correndo validações automáticas sobre o build estático e permitindo a rápida auditoria de usabilidade e responsividade da interface em múltiplos dispositivos físicos (computadores desktop e smartphones) antes da sua implementação final.
+O website foi alojado na plataforma Vercel durante o desenvolvimento e os testes. A integração direta com o GitHub permitiu gerar automaticamente uma nova versão publicada após as atualizações enviadas para o repositório, tornando o website acessível sem necessidade de configurar ou manter servidores próprios. Esta abordagem facilitou a realização de testes em dispositivos reais, como computadores e smartphones, e permitiu verificar a responsividade e o funcionamento da interface ao longo do desenvolvimento.
 
 \section{Aplicação de Backoffice Administrativo}\label{sec:backoffice}
 
@@ -191,27 +193,27 @@ A aplicação encontra-se estruturada nos seguintes módulos funcionais principa
     \item \textbf{Validação de Alterações Cadastrais:} Canal onde os operadores analisam e validam ou rejeitam as solicitações de alteração de dados de identificação e faturação submetidas pelos clientes através da área reservada do website.
 \end{itemize}
 
-Em termos de usabilidade, a interface foi desenhada para se adaptar a diferentes cenários de trabalho, incluindo a utilização em dispositivos móveis e tablets no terreno. Para tal, implementaram-se tabelas de dados dinâmicas com colunas configuráveis e persistidas localmente para cada operador, além de menus de ações acionados por toque longo (\textit{long press}), adequados a ecrãs táteis. A aplicação disponibiliza ainda a exportação de relatórios de atividade em formato \ac{PDF} e um painel dedicado à recuperação de registos inativos através do mecanismo de exclusão lógica (\textit{Soft-Delete}).
+Em termos de usabilidade, a interface foi desenhada para se adaptar a diferentes dimensões de ecrã e a equipamentos com interação tátil. Para tal, implementaram-se tabelas de dados dinâmicas com colunas configuráveis e persistidas localmente para cada operador, além de menus de ações acionados por toque longo (\textit{long press}), adequados a ecrãs táteis. A aplicação disponibiliza ainda a exportação de relatórios de atividade em formato \ac{PDF} e um painel dedicado à recuperação de registos inativos através do mecanismo de exclusão lógica (\textit{Soft-Delete}).
 
-O dashboard central da aplicação de Backoffice (Figura~\ref{fig:backoffice}) concentra as listagens de clientes e agendamentos logísticos. A interface exibe tabelas com dados dinâmicos e ordenáveis, contendo menus de ação contextual ativados por toque longo, que facilitam a edição e o processamento de recolhas e a visualização do histórico de auditoria.
+O dashboard central da aplicação de Backoffice (Figura~\ref{fig:backoffice}) concentra as listagens de clientes e agendamentos logísticos. A interface mostra tabelas com dados dinâmicos e ordenáveis, contendo menus de ação contextual ativados por toque longo, que facilitam a edição e o processamento de recolhas e a visualização do histórico de auditoria.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{imagens/backoffice-gestao-de-recolhas.png}
+    \includegraphics[width=0.5\textwidth]{imagens/backoffice-gestao-de-recolhas.png}
     \caption{Interface principal de gestão de recolhas no painel de Backoffice.}
     \label{fig:backoffice}
 \end{figure}
 
 \section{Terminal de Pesagem (Quiosque de Balança)}\label{sec:kiosk}
 
-Para além do backoffice administrativo, o sistema dispõe de um módulo dedicado especificamente à zona física de pesagens, designado por Terminal Kiosk. Trata-se de uma aplicação desenvolvida em .NET 10 sob a tecnologia Photino.Blazor, com uma interface nativa otimizada para interação tátil (\textit{touchscreen}), concebida para ser executada localmente no terminal do quiosque de pesagens.
+Para além do backoffice administrativo, o sistema dispõe de um módulo dedicado especificamente à zona física de pesagens, designado por Terminal Kiosk. Trata-se de uma aplicação híbrida de ambiente de trabalho, desenvolvida em .NET 10 com Photino.Blazor e otimizada para interação tátil (\textit{touchscreen}), concebida para ser executada localmente no terminal do quiosque de pesagens.
 
 As características estruturais e operacionais deste terminal incluem:
 \begin{itemize}
     \item \textbf{Registo de Pesagem Simplificado:} O sistema disponibiliza uma interface rápida para o operador introduzir e validar manualmente o peso medido na balança industrial, associando-o instantaneamente ao material e recolha correspondentes.
     \item \textbf{Autenticação Simplificada:} A autenticação no quiosque é baseada na introdução de um código numérico pessoal (PIN) através de um teclado virtual sobredimensionado no ecrã. Isto evita a necessidade de introduzir palavras-passe complexas em ecrãs táteis expostos a poeira e condições operacionais de armazém.
     \item \textbf{Processo Guiado de Pesagem (Wizard):} O registo de pesagens é estruturado na forma de um assistente passo-a-passo (\textit{Wizard}). O operador seleciona a recolha em curso, o material que está a ser pesado, introduz o peso medido e submete o registo de forma sequencial e validada estruturalmente pelas regras de negócio.
-    \item \textbf{Emparelhamento de Terminais (Pairing Code):} Para garantir que apenas quiosques físicos autorizados comunicam com a base de dados central, implementou-se um fluxo de emparelhamento obrigatório. O administrador gera um código de autorização temporário no backoffice e introduz este código no novo terminal para estabelecer a associação autorizada e persistente do dispositivo ao sistema.
+    \item \textbf{Emparelhamento de Terminais (\textit{Pairing Code}):} Para garantir que apenas quiosques físicos autorizados comunicam com a base de dados central, implementou-se um processo de emparelhamento obrigatório. Quando a aplicação é iniciada num novo dispositivo, é gerado um código temporário de emparelhamento. Esse código é depois introduzido no \textit{Backoffice} por um administrador, que valida e aceita o dispositivo. Após a aprovação, o terminal fica associado de forma persistente ao sistema e passa a poder comunicar com a \ac{API} central.
     \item \textbf{Visibilidade no Portal de Cliente:} Após o operador submeter o peso no terminal, a pesagem é registada e associada à recolha em curso na base de dados. No portal de cliente, as pesagens individuais --- com o material, o peso e o valor calculado --- ficam visíveis na página de recolhas apenas quando o estado da recolha transita para \textit{Concluída}, assegurando que o cliente apenas acede a dados completos e validados.
 \end{itemize}
 
@@ -225,16 +227,16 @@ O ecrã de entrada do quiosque tátil de balança (Figura~\ref{fig:kiosklogin}) 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{imagens/login-por-pin-app-pesagens.png}
+    \includegraphics[width=0.5\textwidth]{imagens/login-por-pin-app-pesagens.png}
     \caption{Interface de login tátil por PIN do quiosque físico de balança.}
     \label{fig:kiosklogin}
 \end{figure}
 
-O assistente de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) orienta o funcionário ao longo das fases de pesagem física. O assistente exibe os campos de seleção do tipo de resíduo e permite a introdução rápida do peso medido, assegurando a confirmação e o registo estruturado da recolha.
+O assistente de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) orienta o funcionário ao longo das fases de pesagem física. O assistente mostra os campos de seleção do tipo de resíduo e permite a introdução rápida do peso medido, assegurando a confirmação e o registo estruturado da recolha.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{imagens/ecra-pesagem-app-pesagens.png}
+    \includegraphics[width=0.5\textwidth]{imagens/ecra-pesagem-app-pesagens.png}
     \caption{Assistente de pesagem para introdução e validação do peso.}
     \label{fig:kioskweigh}
 \end{figure}
@@ -255,7 +257,7 @@ Para proteger os dados cadastrais, comerciais e operacionais geridos pelas difer
 A autenticação e autorização na área de cliente e no painel administrativo do website são geridas através da integração com o serviço centralizado Supabase Auth, estruturando-se da seguinte forma:
 \begin{itemize}
     \item \textbf{Criação de Conta via Convite:} O processo de registo de um novo cliente é acionado automaticamente aquando da submissão do seu primeiro pedido de recolha de resíduos. O sistema regista os dados na base de dados e insere uma tarefa na fila de envio de e-mails, disparando um convite seguro contendo um link de ativação único. O utilizador utiliza esse link para definir a sua palavra-passe e ativar a sua área reservada.
-    \item \textbf{Gestão de Sessões com Tokens \ac{JWT}:} Após a autenticação com sucesso, o sistema emite tokens \ac{JWT} que atestam a identidade e perfil do utilizador. Estes tokens são transmitidos e armazenados de forma segura utilizando cookies configurados com a propriedade \textit{HttpOnly}, garantindo que o código JavaScript do lado do cliente não tem acesso aos dados de sessão e prevenindo vulnerabilidades de roubo de credenciais.
+    \item \textbf{Gestão de Sessões com Tokens \ac{JWT}:} Após a autenticação com sucesso, o sistema emite tokens \ac{JWT} que atestam a identidade e perfil do utilizador. Estes tokens são armazenados em cookies configurados com a propriedade \textit{HttpOnly}, impedindo o acesso direto através do código JavaScript executado no navegador e reduzindo o risco de exposição dos tokens de sessão em determinados ataques de \textit{Cross-Site Scripting}.
     \item \textbf{Proteção de Rotas via Middleware:} O acesso às páginas privadas (tanto da área reservada de cliente como da administração) é interceptado por um componente de filtragem do Next.js (Middleware). Este componente valida a integridade do token, o seu prazo de validade e o perfil associado ao utilizador antes de permitir a renderização das páginas.
 \end{itemize}
 
@@ -263,7 +265,7 @@ A autenticação e autorização na área de cliente e no painel administrativo 
 As ferramentas administrativas internas e de pesagem utilizam um modelo de autenticação adaptado às condições do ambiente onde são utilizadas:
 \begin{itemize}
     \item \textbf{Autenticação por Código de Acesso (PIN):} No terminal quiosque de pesagem física, os operadores autenticam-se através de um código numérico pessoal. O sistema armazena o PIN sob a forma de um hash seguro, impedindo a recuperação direta do valor original em caso de acesso indevido à base de dados.
-    \item \textbf{Autorização de Quiosques (Pairing Code):} Para prevenir acessos não autorizados a partir de dispositivos físicos desconhecidos, a comunicação de novos quiosques com a API exige um processo de emparelhamento estruturado. O administrador gera um código temporário no backoffice e introduz este código no novo terminal para associar permanentemente o identificador do quiosque à lista de dispositivos autorizados.
+    \item \textbf{Autorização de Quiosques (\textit{Pairing Code}):} Para prevenir acessos não autorizados a partir de dispositivos desconhecidos, os novos terminais passam por um processo obrigatório de emparelhamento. Quando a aplicação é iniciada num novo dispositivo, é gerado um código temporário, que deve ser introduzido no \textit{Backoffice} por um administrador. Após a validação, o dispositivo fica associado de forma persistente ao sistema e autorizado a comunicar com a \ac{API} central.
     \item \textbf{Controlo de Acesso Baseado em Perfis:} A autorização interna baseia-se num sistema de controlo de acessos baseado em permissões granulares. Cada cargo profissional possui um conjunto de permissões ativas estruturado em formato \ac{JSON}. Após a autenticação, a API central emite um token de sessão interno que transporta estas permissões e que é validado em cada pedido efetuado pelas aplicações Blazor.
 \end{itemize}
 
@@ -285,17 +287,17 @@ Em paralelo com os testes automatizados, foram realizados testes de usabilidade 
 
 A verificação abrangeu as seguintes vertentes:
 \begin{itemize}
-    \item \textbf{Testes de Usabilidade no Ecrã Tátil:} verificação da facilidade de introdução de dados por toque e login por PIN sob condições de poeira e luz no armazém;
-    \item \textbf{Testes de Integração com a API:} confirmação de que os dados submetidos pelo quiosque e pelo website eram corretamente processados e persistidos na base de dados central;
-    \item \textbf{Validação de Responsividade:} o website institucional foi validado em computador e dispositivo móvel, garantindo a funcionalidade e coerência visual em diferentes resoluções;
-    \item \textbf{Testes da Ferramenta de Toners:} a aplicação foi testada no computador do escritório com ficheiros Excel reais fornecidos por parceiros comerciais da empresa.
+    \item \textbf{Testes de Usabilidade no Ecrã Tátil:} Verificação da facilidade de introdução de dados por toque e login por PIN sob condições de poeira e luz no armazém;
+    \item \textbf{Testes de Integração com a API:} Confirmação de que os dados submetidos pelo quiosque e pelo website eram corretamente processados e persistidos na base de dados central;
+    \item \textbf{Validação de Responsividade:} O website institucional foi validado em computador e dispositivo móvel, garantindo a funcionalidade e coerência visual em diferentes resoluções;
+    \item \textbf{Testes da Ferramenta de Toners:} A aplicação foi testada no computador do escritório com ficheiros Excel reais fornecidos por parceiros comerciais da empresa.
 \end{itemize}
 
 \section{Resultados e Impacto Operacional}\label{sec:resultados}
 
-A implementação do ecossistema tecnológico na 20 Recolher permitiu estruturar fluxos digitais integrados e seguros, destinados a substituir diversos procedimentos manuais e descentralizados. A centralização dos dados na API central em .NET 10 estabilizou e unificou o acesso à informação, garantindo que todas as regras de negócio e validações fossem controladas de forma centralizada.
+O desenvolvimento do ecossistema tecnológico permitiu criar uma base integrada para apoiar a digitalização de procedimentos anteriormente manuais e descentralizados. A centralização do acesso aos dados através da \ac{API} permitiu aplicar regras de negócio e validações comuns às diferentes aplicações, reduzindo a duplicação de lógica e facilitando a futura evolução do sistema.
 
-Os principais impactos operacionais identificados e os resultados das funcionalidades implementadas incluem:
+Os principais resultados do desenvolvimento e os benefícios operacionais esperados incluem:
 \begin{itemize}
     \item \textbf{Website e Portal de Cliente:} O website e o portal de cliente foram desenvolvidos para centralizar as solicitações de recolha e a gestão cadastral de perfil, fornecendo aos clientes um canal autónomo para acompanhar as suas pesagens.
     \item \textbf{Aplicação de Backoffice:} A aplicação de Backoffice permite a triagem, o agendamento de recolhas e a validação de propostas de alteração cadastral por parte dos operadores, promovendo a rastreabilidade estruturada.

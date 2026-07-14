@@ -5,7 +5,7 @@
 % - https://app.diagrams.net/ - Permite criar figuras e diagramas de forma fácil. Permite a exportação das figuras criadas para PDF o que preserva a qualidade da mesma.
 % - https://www.google.com/ - Para tudo o resto.
 
-\documentclass[12pt,twoside,a4paper,openany]{book}
+\documentclass[12pt,twoside,a4paper,openright]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,top=4.0cm,bottom=3.0cm,left=2.54cm,right=2.54cm,headheight=80pt,headsep=0.5cm,footskip=1.2cm]{geometry}
 
@@ -95,6 +95,14 @@
       %\addtocounter{page}{-1}% Rui - comentei para evitar abstract em página par
       \null%
       \clearpage}
+
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+    \clearpage
+    \thispagestyle{empty}
+    \null
+    \clearpage\fi\fi}
+\makeatother
 \usepackage{caption}
 %\DeclareCaptionType{equ}[Fórmula][]
 \usepackage{acronym}
@@ -222,6 +230,12 @@
 \renewcommand{\cfttabaftersnum}{~}
 \setlength{\cfttabnumwidth}{5.0em}
 
+\setlength{\cftbeforechapskip}{4pt}
+\setlength{\cftbeforesecskip}{1pt}
+\setlength{\cftbeforesubsecskip}{1pt}
+
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+
 \begin{document}
 \frontmatter
 
@@ -262,7 +276,7 @@ Tecnologias e Programação de Sistemas de Informação}
 \thispagestyle{semNumero} % Aplica o estilo
 %\fancyfoot[CO]{\includegraphics[height=1cm]{imagens/Barra_PRR2.png}} 
 
-\clearpage
+\cleardoublepage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                           INÍCIO DA CONTRA CAPA
@@ -306,6 +320,7 @@ CEO, 20 Recolher - Gestão de Resíduos,  Lda}
 
 
 
+\cleardoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                          AGRADECIMENTOS
 
@@ -326,12 +341,11 @@ CEO, 20 Recolher - Gestão de Resíduos,  Lda}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                             LISTAS
-%\addcontentsline{toc}{chapter}{Lista de Figuras}
+\addcontentsline{toc}{chapter}{Lista de Figuras}
 \listoffigures
 \sectionbookmark{Lista de Figuras}
-\blankpage{}
 
-%\addcontentsline{toc}{chapter}{Lista de Tabelas}
+\addcontentsline{toc}{chapter}{Lista de Tabelas}
 \listoftables
 \sectionbookmark{Lista de Tabelas}
 
@@ -342,7 +356,7 @@ CEO, 20 Recolher - Gestão de Resíduos,  Lda}
 \include{report/acronyms}
 %\fancyhead{} % limpa cabeçalho
 %\renewcommand{\headrulewidth}{0pt} % remove linha horizontal
-\blankpage{}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -374,18 +388,20 @@ CEO, 20 Recolher - Gestão de Resíduos,  Lda}
 
 %\printbibliography
 \cleardoublepage
-\printbibliography[heading=bibintoc,title={Referências}]
+\printbibliography[heading=bibnumbered,title={Referências Bibliográficas}]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                               ANEXOS
 
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Anexos}
 \appendix
 \include{chapters/anexos}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                       ÚLTIMA PÁGINA
 
-\blankpage{}
+\cleardoublepage
 \input{report/ultima_pagina}
 %\blankpage{}
 
