@@ -214,14 +214,14 @@ As características estruturais e operacionais deste terminal incluem:
     \item \textbf{Autenticação Simplificada:} A autenticação no quiosque é baseada na introdução de um código numérico pessoal (PIN) através de um teclado virtual sobredimensionado no ecrã. Isto evita a necessidade de introduzir palavras-passe complexas em ecrãs táteis expostos a poeira e condições operacionais de armazém.
     \item \textbf{Processo Guiado de Pesagem (Wizard):} O registo de pesagens é estruturado na forma de um assistente passo-a-passo (\textit{Wizard}). O operador seleciona a recolha em curso, o material que está a ser pesado, introduz o peso medido e submete o registo de forma sequencial e validada estruturalmente pelas regras de negócio.
     \item \textbf{Emparelhamento de Terminais (\textit{Pairing Code}):} Para garantir que apenas quiosques físicos autorizados comunicam com a base de dados central, implementou-se um processo de emparelhamento obrigatório. Quando a aplicação é iniciada num novo dispositivo, é gerado um código temporário de emparelhamento. Esse código é depois introduzido no \textit{Backoffice} por um administrador, que valida e aceita o dispositivo. Após a aprovação, o terminal fica associado de forma persistente ao sistema e passa a poder comunicar com a \ac{API} central.
-    \item \textbf{Visibilidade no Portal de Cliente:} Após o operador submeter o peso no terminal, a pesagem é registada e associada à recolha em curso na base de dados. No portal de cliente, as pesagens individuais --- com o material, o peso e o valor calculado --- ficam visíveis na página de recolhas apenas quando o estado da recolha transita para \textit{Concluída}, assegurando que o cliente apenas acede a dados completos e validados.
+    \item \textbf{Visibilidade no Portal de Cliente:} Após o operador submeter o peso no terminal, a pesagem é registada e associada à recolha em curso na base de dados. No portal de cliente, as pesagens individuais, junto com o material e o peso, ficam visíveis na página de recolhas apenas quando o estado da recolha transita para \textit{Concluída}, assegurando que o cliente apenas acede a dados completos e validados.
 \end{itemize}
 
 A aplicação partilha componentes reutilizáveis através do módulo comum do projeto e foi desenhada com foco na usabilidade e fiabilidade das operações sob condições de armazém.
 
 \noindent\textbf{Integração com Balança Industrial}
 
-No âmbito do desenvolvimento do terminal, foi implementado um serviço de integração com a balança industrial por porta série (\texttt{SerialScaleService}). O serviço suporta o protocolo de comunicação da balança Baxtran e encontra-se registado na aplicação como serviço singleton. A ativação da leitura automática de peso é controlada por uma \textit{feature flag} (\texttt{PhysicalScaleEnabled}) que se encontra desativada na configuração de produção. Durante o período de estágio, a integração não foi validada com a balança física, pelo que a introdução manual do peso pelo operador continua a ser o modo operacional utilizado.
+No âmbito do desenvolvimento do terminal, foi considerada a integração automática com a balança industrial através de uma ligação por porta série. No entanto, esta funcionalidade não chegou a ser implementada, uma vez que a balança disponível na empresa não possuía a porta de comunicação necessária para estabelecer a ligação com o sistema. Por esse motivo, o peso continuou a ser lido visualmente na balança e introduzido manualmente pelo operador no terminal de pesagem.
 
 O ecrã de entrada do quiosque tátil de balança (Figura~\ref{fig:kiosklogin}) é otimizado para ecrãs táteis em ambiente industrial. Apresenta botões sobredimensionados e um teclado numérico virtual que permite aos operadores introduzir o seu código de acesso pessoal PIN sem necessidade de periféricos físicos, garantindo a proteção e o controlo de acessos.
 
@@ -232,7 +232,7 @@ O ecrã de entrada do quiosque tátil de balança (Figura~\ref{fig:kiosklogin}) 
     \label{fig:kiosklogin}
 \end{figure}
 
-O assistente de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) orienta o funcionário ao longo das fases de pesagem física. O assistente mostra os campos de seleção do tipo de resíduo e permite a introdução rápida do peso medido, assegurando a confirmação e o registo estruturado da recolha.
+O ecrã de registo de pesagens no quiosque (Figura~\ref{fig:kioskweigh}) orienta o funcionário ao longo das fases de pesagem física. O ecrã mostra os campos de seleção do tipo de resíduo e permite a introdução rápida do peso medido, assegurando a confirmação e o registo estruturado da recolha.
 
 \begin{figure}[H]
     \centering
@@ -247,7 +247,7 @@ Para otimizar o processo de vendas de consumíveis da empresa, desenvolveu-se um
 
 A aplicação foi construída com a biblioteca React e a ferramenta de compilação Vite para a interface web. O processamento dos ficheiros locais é assegurado pela biblioteca XLSX, enquanto o armazenamento do histórico de tendências de preços é gerido no navegador através de IndexedDB. Implementou-se uma camada de empacotamento nativo com o Tauri para possibilitar a sua distribuição como aplicação de ambiente de trabalho (\textit{desktop}), permitindo que o operador a execute localmente no computador do escritório sem necessidade de aceder a um servidor web ou instalar dependências adicionais no sistema.
 
-Do ponto de vista operacional, o fluxo de utilização da ferramenta estrutura-se da seguinte forma: o utilizador abre a aplicação e importa um ficheiro Excel fornecido pelo cliente ou parceiro comercial, recorrendo à opção dedicada na interface. A ferramenta apresenta de seguida uma pré-visualização do conteúdo do ficheiro, onde o utilizador define manualmente o ponto de início de cada campo relevante --- referência do produto, nome e preço --- adaptando-se assim a qualquer estrutura de colunas, independentemente do formato do ficheiro recebido. Com os campos devidamente mapeados, a ferramenta executa automaticamente o cruzamento com o inventário da empresa, identificando as referências comuns e calculando as margens para determinar a proposta comercialmente mais vantajosa para cada comprador.
+Do ponto de vista operacional, o fluxo de utilização da ferramenta estrutura-se da seguinte forma: o utilizador abre a aplicação e importa um ficheiro Excel fornecido pelo cliente ou parceiro comercial, recorrendo à opção dedicada na interface. A ferramenta apresenta de seguida uma pré-visualização do conteúdo do ficheiro, onde o utilizador define manualmente o ponto de início de cada campo relevante, referência do produto, nome e preço, adaptando-se assim a qualquer estrutura de colunas, independentemente do formato do ficheiro recebido. Com os campos devidamente mapeados, a ferramenta compara automaticamente os ficheiros importados entre si, identifica as referências comuns e analisa os respetivos preços. Desta forma, permite determinar qual das propostas apresenta o valor mais vantajoso para cada referência.
 
 \section{Segurança e Autenticação}\label{sec:seguranca}
 
@@ -279,8 +279,6 @@ Os projetos .NET do ecossistema incluem testes automatizados implementados com a
 
 A ferramenta de comparação de preços de toners inclui testes automatizados implementados com a framework Vitest e a biblioteca Testing Library. Estes testes cobrem o motor de normalização de dados, o processamento de ficheiros Excel, os fluxos de comparação de preços e os componentes de interface da ferramenta.
 
-O website institucional não dispõe de testes automatizados identificados no repositório.
-
 \noindent\textbf{Testes Manuais e Validação Funcional}
 
 Em paralelo com os testes automatizados, foram realizados testes de usabilidade e integração em ambiente real, nas instalações da empresa. A aplicação de pesagens foi testada num ecrã tátil instalado na zona operacional do armazém, o que revelou a importância de validar o software em contexto real de utilização. Durante esses testes, identificou-se e corrigiu-se um problema no teclado numérico personalizado que não fornecia \textit{feedback} visual ao operador durante a introdução de dados.
@@ -305,4 +303,4 @@ Os principais resultados do desenvolvimento e os benefícios operacionais espera
     \item \textbf{Ferramenta de Comparação de Toners:} A ferramenta de comparação de toners permite normalizar as tabelas de preços de consumíveis, agilizando o processo de cruzamento de inventários e propostas comerciais.
 \end{itemize}
 
-Apesar dos benefícios operacionais esperados no aumento da eficiência administrativa e rastreabilidade, o sistema apresenta algumas limitações na sua implementação atual, nomeadamente a introdução do peso no terminal que continua a ser realizada manualmente pelo operador devido à desativação da integração automática via hardware de balança, e a ausência de testes formais de usabilidade com os utilizadores finais em ambiente real de produção.
+Apesar dos benefícios operacionais esperados ao nível da eficiência administrativa e da rastreabilidade, o sistema apresenta algumas limitações na sua implementação atual. O peso continua a ser introduzido manualmente pelo operador no terminal, uma vez que a balança disponível na empresa não possui a porta de comunicação necessária para permitir a integração automática com a aplicação. Acresce ainda a ausência de testes formais de usabilidade com utilizadores finais em ambiente real de produção.
